@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Final Android</string>
+    <string name="text_onboarding">Узнавай о премьерах</string>
+    <string name="text_onboarding_2">Создавай коллекции</string>
+    <string name="text_onboarding_3">Делись с друзьями</string>
+    <string name="text_next">Пропустить</string>
+    <string name="title_movie">Название фильма</string>
+    <string name="genres_movie">Жанр фильма</string>
+    <string name="text_premiers">Премьеры</string>
+    <string name="text_populars">Популярное</string>
+    <string name="top_list">Топ </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

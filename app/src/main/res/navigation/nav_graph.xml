@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homePage">
+
+    <fragment
+        android:id="@+id/onboarding1"
+        android:name="com.example.finalandroid.presentation.Onboarding1"
+        android:label="fragment_onboarding1"
+        tools:layout="@layout/fragment_onboarding1" >
+        <action
+            android:id="@+id/action_onboarding1_to_onboarding2"
+            app:destination="@id/onboarding2" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboarding2"
+        android:name="com.example.finalandroid.presentation.Onboarding2"
+        android:label="fragment_onboarding2"
+        tools:layout="@layout/fragment_onboarding2" >
+        <action
+            android:id="@+id/action_onboarding2_to_onboarding3"
+            app:destination="@id/onboarding3" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/onboarding3"
+        android:name="com.example.finalandroid.presentation.Onboarding3"
+        android:label="fragment_onboarding3"
+        tools:layout="@layout/fragment_onboarding3" >
+        <action
+            android:id="@+id/action_onboarding3_to_loader"
+            app:destination="@id/loader" />
+    </fragment>
+    <fragment
+        android:id="@+id/loader"
+        android:name="com.example.finalandroid.presentation.Loader"
+        android:label="fragment_loader"
+        tools:layout="@layout/fragment_loader">
+    <action
+        android:id="@+id/loader_to_homePage"
+        app:destination="@id/homePage" />
+    </fragment>
+    <fragment
+        android:id="@+id/homePage"
+        android:name="com.example.finalandroid.presentation.HomePage"
+        android:label="fragment_home_page"
+        tools:layout="@layout/fragment_home_page" />
+
+</navigation>
