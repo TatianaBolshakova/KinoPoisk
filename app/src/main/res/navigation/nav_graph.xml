@@ -7,18 +7,18 @@
 
     <fragment
         android:id="@+id/onboarding1"
-        android:name="com.example.finalandroid.presentation.Onboarding1"
+        android:name="com.example.finalandroid.presentation.fragments.Onboarding1"
         android:label="fragment_onboarding1"
-        tools:layout="@layout/fragment_onboarding1" >
+        tools:layout="@layout/fragment_onboarding1">
         <action
             android:id="@+id/action_onboarding1_to_onboarding2"
             app:destination="@id/onboarding2" />
     </fragment>
     <fragment
         android:id="@+id/onboarding2"
-        android:name="com.example.finalandroid.presentation.Onboarding2"
+        android:name="com.example.finalandroid.presentation.fragments.Onboarding2"
         android:label="fragment_onboarding2"
-        tools:layout="@layout/fragment_onboarding2" >
+        tools:layout="@layout/fragment_onboarding2">
         <action
             android:id="@+id/action_onboarding2_to_onboarding3"
             app:destination="@id/onboarding3" />
@@ -26,26 +26,92 @@
 
     <fragment
         android:id="@+id/onboarding3"
-        android:name="com.example.finalandroid.presentation.Onboarding3"
+        android:name="com.example.finalandroid.presentation.fragments.Onboarding3"
         android:label="fragment_onboarding3"
-        tools:layout="@layout/fragment_onboarding3" >
+        tools:layout="@layout/fragment_onboarding3">
         <action
             android:id="@+id/action_onboarding3_to_loader"
             app:destination="@id/loader" />
     </fragment>
     <fragment
         android:id="@+id/loader"
-        android:name="com.example.finalandroid.presentation.Loader"
+        android:name="com.example.finalandroid.presentation.fragments.Loader"
         android:label="fragment_loader"
         tools:layout="@layout/fragment_loader">
-    <action
-        android:id="@+id/loader_to_homePage"
-        app:destination="@id/homePage" />
+        <action
+            android:id="@+id/action_loader_to_homePage2"
+            app:destination="@id/homePage" />
     </fragment>
     <fragment
         android:id="@+id/homePage"
-        android:name="com.example.finalandroid.presentation.HomePage"
+        android:name="com.example.finalandroid.presentation.fragments.HomePage"
         android:label="fragment_home_page"
-        tools:layout="@layout/fragment_home_page" />
+        tools:layout="@layout/fragment_home_page">
+        <action
+            android:id="@+id/action_homePage_to_filmPage"
+            app:destination="@id/filmPage" />
+        <action
+            android:id="@+id/action_homePage_to_listFilms"
+            app:destination="@id/listFilms" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/filmPage"
+        android:name="com.example.finalandroid.presentation.fragments.FilmPage"
+        android:label="fragment_film_page"
+        tools:layout="@layout/fragment_film_page">
+        <action
+            android:id="@+id/action_homePage_to_actorPage"
+            app:destination="@id/actorPage" />
+        <action
+            android:id="@+id/action_homePage_to_imagePage"
+            app:destination="@id/imagePage" />
+        <action
+            android:id="@+id/action_filmPage_to_filmPage"
+            app:destination="@id/filmPage" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/listFilms"
+        android:name="com.example.finalandroid.presentation.fragments.ListFilms"
+        android:label="list_films"
+        tools:layout="@layout/list_films">
+        <action
+            android:id="@+id/action_listFilms_to_filmPage"
+            app:destination="@id/filmPage" />
+    </fragment>
+
+
+
+    <fragment
+        android:id="@+id/actorPage"
+        android:name="com.example.finalandroid.presentation.fragments.ActorPage"
+        android:label="fragment_actor_page"
+        tools:layout="@layout/fragment_actor_page" >
+        <action
+            android:id="@+id/action_actorPage_to_filmPage"
+            app:destination="@id/filmPage" />
+        <action
+            android:id="@+id/action_actorPage_to_filmography"
+            app:destination="@id/filmography" />
+    </fragment>
+    <fragment
+        android:id="@+id/imagePage"
+        android:name="com.example.finalandroid.presentation.fragments.ImagePage"
+        android:label="fragment_image_page"
+        tools:layout="@layout/fragment_image_page" />
+    <fragment
+        android:id="@+id/filmography"
+        android:name="com.example.finalandroid.presentation.fragments.Filmography"
+        android:label="fragment_filmography"
+        tools:layout="@layout/fragment_filmography">
+        <action
+            android:id="@+id/filmography_to_filmPage"
+            app:destination="@id/filmPage" />
+        <action
+            android:id="@+id/filmography_to_actorPage"
+            app:destination="@id/actorPage" />
+    </fragment>
 
 </navigation>

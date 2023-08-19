@@ -7,7 +7,11 @@ data class Movie(
     val posterUrlPreview: String,
     val genres: List <Genre>,
     val premiereRu: String,
-    val countries: List <Country>
+    val countries: List <Country>,
+    val rating: Double,
+    val filmId: Int,
+    val imageUrl: String,
+    val type: String
 )
 
 data class Genre(
