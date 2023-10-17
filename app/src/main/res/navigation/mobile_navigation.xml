@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/homePage">
+
+    <fragment
+        android:id="@+id/navigationHome"
+        android:name="com.example.finalandroid.presentation.home.fragments.HomePage"
+        tools:layout="@layout/fragment_home_page" >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/homePage"
+        android:name="com.example.finalandroid.presentation.home.fragments.HomePage"
+        tools:layout="@layout/fragment_home_page" >
+
+        <action
+            android:id="@+id/action_homePage_to_filmPage"
+            app:destination="@id/filmPage" />
+        <action
+            android:id="@+id/action_homePage_to_listFilms"
+            app:destination="@id/listFilms" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/onboarding1"
+        android:name="com.example.finalandroid.presentation.home.fragments.Onboarding1"
+        tools:layout="@layout/fragment_onboarding1">
+        <action
+            android:id="@+id/action_onboarding1_to_onboarding2"
+            app:destination="@id/onboarding2" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboarding2"
+        android:name="com.example.finalandroid.presentation.home.fragments.Onboarding2"
+        tools:layout="@layout/fragment_onboarding2">
+        <action
+            android:id="@+id/action_onboarding2_to_onboarding3"
+            app:destination="@id/onboarding3" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/onboarding3"
+        android:name="com.example.finalandroid.presentation.home.fragments.Onboarding3"
+        tools:layout="@layout/fragment_onboarding3">
+        <action
+            android:id="@+id/action_onboarding3_to_loader"
+            app:destination="@id/loader" />
+    </fragment>
+    <fragment
+        android:id="@+id/loader"
+        android:name="com.example.finalandroid.presentation.home.fragments.Loader"
+        tools:layout="@layout/fragment_loader">
+        <action
+            android:id="@+id/action_loader_to_navigationHome"
+            app:destination="@id/homePage" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/filmPage"
+        android:name="com.example.finalandroid.presentation.home.fragments.FilmPage"
+        tools:layout="@layout/fragment_film_page">
+        <action
+            android:id="@+id/action_filmPage_to_actorPage"
+            app:destination="@id/actorPage" />
+        <action
+            android:id="@+id/action_filmPage_to_imagePage"
+            app:destination="@id/imagePage" />
+        <action
+            android:id="@+id/action_filmPage_to_filmPage"
+            app:destination="@id/filmPage" />
+        <action
+            android:id="@+id/action_filmPage_to_homePage"
+            app:destination="@id/homePage" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/listFilms"
+        android:name="com.example.finalandroid.presentation.home.fragments.ListFilms"
+        tools:layout="@layout/list_films">
+        <action
+            android:id="@+id/action_listFilms_to_filmPage"
+            app:destination="@id/filmPage" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/actorPage"
+        android:name="com.example.finalandroid.presentation.home.fragments.ActorPage"
+        tools:layout="@layout/fragment_actor_page" >
+        <action
+            android:id="@+id/action_actorPage_to_filmPage"
+            app:destination="@id/filmPage" />
+        <action
+            android:id="@+id/action_actorPage_to_filmography"
+            app:destination="@id/filmography" />
+    </fragment>
+    <fragment
+        android:id="@+id/imagePage"
+        android:name="com.example.finalandroid.presentation.home.fragments.ImagePage"
+        tools:layout="@layout/fragment_image_page" />
+    <fragment
+        android:id="@+id/filmography"
+        android:name="com.example.finalandroid.presentation.home.fragments.Filmography"
+        tools:layout="@layout/fragment_filmography">
+        <action
+            android:id="@+id/filmography_to_filmPage"
+            app:destination="@id/filmPage" />
+        <action
+            android:id="@+id/filmography_to_actorPage"
+            app:destination="@id/actorPage" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.example.finalandroid.presentation.search.SearchFragment"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.finalandroid.presentation.profile.fragments.ProfileFragment"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_addCollectionFragment"
+            app:destination="@id/addCollectionFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_listFilmsCollection"
+            app:destination="@id/listFilmsCollection" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCollectionFragment"
+        android:name="com.example.finalandroid.presentation.profile.fragments.AddCollectionFragment"
+        android:label="fragment_add_collection"
+        tools:layout="@layout/fragment_add_collection" >
+        <action
+            android:id="@+id/action_addCollectionFragment_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/listFilmsCollection"
+        android:name="com.example.finalandroid.presentation.profile.fragments.ListFilmsCollection"
+        android:label="ListFilmsCollection" >
+        <action
+            android:id="@+id/action_listFilmsCollection_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
+</navigation>

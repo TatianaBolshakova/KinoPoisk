@@ -10,4 +10,8 @@
 
     <color name="my_blue">#3D3BFF</color>#838390
     <color name="my_gray">#838390</color>
+    <color name="my_gray_text">#B5B5C9</color>
+    <color name="my_black">#272727</color>
+    <color name="white_transparent">#00000000</color>
+
 </resources>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/onboarding1"
-        android:name="com.example.finalandroid.presentation.fragments.Onboarding1"
+        android:name="com.example.finalandroid.presentation.home.fragments.Onboarding1"
         android:label="fragment_onboarding1"
         tools:layout="@layout/fragment_onboarding1">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboarding2"
-        android:name="com.example.finalandroid.presentation.fragments.Onboarding2"
+        android:name="com.example.finalandroid.presentation.home.fragments.Onboarding2"
         android:label="fragment_onboarding2"
         tools:layout="@layout/fragment_onboarding2">
         <action
@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/onboarding3"
-        android:name="com.example.finalandroid.presentation.fragments.Onboarding3"
+        android:name="com.example.finalandroid.presentation.home.fragments.Onboarding3"
         android:label="fragment_onboarding3"
         tools:layout="@layout/fragment_onboarding3">
         <action
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/loader"
-        android:name="com.example.finalandroid.presentation.fragments.Loader"
+        android:name="com.example.finalandroid.presentation.home.fragments.Loader"
         android:label="fragment_loader"
         tools:layout="@layout/fragment_loader">
         <action
@@ -44,7 +44,7 @@
     </fragment>
     <fragment
         android:id="@+id/homePage"
-        android:name="com.example.finalandroid.presentation.fragments.HomePage"
+        android:name="com.example.finalandroid.presentation.home.fragments.HomePage"
         android:label="fragment_home_page"
         tools:layout="@layout/fragment_home_page">
         <action
@@ -58,7 +58,7 @@
     </fragment>
     <fragment
         android:id="@+id/filmPage"
-        android:name="com.example.finalandroid.presentation.fragments.FilmPage"
+        android:name="com.example.finalandroid.presentation.home.fragments.FilmPage"
         android:label="fragment_film_page"
         tools:layout="@layout/fragment_film_page">
         <action
@@ -74,7 +74,7 @@
 
     <fragment
         android:id="@+id/listFilms"
-        android:name="com.example.finalandroid.presentation.fragments.ListFilms"
+        android:name="com.example.finalandroid.presentation.home.fragments.ListFilms"
         android:label="list_films"
         tools:layout="@layout/list_films">
         <action
@@ -86,7 +86,7 @@
 
     <fragment
         android:id="@+id/actorPage"
-        android:name="com.example.finalandroid.presentation.fragments.ActorPage"
+        android:name="com.example.finalandroid.presentation.home.fragments.ActorPage"
         android:label="fragment_actor_page"
         tools:layout="@layout/fragment_actor_page" >
         <action
@@ -98,12 +98,12 @@
     </fragment>
     <fragment
         android:id="@+id/imagePage"
-        android:name="com.example.finalandroid.presentation.fragments.ImagePage"
+        android:name="com.example.finalandroid.presentation.home.fragments.ImagePage"
         android:label="fragment_image_page"
         tools:layout="@layout/fragment_image_page" />
     <fragment
         android:id="@+id/filmography"
-        android:name="com.example.finalandroid.presentation.fragments.Filmography"
+        android:name="com.example.finalandroid.presentation.home.fragments.Filmography"
         android:label="fragment_filmography"
         tools:layout="@layout/fragment_filmography">
         <action

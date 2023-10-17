@@ -1,6 +1,10 @@
 package com.example.finalandroid.data.models
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 class ListIdAndCountries (
-    val genres: List<Genre>,
-    val countries: List<Country>
+    @Json(name = "genres") val genres: List<Genre>,
+    @Json(name = "countries") val countries: List<Country>
         )

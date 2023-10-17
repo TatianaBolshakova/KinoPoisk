@@ -21,8 +21,19 @@
     <string name="name_text">Имя актера</string>
     <string name="description_text">Имя героя</string>
     <string name="profession_text">Профессия</string>
+    <string name="text_viewed">Просмотрено</string>
+    <string name="text_collections">Коллекции</string>
+    <string name="text_you_were_wondering">Вам было интересно</string>
+    <string name="text_add_my_collections">Создать свою коллекцию</string>
+    <string name="text_like">Любимые</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_profile">Profile</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
+
 </resources>

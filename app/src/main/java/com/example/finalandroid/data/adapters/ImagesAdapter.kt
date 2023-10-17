@@ -39,7 +39,7 @@ class ImagesAdapter(
                 Glide
                     .with(imageView.context)
                     .load(it.imageUrl)
-                    .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                    //.apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
                     .into(imageView)
 
             }

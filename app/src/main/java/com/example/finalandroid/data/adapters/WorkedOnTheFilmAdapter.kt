@@ -1,11 +1,13 @@
 package com.example.finalandroid.data.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.example.finalandroid.R
 import com.example.finalandroid.data.models.InfoActorsItem
 import com.example.finalandroid.databinding.ActorsItemBinding
 import com.example.finalandroid.data.viewholders.ActorsViewHolder
@@ -45,8 +47,14 @@ class WorkedOnTheFilmAdapter(
                         .with(imageView.context)
                         .load(it.posterUrl)
                         .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                        .placeholder(R.drawable.ic_man)
                         .into(imageView)
 
+                }
+                if (item==null){
+                    nameText.visibility = View.GONE
+                    descriptionText.visibility = View.GONE
+                    imageView.visibility = View.GONE
                 }
             }
 

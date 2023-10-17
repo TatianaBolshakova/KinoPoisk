@@ -8,7 +8,7 @@ import com.example.finalandroid.domain.repository.ActorFilmBestRepository
 class ActorFilmBestRepositoryImpl(): ActorFilmBestRepository {
 
    override suspend fun getActorFilm(id: Int): List<Movie> {
-        return retrofit.actorFilm(id).films
+        return retrofit.actor(id).films
     }
 
 }

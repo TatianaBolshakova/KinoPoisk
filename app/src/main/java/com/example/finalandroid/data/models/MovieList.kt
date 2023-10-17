@@ -1,7 +1,11 @@
 package com.example.finalandroid.data.models
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 class MovieList(
-    val total: Int,
-    val items: List<Movie>,
-    val films: List<Movie>
+    @Json(name = "total") val total: Int,
+    @Json(name = "items") val items: List<Movie>,
+    @Json(name = "films") val films: List<Movie>
 )

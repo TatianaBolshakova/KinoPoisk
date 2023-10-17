@@ -19,68 +19,70 @@ import retrofit2.http.Query
 private const val BASE_URL = "https://kinopoiskapiunofficial.tech"
 
 interface MovieListApi {
+    // Премьеры
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v2.2/films/premieres")
     suspend fun premieres(@Query("year") year: Int, @Query("month") month: String): MovieList
 
+    // Триллеры
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v2.2/films?genres=1")
     suspend fun thrillers(): MovieList
+
+    // id стран и жанров
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v2.2/films/filters")
     suspend fun idAndCountries(): ListIdAndCountries
 
-//    @Headers("X-API-KEY: $api_key")
-//    @GET("/api/v2.2/films?ratingFrom=7")
-//    suspend fun topList(
-//
-//    ): MovieList
+    // Топ фильмов (рандомный выбор из категории)
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v2.2/films/top")
-    suspend fun topList(
-    @Query("type") type: String
-    ): MovieList
+    suspend fun topList(@Query("type") type: String): MovieList
 
+    // Сериалы (рандомный выбор из категории)
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v2.2/films")
     suspend fun tvSeries(
-        @Query("type") type: String ,
+        @Query("type") type: String,
         @Query("countries") countries: Int
     ): MovieList
 
+    // Информация о фильме
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v2.2/films/{id}")
     suspend fun film(
-        @Path ("id") id: Int
+        @Path("id") id: Int
     ): InfoMovie
+
+    // Список актеров
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v1/staff")
     suspend fun allActors(
         @Query("filmId") filmId: Int
     ): List<InfoActorsItem>
+
+    // Галерея фильма
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v2.2/films/{id}/images")
     suspend fun images(
-        @Path ("id") id: Int
+        @Path("id") id: Int
     ): Images
+
+    // Похожие фильмы
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v2.2/films/{id}/similars")
     suspend fun similar(
-        @Path ("id") id: Int
+        @Path("id") id: Int
     ): SimilarFilms
+
+    // Информация об актере
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v1/staff/{id}")
     suspend fun actor(
-        @Path ("id") id: Int
-    ): InfoActorItem
-    @Headers("X-API-KEY: $api_key")
-    @GET("/api/v1/staff/{id}")
-    suspend fun actorFilm(
-        @Path ("id") id: Int
+        @Path("id") id: Int
     ): InfoActorItem
 
-
-
+    // ????
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v2.2/films")
     suspend fun filmActor(
@@ -89,10 +91,8 @@ interface MovieListApi {
     ): MovieList
 
     private companion object {
-       // private const val api_key = "51379e98-b7c3-4b66-be90-8da65604f1b7"
-        private const val api_key = "7d439c2f-5cb6-4448-96e1-1fc7ba004253" //Denis
-
-
+         private const val api_key = "51379e98-b7c3-4b66-be90-8da65604f1b7"
+        //private const val api_key = "7d439c2f-5cb6-4448-96e1-1fc7ba004253" // key 2
     }
 }
 

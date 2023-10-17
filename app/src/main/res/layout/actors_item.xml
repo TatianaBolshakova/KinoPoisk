@@ -6,18 +6,24 @@
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="8dp"
     android:layout_height="70dp"
-    android:background="@drawable/outside_shape_thin">
+    >
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="44dp"
+            android:layout_height="68dp"
+            android:clickable="true"
+            tools:srcCompat="@tools:sample/avatars"
+            android:focusable="true" />
+    </androidx.cardview.widget.CardView>
 
-<ImageView
-    android:id="@+id/imageView"
-    android:layout_width="49dp"
-    android:layout_height="68dp"
-    android:clickable="true"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:srcCompat="@tools:sample/avatars"
-    android:focusable="true" />
 
 
     <TextView
@@ -29,9 +35,9 @@
         android:textColor="#272727"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintBottom_toBottomOf="@+id/card_view"
+        app:layout_constraintStart_toEndOf="@+id/card_view"
+        app:layout_constraintTop_toTopOf="@+id/card_view" />
 
     <TextView
         android:id="@+id/descriptionText"
@@ -40,8 +46,8 @@
         android:ellipsize="end"
         android:lines="1"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/card_view"
+        app:layout_constraintStart_toEndOf="@+id/card_view"
         app:layout_constraintTop_toBottomOf="@+id/nameText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

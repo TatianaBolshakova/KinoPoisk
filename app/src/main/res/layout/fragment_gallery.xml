@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.fragments.Gallery">
+        tools:context=".presentation.home.fragments.Gallery">
 
         <ImageView
             android:id="@+id/iconBack"

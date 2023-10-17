@@ -1,12 +1,14 @@
 package com.example.finalandroid.data.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.finalandroid.data.models.Movie
+import com.example.finalandroid.data.viewholders.MovieViewHolder
 import com.example.finalandroid.databinding.MovieItemBinding
 
 
@@ -37,6 +39,13 @@ class SimilarsAdapter(
             titleText.text = item?.nameRu ?: ""
             genresText.text = item?.genres?.get(0)?.genre ?: ""
             layout.bringToFront()
+            val rating= item?.rating?.toString()
+            if(rating=="0.0"){
+                textRating.visibility = View.INVISIBLE
+                imageRating.visibility = View.INVISIBLE
+            }else{
+                textRating.text = rating
+            }
             imageView.isClickable= false
             item?.let {
                 Glide

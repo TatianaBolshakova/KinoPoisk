@@ -1,23 +1,29 @@
 package com.example.finalandroid.data.models
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class Movie(
-    val kinopoiskId: Int,
-    val nameRu: String,
-    val posterUrl: String,
-    val posterUrlPreview: String,
-    val genres: List <Genre>,
-    val premiereRu: String,
-    val countries: List <Country>,
-    val rating: Double,
-    val filmId: Int,
-    val imageUrl: String,
-    val type: String
+    @Json(name = "kinopoiskId") val kinopoiskId: Int,
+    @Json(name = "nameRu") val nameRu: String,
+    @Json(name = "posterUrl") val posterUrl: String,
+    @Json(name = "posterUrlPreview") val posterUrlPreview: String,
+    @Json(name = "genres") val genres: List <Genre>,
+    @Json(name = "premiereRu") val premiereRu: String,
+    @Json(name = "countries") val countries: List <Country>,
+    @Json(name = "rating") val rating: Double,
+    @Json(name = "filmId") val filmId: Int,
+    @Json(name = "imageUrl") val imageUrl: String,
+    @Json(name = "type") val type: String
 )
 
+@JsonClass(generateAdapter = true)
 data class Genre(
-    val genre: String
+    @Json(name = "genre") val genre: String
 )
 
+@JsonClass(generateAdapter = true)
 data class Country(
-    val country: String
+    @Json(name = "country") val country: String
 )

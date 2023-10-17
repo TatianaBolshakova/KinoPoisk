@@ -4,35 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.fragments.FilmPage">
+    tools:context=".presentation.home.fragments.FilmPage">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="55dp"
-        tools:layout_editor_absoluteY="-189dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="26dp"
-            android:layout_marginEnd="26dp">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/image_movie"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="410dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/backgrounds/scenic" />
 
             <ImageView
+                android:id="@+id/image_logo"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                app:layout_constraintBottom_toBottomOf="@+id/image_movie"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/image_movie"
+                app:layout_constraintVertical_bias="0.8"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <ImageView
                 android:id="@+id/iconBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="34dp"
                 android:clickable="true"
                 android:src="@drawable/ic_back"
@@ -40,136 +52,251 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/description_1"
+                android:id="@+id/info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="26dp"
+                android:layout_marginTop="24dp"
                 android:ellipsize="end"
+                android:gravity="center_horizontal"
                 android:maxLines="5"
-                android:text="TextView"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:text="Info"
+                android:textColor="@color/my_gray_text"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toTopOf="@+id/linear_layout"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_movie" />
+                app:layout_constraintStart_toStartOf="parent" />
+<LinearLayout
+    android:id="@+id/linear_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="34dp"
+    android:orientation="horizontal"
+    app:layout_constraintBottom_toBottomOf="@+id/image_movie"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    >
+    <FrameLayout
+        android:id="@+id/frame_add_like"
+        android:layout_width="34dp"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true">
+        <ImageView
+            android:id="@+id/like"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_like_disabled"
 
-            <TextView
-                android:id="@+id/description_2"
+            />
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/frame_add_i_want_to_see"
+        android:layout_width="34dp"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true">
+        <ImageView
+            android:id="@+id/i_want_to_see"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/white_transparent"
+            android:src="@drawable/i_want_to_see"
+            />
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/frame_add_already_viewed"
+        android:layout_width="34dp"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true">
+        <ImageView
+            android:id="@+id/add_already_viewed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/white_transparent"
+            android:src="@drawable/already_viewed"
+            />
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/frame_share"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:clickable="true"
+        android:focusable="true">
+        <ImageView
+            android:id="@+id/share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/white_transparent"
+            android:src="@drawable/share"
+            />
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/frame_open_additional_menu"
+        android:layout_width="34dp"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true">
+        <ImageView
+            android:id="@+id/open_additional_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/white_transparent"
+            android:src="@drawable/open_additional_menu"
+            />
+    </FrameLayout>
+</LinearLayout>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:ellipsize="end"
-                android:maxLines="5"
-                android:text="TextView"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description_1" />
-
-            <TextView
-                android:id="@+id/text_actors"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="@string/text_actors"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description_2" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_actors"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_actors"
-                app:spanCount="4"
-                tools:listitem="@layout/actors_item" />
-
-            <TextView
-                android:id="@+id/text_worked_on_the_film"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="@string/text_worked_on_the_film"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_actors" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_worked_on_the_film"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_worked_on_the_film"
-                app:spanCount="2"
-                tools:listitem="@layout/actors_item" />
-
-            <TextView
-                android:id="@+id/text_gallery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="@string/text_gallery"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_worked_on_the_film" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_images"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:clickable="true"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_gallery"
-                app:spanCount="1"
-                tools:listitem="@layout/images_item"
-                android:focusable="true" />
-
-            <TextView
-                android:id="@+id/text_similars"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="@string/text_similars"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_images" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_similars"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_height="match_parent"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_similars"
-                app:layout_constraintVertical_bias="0.0"
-                tools:listitem="@layout/movie_item" />
+                app:layout_constraintTop_toBottomOf="@+id/image_movie">
+
+
+                <TextView
+                    android:id="@+id/description_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:text="TextView"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/description_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:ellipsize="end"
+                    android:maxLines="5"
+                    android:text="TextView"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/description_1" />
+
+                <TextView
+                    android:id="@+id/text_actors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/text_actors"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/description_2" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_actors"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_actors"
+                    app:spanCount="4"
+                    tools:listitem="@layout/actors_item" />
+
+                <TextView
+                    android:id="@+id/text_worked_on_the_film"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:text="@string/text_worked_on_the_film"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_actors" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_worked_on_the_film"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_worked_on_the_film"
+                    app:spanCount="2"
+                    tools:listitem="@layout/actors_item" />
+
+                <TextView
+                    android:id="@+id/text_gallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:text="@string/text_gallery"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_worked_on_the_film" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_images"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_gallery"
+                    app:spanCount="1"
+                    tools:listitem="@layout/images_item" />
+
+                <TextView
+                    android:id="@+id/text_similars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:text="@string/text_similars"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recycler_images" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_similars"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_similars"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:listitem="@layout/movie_item" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -1,12 +1,14 @@
 package com.example.finalandroid.data.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.finalandroid.data.models.Movie
+import com.example.finalandroid.data.viewholders.MovieViewHolder
 import com.example.finalandroid.databinding.MovieItemBinding
 
 
@@ -16,7 +18,7 @@ class MovieAdapter(
 
     private var data: List<Movie?> = emptyList()
 
-    fun setData(data: List<Movie?>) {
+    fun setData(data: List<Movie>) {
         this.data = data
         notifyDataSetChanged()
     }
@@ -36,8 +38,15 @@ class MovieAdapter(
         with(holder.binding) {
             titleText.text = item?.nameRu ?: ""
             genresText.text = item?.genres?.first()?.genre ?: ""
+            layout.bringToFront()
+            val rating= item?.rating?.toString()
+            if(rating=="0.0"){
+                textRating.visibility = View.INVISIBLE
+                imageRating.visibility = View.INVISIBLE
+            }else{
+                textRating.text = rating
+            }
             imageView.isClickable= false
-
             item?.let {
                 Glide
                     .with(imageView.context)
@@ -57,5 +66,3 @@ class MovieAdapter(
     override fun getItemCount(): Int = data.size
 }
 
-
-class MovieViewHolder(val binding: MovieItemBinding) : RecyclerView.ViewHolder(binding.root)
