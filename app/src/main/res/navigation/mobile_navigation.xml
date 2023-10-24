@@ -116,7 +116,7 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.example.finalandroid.presentation.search.SearchFragment"
+        android:name="com.example.finalandroid.presentation.search.fragments.SearchFragment"
         tools:layout="@layout/fragment_search" />
 
     <fragment
