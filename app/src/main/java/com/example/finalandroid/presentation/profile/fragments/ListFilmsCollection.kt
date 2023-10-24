@@ -65,11 +65,11 @@ class ListFilmsCollection : Fragment() {
         binding.iconBack.setOnClickListener { findNavController().navigate(R.id.navigation_profile) }
 
 
-if (name== NAME_COLLECTION_LIKE){
-    binding.recyclerTv.adapter = likeFilmAdapter
-    vmLikeFilm.allSelectedFilm.onEach { likeFilmAdapter.setData(it) }
-        .launchIn(viewLifecycleOwner.lifecycleScope)
-}
+        if (name== NAME_COLLECTION_LIKE){
+            binding.recyclerTv.adapter = likeFilmAdapter
+            vmLikeFilm.allSelectedFilm.onEach { likeFilmAdapter.setData(it) }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+        }
 
 
 

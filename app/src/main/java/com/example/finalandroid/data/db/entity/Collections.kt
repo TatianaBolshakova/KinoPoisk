@@ -1,9 +1,7 @@
 package com.example.finalandroid.data.db.entity
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "collections")
@@ -16,5 +14,5 @@ data class Collections(
     @ColumnInfo(name = "collections_icon")
     val collectionsIcon: Int?= null,
     @ColumnInfo(name = "number_of_elements")
-    val numberOfElements: Int?= null
+    val numberOfElements: Int? = 0
 )

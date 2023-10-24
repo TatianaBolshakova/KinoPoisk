@@ -24,14 +24,14 @@ import com.example.finalandroid.data.adapters.SimilarsAdapter
 import com.example.finalandroid.databinding.FragmentFilmPageBinding
 import com.example.finalandroid.data.db.App
 import com.example.finalandroid.data.db.SelectedFilmsDao
-import com.example.finalandroid.data.db.entity.Collections
-import com.example.finalandroid.data.db.entity.SelectedFilms
+import com.example.finalandroid.data.db.ViewedDao
 import com.example.finalandroid.presentation.home.viewmodel.ActorsViewModel
 import com.example.finalandroid.presentation.home.viewmodel.FilmViewModel
 import com.example.finalandroid.presentation.home.viewmodel.ImagesViewModel
 import com.example.finalandroid.presentation.home.viewmodel.SimilarsViewModel
-import com.example.finalandroid.presentation.profile.fragments.ProfileFragment
 import com.example.finalandroid.presentation.profile.viewmodel.AddFilmViewModel
+import com.example.finalandroid.presentation.profile.viewmodel.AddFilmViewModel2
+import com.example.finalandroid.presentation.profile.viewmodel.AddViewedViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -41,17 +41,15 @@ private const val ID_FILM = "film_id"
 private const val ITEM_IMAGE = "item_image"
 private const val NAME_FILM = "name_film"
 private const val URL_FILM = "url_film"
+private const val GENRE = "genre"
 private const val NAME_COLLECTION_LIKE = "Like"
-private const val COUNT_FILM = "count_film"
+private const val NAME_COLLECTION_I_WANT_TO_SEE = "Хочу посмотреть"
 
-class FilmPage(private val profile: ProfileFragment) : Fragment() {
-
-    constructor() : this(ProfileFragment())
+class FilmPage : Fragment() {
 
     private var _binding: FragmentFilmPageBinding? = null
     private val binding get() = _binding!!
     private val vmFilm: FilmViewModel by viewModels()
-
     private val vmAddFilm: AddFilmViewModel by viewModels {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -60,8 +58,23 @@ class FilmPage(private val profile: ProfileFragment) : Fragment() {
             }
         }
     }
+    private val vmAddFilm2: AddFilmViewModel2 by viewModels {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                val dao: SelectedFilmsDao = (activity?.application as App).db.selectedFilmsDao()
+                return AddFilmViewModel2(dao) as T
+            }
+        }
+    }
+    private val vmViewed: AddViewedViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                val dao: ViewedDao = (activity?.application as App).db.viewedDao()
+                return AddViewedViewModel(dao) as T
+            }
+        }
+    }
 
-    // private val vmFilmInCollection: CollectionSelectedFilmViewModel by viewModels()
     private val vmActors: ActorsViewModel by viewModels()
     private val vmImages: ImagesViewModel by viewModels()
     private val vmSimilars: SimilarsViewModel by viewModels()
@@ -72,17 +85,19 @@ class FilmPage(private val profile: ProfileFragment) : Fragment() {
 
     private var isLike: Boolean = false
     private var isIWantToSee: Boolean = false
-    var countFilm = 0
-    var pref: SharedPreferences? = null
+    private var pref: SharedPreferences? = null
     private var id = 0
     private var nameFilm = ""
     private var urlFilm = ""
+    private var genre =""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             id = it.getInt(ID_FILM)
             nameFilm = it.getString(NAME_FILM).toString()
             urlFilm = it.getString(URL_FILM).toString()
+            genre = it.getString(GENRE).toString()
         }
     }
 
@@ -101,14 +116,14 @@ class FilmPage(private val profile: ProfileFragment) : Fragment() {
             "COLLECTION",
             Context.MODE_PRIVATE
         )
-        val valueLike = pref?.getBoolean(id.toString(), false)!!
+        val valueLike = pref?.getBoolean("Like $id", false)!!
         if (isLike != valueLike) {
             binding.like.setImageResource(R.drawable.ic_like_enabled)
         } else {
             binding.like.setImageResource(R.drawable.ic_like_disabled)
         }
 
-        val valueIWantToSee = pref?.getBoolean("I want to see", false)!!
+        val valueIWantToSee = pref?.getBoolean(id.toString(), false)!!
         if (isIWantToSee != valueIWantToSee) {
             binding.iWantToSee.setImageResource(R.drawable.ic_like_enabled)
         } else {
@@ -121,9 +136,9 @@ class FilmPage(private val profile: ProfileFragment) : Fragment() {
             lifecycleScope.launch {
                 vmFilm.info
                     .collect {
-                        val genreFifst = it?.genres?.first()?.genre
+                        val genreFirst = it?.genres?.first()?.genre
                         var genreLast = it?.genres?.last()?.genre
-                        if (genreFifst == genreLast) {
+                        if (genreFirst == genreLast) {
                             genreLast = ""
                         }
                         val countryFifst = it?.countries?.first()?.country
@@ -134,7 +149,7 @@ class FilmPage(private val profile: ProfileFragment) : Fragment() {
                         it?.genres?.last()?.genre
                         val textInfo = "" +
                                 "${it?.ratingKinopoisk} ${it?.nameRu} \n " +
-                                "${it?.year}, $genreFifst, $genreLast \n " +
+                                "${it?.year}, $genreFirst, $genreLast \n " +
                                 "$countryFifst, $countryLast ${it?.filmLength} min, ${it?.ratingAgeLimits}+"
                         info.text = textInfo
 
@@ -154,8 +169,6 @@ class FilmPage(private val profile: ProfileFragment) : Fragment() {
         binding.iconBack.setOnClickListener { findNavController().navigate(R.id.homePage) }
 
         vmActors.loadInfo(id)
-
-
 
         binding.recyclerActors.adapter = actorsAdapter
         vmActors.actors.onEach { actorsAdapter.setData(it) }
@@ -177,68 +190,72 @@ class FilmPage(private val profile: ProfileFragment) : Fragment() {
 
 
         binding.apply {
-
+            imagePlay.setOnClickListener {
+                vmViewed.addViewed(viewedFilmId = id, nameFilm = nameFilm, urlFilm = urlFilm, genre = genre)
+            }
             frameAddLike.setOnClickListener {
                 if (isLike == valueLike) {
                     vmAddFilm.addFilm(
-                        id =  id.toLong(), nameFilm = nameFilm, urlFilm = urlFilm )
+                        id = id.toLong(),
+                        nameCollection = NAME_COLLECTION_LIKE,
+                        nameFilm = nameFilm,
+                        urlFilm = urlFilm,
+                        isLike = true,
+                    )
                     binding.like.setImageResource(R.drawable.ic_like_enabled)
                     saveLikeBoolean(true)
+
                 } else {
-                    vmAddFilm.deleteFilm(id =  id.toLong(), nameFilm = nameFilm, urlFilm = urlFilm )
+                    vmAddFilm.deleteFilm(
+                        id = id.toLong(),
+                        nameCollection = NAME_COLLECTION_LIKE,
+                        nameFilm = nameFilm,
+                        urlFilm = urlFilm,
+                        isLike = false
+                    )
                     binding.like.setImageResource(R.drawable.ic_like_disabled)
                     saveLikeBoolean(false)
                 }
             }
 
-//            frameAddIWantToSee.setOnClickListener {
-//                if (isIWantToSee==valueIWantToSee){
-//                    vmAddFilm.addIWantToSeeFilm(id, nameFilm, urlFilm)
-//                    binding.iWantToSee.setImageResource(R.drawable.ic_like_enabled)
-//                    saveIWantTiSeeBoolean(true)
-//                }
-//                else
-//                {
-//                    vmAddFilm.deleteIWantToSeeFilm(id, nameFilm, urlFilm)
-//                    binding.iWantToSee.setImageResource(R.drawable.i_want_to_see)
-//                    saveIWantTiSeeBoolean(false)
-//                }
-//
-//            }
+            frameAddIWantToSee.setOnClickListener {
+                if (isIWantToSee == valueIWantToSee) {
+                    vmAddFilm2.addFilm(
+                        id.toLong(),
+                        nameCollection = NAME_COLLECTION_I_WANT_TO_SEE,
+                        nameFilm,
+                        urlFilm,
+                        isIWantToSee = true
+                    )
+                    binding.iWantToSee.setImageResource(R.drawable.ic_like_enabled)
+                    saveIWantTiSeeBoolean(true)
+                } else {
+                    vmAddFilm2.deleteFilm(
+                        id.toLong(),
+                        nameCollection = NAME_COLLECTION_I_WANT_TO_SEE,
+                        nameFilm,
+                        urlFilm,
+                        isIWantToSee = false
+                    )
+                    binding.iWantToSee.setImageResource(R.drawable.i_want_to_see)
+                    saveIWantTiSeeBoolean(false)
+                }
+
+            }
         }
     }
 
     private fun saveLikeBoolean(result: Boolean) {
         val editor = pref?.edit()
-        editor?.putBoolean(id.toString(), result)
+        editor?.putBoolean("Like $id", result)
         editor?.apply()
     }
 
     private fun saveIWantTiSeeBoolean(result: Boolean) {
         val editor = pref?.edit()
-        editor?.putBoolean("I want to see", result)
+        editor?.putBoolean(id.toString(), result)
         editor?.apply()
     }
-
-
-//                val bundle = Bundle().apply {
-//                    putString(NAME, vmFilm.info.value?.nameRu)
-//                    putInt(ID, vmFilm.info.value?.kinopoiskId?: 0)
-//                    putString(URL,vmFilm.info.value?.posterUrl)
-//
-//                }
-//                val name = vmFilm.info.value?.nameRu.toString()
-//                val id = vmFilm.info.value?.kinopoiskId?:0
-//                val url = vmFilm.info.value?.posterUrl.toString()
-//                profile.add(id, name, url)
-//                findNavController().navigate(R.id.navigation_profile, args = bundle)
-
-
-//            frameAddIWantToSee.setOnClickListener { vmViewed.addIWantToSee() }
-//            frameAddAlreadyViewed.setOnClickListener { vmViewed.addAlreadyViewed() }
-//            frameShare.setOnClickListener { vmViewed.share() }
-//            frameOpenAdditionalMenu.setOnClickListener { vmViewed.openAdditionalMenu() }
-
 
     private fun onImageClick(item: Items) {
         val bundle = Bundle().apply {

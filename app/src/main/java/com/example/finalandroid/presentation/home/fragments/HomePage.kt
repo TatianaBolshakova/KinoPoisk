@@ -6,23 +6,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.finalandroid.R
 import com.example.finalandroid.data.models.Movie
 import com.example.finalandroid.data.adapters.MovieAdapter
+import com.example.finalandroid.data.db.App
+import com.example.finalandroid.data.db.WereWonderingDao
 import com.example.finalandroid.databinding.FragmentHomePageBinding
 import com.example.finalandroid.presentation.home.viewmodel.PremiersViewModel
 import com.example.finalandroid.presentation.home.viewmodel.RandomTypeViewModel
 import com.example.finalandroid.presentation.home.viewmodel.ThrillersViewModel
 import com.example.finalandroid.presentation.home.viewmodel.TopMovieViewModel
+import com.example.finalandroid.presentation.profile.viewmodel.AddWereWonderingViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 private const val ID_FILM = "film_id"
 private const val NAME_FILM = "name_film"
 private const val URL_FILM = "url_film"
-
+private const val GENRE = "genre"
 private const val NAME = "name"
 private const val NAME_PREMIERS = "Премьеры"
 private const val NAME_THRILLERS = "Триллеры"
@@ -36,6 +41,14 @@ class HomePage : Fragment() {
     private val vmThrillers: ThrillersViewModel by viewModels()
     private val vmRandomType: RandomTypeViewModel by viewModels()
     private val vmTop: TopMovieViewModel by viewModels()
+    private val vmWondering: AddWereWonderingViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                val dao: WereWonderingDao = (activity?.application as App).db.wereWonderingDao()
+                return AddWereWonderingViewModel(dao) as T
+            }
+        }
+    }
 
     private val premiersAdapter = MovieAdapter { movie -> onItemClick(movie) }
     private val thrillersAdapter = MovieAdapter { movie -> onItemClick(movie) }
@@ -49,6 +62,7 @@ class HomePage : Fragment() {
         _binding = FragmentHomePageBinding.inflate(inflater)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
@@ -63,10 +77,14 @@ class HomePage : Fragment() {
         binding.tvSeries.text = nameRandomType
         binding.topList.text = vmTop.nameRandomTop
 
-        vmPremiers.movie.onEach { premiersAdapter.setData(it) }.launchIn(viewLifecycleOwner.lifecycleScope)
-        vmThrillers.movie.onEach { thrillersAdapter.setData(it) }.launchIn(viewLifecycleOwner.lifecycleScope)
-        vmRandomType.movie.onEach { randomTypeAdapter.setData(it) }.launchIn(viewLifecycleOwner.lifecycleScope)
-        vmTop.movie.onEach { topMovieAdapter.setData(it) }.launchIn(viewLifecycleOwner.lifecycleScope)
+        vmPremiers.movie.onEach { premiersAdapter.setData(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+        vmThrillers.movie.onEach { thrillersAdapter.setData(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+        vmRandomType.movie.onEach { randomTypeAdapter.setData(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+        vmTop.movie.onEach { topMovieAdapter.setData(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
         binding.apply {
             allPremiers.setOnClickListener {
                 val bundle = Bundle().apply { putString(NAME, NAME_PREMIERS) }
@@ -87,18 +105,29 @@ class HomePage : Fragment() {
             }
         }
     }
+
     private fun onItemClick(item: Movie) {
+
         val bundle = Bundle().apply {
             putInt(ID_FILM, item.kinopoiskId)
             putString(NAME_FILM, item.nameRu)
             putString(URL_FILM, item.posterUrl)
+            putString(GENRE, item.genres[0].genre)
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
+        vmWondering.addWereWondering(
+            wereWonderingFilmId = item.filmId,
+            nameFilm = item.nameRu,
+            urlFilm = item.posterUrl,
+            genre = item.genres[0].genre
+        )
     }
+
     private fun onItemTopClick(item: Movie) {
         val bundle = Bundle().apply { putInt(ID_FILM, item.filmId) }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

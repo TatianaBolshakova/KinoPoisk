@@ -28,6 +28,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/backgrounds/scenic" />
 
+
             <ImageView
                 android:id="@+id/image_logo"
                 android:layout_width="300dp"
@@ -40,6 +41,8 @@
                 app:layout_constraintVertical_bias="0.8"
                 tools:src="@tools:sample/backgrounds/scenic" />
 
+
+
             <ImageView
                 android:id="@+id/iconBack"
                 android:layout_width="wrap_content"
@@ -49,7 +52,19 @@
                 android:clickable="true"
                 android:src="@drawable/ic_back"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:focusable="true" />
+            <ImageView
+                android:id="@+id/image_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="34dp"
+                android:clickable="true"
+                android:src="@drawable/baseline_play_circle_outline_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/info"
@@ -65,91 +80,91 @@
                 app:layout_constraintBottom_toTopOf="@+id/linear_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
-<LinearLayout
-    android:id="@+id/linear_layout"
-    android:layout_width="wrap_content"
-    android:layout_height="34dp"
-    android:orientation="horizontal"
-    app:layout_constraintBottom_toBottomOf="@+id/image_movie"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    >
-    <FrameLayout
-        android:id="@+id/frame_add_like"
-        android:layout_width="34dp"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true">
-        <ImageView
-            android:id="@+id/like"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_like_disabled"
+            <LinearLayout
+                android:id="@+id/linear_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@+id/image_movie"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                >
+                <FrameLayout
+                    android:id="@+id/frame_add_like"
+                    android:layout_width="34dp"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <ImageView
+                        android:id="@+id/like"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_like_disabled"
 
-            />
-    </FrameLayout>
-    <FrameLayout
-        android:id="@+id/frame_add_i_want_to_see"
-        android:layout_width="34dp"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true">
-        <ImageView
-            android:id="@+id/i_want_to_see"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/white_transparent"
-            android:src="@drawable/i_want_to_see"
-            />
-    </FrameLayout>
-    <FrameLayout
-        android:id="@+id/frame_add_already_viewed"
-        android:layout_width="34dp"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true">
-        <ImageView
-            android:id="@+id/add_already_viewed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/white_transparent"
-            android:src="@drawable/already_viewed"
-            />
-    </FrameLayout>
-    <FrameLayout
-        android:id="@+id/frame_share"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:clickable="true"
-        android:focusable="true">
-        <ImageView
-            android:id="@+id/share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/white_transparent"
-            android:src="@drawable/share"
-            />
-    </FrameLayout>
-    <FrameLayout
-        android:id="@+id/frame_open_additional_menu"
-        android:layout_width="34dp"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true">
-        <ImageView
-            android:id="@+id/open_additional_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/white_transparent"
-            android:src="@drawable/open_additional_menu"
-            />
-    </FrameLayout>
-</LinearLayout>
+                        />
+                </FrameLayout>
+                <FrameLayout
+                    android:id="@+id/frame_add_i_want_to_see"
+                    android:layout_width="34dp"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <ImageView
+                        android:id="@+id/i_want_to_see"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/white_transparent"
+                        android:src="@drawable/i_want_to_see"
+                        />
+                </FrameLayout>
+                <FrameLayout
+                    android:id="@+id/frame_add_already_viewed"
+                    android:layout_width="34dp"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <ImageView
+                        android:id="@+id/add_already_viewed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/white_transparent"
+                        android:src="@drawable/already_viewed"
+                        />
+                </FrameLayout>
+                <FrameLayout
+                    android:id="@+id/frame_share"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <ImageView
+                        android:id="@+id/share"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/white_transparent"
+                        android:src="@drawable/share"
+                        />
+                </FrameLayout>
+                <FrameLayout
+                    android:id="@+id/frame_open_additional_menu"
+                    android:layout_width="34dp"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <ImageView
+                        android:id="@+id/open_additional_menu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@color/white_transparent"
+                        android:src="@drawable/open_additional_menu"
+                        />
+                </FrameLayout>
+            </LinearLayout>
 
 
 

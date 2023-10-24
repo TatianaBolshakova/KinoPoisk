@@ -7,8 +7,8 @@ import com.example.finalandroid.domain.repository.LikeFilmRepository
 
 class LikeFilmRepositoryImpl: LikeFilmRepository {
 
-   override suspend fun getInfoFilm(id: Long, nameFilm: String, urlFilm: String): SelectedFilms {
-        return SelectedFilms(id,nameFilm, urlFilm)
+    override suspend fun getInfoFilm(id: Long, nameCollection: String, nameFilm: String, urlFilm: String): SelectedFilms {
+        return SelectedFilms(id,nameCollection,nameFilm, urlFilm)
     }
 
 }

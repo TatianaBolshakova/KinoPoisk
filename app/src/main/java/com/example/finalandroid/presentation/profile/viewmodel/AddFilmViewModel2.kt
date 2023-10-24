@@ -9,12 +9,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class AddFilmViewModel constructor(
+class AddFilmViewModel2 constructor(
     private val dao: SelectedFilmsDao
 
 ) : ViewModel() {
 
-    var allSelectedFilm: StateFlow<List<SelectedFilms>> = this.dao.getAllSelectedFilms()
+    var allSelectedFilm: StateFlow<List<SelectedFilms>> = this.dao.getAllSelectedFilms2()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000L),
@@ -26,9 +26,8 @@ class AddFilmViewModel constructor(
         nameCollection: String,
         nameFilm: String,
         urlFilm: String,
-        isLike: Boolean ,
-
-        ) {
+        isIWantToSee:Boolean
+    ) {
         viewModelScope.launch {
             dao.insertSelectedFilm(
                 SelectedFilms(
@@ -36,7 +35,7 @@ class AddFilmViewModel constructor(
                     nameCollection = nameCollection,
                     nameFilm = nameFilm,
                     urlFilm = urlFilm,
-                    isLike = isLike,
+                    isIWantToSee = isIWantToSee
                 )
             )
 
@@ -47,9 +46,8 @@ class AddFilmViewModel constructor(
         nameCollection: String,
         nameFilm: String,
         urlFilm: String,
-        isLike: Boolean,
-
-        ) {
+        isIWantToSee:Boolean
+    ) {
         viewModelScope.launch {
             dao.deleteSelectedFilm(
                 SelectedFilms(
@@ -57,17 +55,10 @@ class AddFilmViewModel constructor(
                     nameCollection = nameCollection,
                     nameFilm = nameFilm,
                     urlFilm = urlFilm,
-                    isLike = isLike,
-
-                    )
+                    isIWantToSee = isIWantToSee
+                )
             )
 
         }
     }
-
-    fun addIWantToSee() {}
-    fun addAlreadyViewed() {}
-    fun share() {}
-    fun openAdditionalMenu() {}
-
 }

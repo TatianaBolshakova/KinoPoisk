@@ -12,19 +12,16 @@ import androidx.navigation.fragment.findNavController
 import com.example.finalandroid.R
 import com.example.finalandroid.data.db.App
 import com.example.finalandroid.data.db.CollectionsDao
-import com.example.finalandroid.data.db.entity.CollectionsWithSelectedFilms
 import com.example.finalandroid.databinding.FragmentAddCollectionBinding
 import com.example.finalandroid.presentation.home.fragments.FilmPage
 import com.example.finalandroid.presentation.profile.viewmodel.AddCollectionViewModel
 
 
 class AddCollectionFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-val filmPage = FilmPage()
+
+    val filmPage = FilmPage()
     private var _binding: FragmentAddCollectionBinding? = null
     private val binding get() = _binding!!
-   // private val likeFilmAdapter = LikeFilmAdapter{ movie -> onLikeFilmClick(movie) }
-
     private val vmAddCollection: AddCollectionViewModel by viewModels {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -36,17 +33,12 @@ val filmPage = FilmPage()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-         binding.saveCollectionInDb.setOnClickListener {
-
-
+        binding.saveCollectionInDb.setOnClickListener {
             vmAddCollection.addCollection(
                 name = binding.enterNameCollection.text.toString(),
                 icon = R.drawable.my_collection,
-                numberOfElements = filmPage.countFilm
             )
-         findNavController().navigate(R.id.navigation_profile)}
+            findNavController().navigate(R.id.navigation_profile)}
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,9 +46,6 @@ val filmPage = FilmPage()
     ): View {
         _binding = FragmentAddCollectionBinding.inflate(inflater)
         return binding.root
-
-    }
-    private fun onLikeFilmClick(item: CollectionsWithSelectedFilms) {
 
     }
     override fun onDestroyView() {

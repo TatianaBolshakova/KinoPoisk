@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CollectionsDao {
     @Query("SELECT * FROM collections")
-     fun getAllCollections(): Flow<List<Collections>>
+    fun getAllCollections(): Flow<List<Collections>>
 
     @Transaction
     @Query("SELECT * FROM collections WHERE collections_id = :collectionsId")

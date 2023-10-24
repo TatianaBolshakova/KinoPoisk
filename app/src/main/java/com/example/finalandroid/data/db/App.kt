@@ -10,11 +10,11 @@ class App: Application() {
         super.onCreate()
 
         db = Room
-            .inMemoryDatabaseBuilder(
-            applicationContext,
-            AppDataBase::class.java
-        )
-            .fallbackToDestructiveMigration()
+            .databaseBuilder(
+                applicationContext,
+                AppDataBase::class.java,
+                "db"
+            )
             .build()
     }
 }

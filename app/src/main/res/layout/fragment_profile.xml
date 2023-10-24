@@ -9,6 +9,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="56dp"
+
         android:orientation="vertical"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="-163dp">
@@ -24,7 +27,6 @@
                 android:id="@+id/viewed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:text="@string/text_viewed"
                 android:textColor="#272727"
                 android:textSize="18sp"
@@ -99,19 +101,7 @@
 
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_default_collections"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
-                android:orientation="vertical"
-                app:spanCount="2"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_my_collections"
-                tools:listitem="@layout/collections_item" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_collections"
                 android:layout_width="match_parent"
@@ -123,13 +113,13 @@
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recycler_default_collections"
+                app:layout_constraintTop_toBottomOf="@id/add_my_collections"
                 tools:listitem="@layout/collections_item" />
             <TextView
                 android:id="@+id/you_were_wondering"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+
                 android:text="@string/text_you_were_wondering"
                 android:textColor="#272727"
                 android:textSize="18sp"
@@ -152,13 +142,13 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_you_were_wondering"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewed"
+                app:layout_constraintTop_toBottomOf="@id/you_were_wondering"
                 tools:listitem="@layout/movie_item" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

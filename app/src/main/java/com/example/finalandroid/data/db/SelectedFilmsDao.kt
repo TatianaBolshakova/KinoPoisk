@@ -13,8 +13,10 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SelectedFilmsDao {
-    @Query("SELECT * FROM selected_films")
+    @Query("SELECT * FROM selected_films WHERE isLike  = 1")
     fun getAllSelectedFilms(): Flow<List<SelectedFilms>>
+    @Query("SELECT * FROM selected_films WHERE isIWantToSee = 1")
+    fun getAllSelectedFilms2(): Flow<List<SelectedFilms>>
 
     @Transaction
     @Query("SELECT * FROM selected_films WHERE selected_films_id = :selectedFilmsId")

@@ -90,8 +90,34 @@ interface MovieListApi {
         @Query("imdbId") imdbId: String
     ): MovieList
 
+    // Поиск Filter
+    @Headers("X-API-KEY: $api_key")
+    @GET("/api/v2.2/films")
+    suspend fun getSearchFilter(
+        @Query("countries") countries: List<Int>,//???
+        @Query("genres") genres: List<Int>,//???
+        @Query("order") order: String = "RATING",
+        @Query("type") type: String = "ALL",
+        @Query("ratingFrom") ratingFrom: Int = 0,
+        @Query("ratingTo") ratingTo: Int = 10,
+        @Query("yearFrom") yearFrom: Int = 1000,
+        @Query("yearTo") yearTo: Int = 3000,
+        @Query("imdbId") imdbId: String = "imdbId",
+        @Query("page") page: Int = 1,
+    ): MovieList
+
+
+    // Поиск KeyWord
+    @Headers("X-API-KEY: $api_key")
+    @GET("/api/v2.2/films")
+    suspend fun getSearchKeyWord(
+        @Query("keyword") keyword: String = "keyword",
+    ): MovieList
+
+
+
     private companion object {
-         private const val api_key = "51379e98-b7c3-4b66-be90-8da65604f1b7"
+        private const val api_key = "51379e98-b7c3-4b66-be90-8da65604f1b7"
         //private const val api_key = "7d439c2f-5cb6-4448-96e1-1fc7ba004253" // key 2
     }
 }
