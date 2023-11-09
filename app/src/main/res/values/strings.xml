@@ -26,6 +26,18 @@
     <string name="text_you_were_wondering">Вам было интересно</string>
     <string name="text_add_my_collections">Создать свою коллекцию</string>
     <string name="text_like">Любимые</string>
+    <string name="text_search_no_result">К сожалению, по Вашему запросу ничего не найдено</string>
+    <string name="text_search_setting">Настройки поиска</string>
+    <string name="text_search_period">Период</string>
+    <string name="text_search_period_up">Искать в период с</string>
+    <string name="text_search_period_to">Искать в период до</string>
+    <string name="text_show">Показывать</string>
+    <string name="text_country">Страна</string>
+    <string name="text_genre">Жанр</string>
+    <string name="text_year">Год</string>
+    <string name="text_rating">Рейтинг</string>
+    <string name="text_sort">Сортировать</string>
+    <string name="dialog_data">Select date of birth</string>
 
     <string name="title_home">Home</string>
     <string name="title_search">Search</string>

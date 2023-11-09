@@ -4,18 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.finalandroid.data.db.entity.LikeFilms
+import com.example.finalandroid.data.db.entity.IWantToSeeFilms
 import com.example.finalandroid.data.viewholders.MovieViewHolder
 import com.example.finalandroid.databinding.MovieItemBinding
 
 
-class LikeFilmAdapter(
-    private val onClick: (LikeFilms) -> Unit
+class IWantToSeeFilmAdapter(
+    private val onClick: (IWantToSeeFilms) -> Unit
 ) : RecyclerView.Adapter<MovieViewHolder>() {
 
-    private var data: List<LikeFilms?> = emptyList()
+    private var data: List<IWantToSeeFilms?> = emptyList()
 
-    fun setData(data: List<LikeFilms>) {
+    fun setData(data: List<IWantToSeeFilms>) {
         this.data = data
         notifyDataSetChanged()
     }

@@ -25,7 +25,7 @@ class PremiersViewModel private constructor(
     private fun loadMovie() {
         viewModelScope.launch(Dispatchers.IO){
             kotlin.runCatching {
-                repository.getMoviePremiers(2023," AUGUST")
+                repository.getMoviePremiers(2023," OCTOBER")
             }.fold(
                 onSuccess = {_movie.value = it},
                 onFailure = { Log.d("MovieListViewModel", it.message ?: "")}

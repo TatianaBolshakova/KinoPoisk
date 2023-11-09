@@ -115,12 +115,6 @@ class HomePage : Fragment() {
             putString(GENRE, item.genres[0].genre)
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
-        vmWondering.addWereWondering(
-            wereWonderingFilmId = item.filmId,
-            nameFilm = item.nameRu,
-            urlFilm = item.posterUrl,
-            genre = item.genres[0].genre
-        )
     }
 
     private fun onItemTopClick(item: Movie) {

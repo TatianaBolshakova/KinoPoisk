@@ -2,19 +2,19 @@ package com.example.finalandroid.presentation.profile.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.finalandroid.data.db.SelectedFilmsDao
-import com.example.finalandroid.data.db.entity.SelectedFilms
+import com.example.finalandroid.data.db.LikeDao
+import com.example.finalandroid.data.db.entity.LikeFilms
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class AddFilmViewModel2 constructor(
-    private val dao: SelectedFilmsDao
+class AddLikeFilmViewModel constructor(
+    private val dao: LikeDao
 
 ) : ViewModel() {
 
-    var allSelectedFilm: StateFlow<List<SelectedFilms>> = this.dao.getAllSelectedFilms2()
+    var allSelectedFilm: StateFlow<List<LikeFilms>> = this.dao.getAll()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000L),
@@ -22,43 +22,43 @@ class AddFilmViewModel2 constructor(
         )
 
     fun addFilm(
-        id: Long,
-        nameCollection: String,
+        id: Int,
         nameFilm: String,
         urlFilm: String,
-        isIWantToSee:Boolean
-    ) {
+        genre: String ,
+
+        ) {
         viewModelScope.launch {
-            dao.insertSelectedFilm(
-                SelectedFilms(
-                    selectedFilmsId = id,
-                    nameCollection = nameCollection,
+            dao.insert(
+                LikeFilms(
+                    likeFilmId = id,
                     nameFilm = nameFilm,
                     urlFilm = urlFilm,
-                    isIWantToSee = isIWantToSee
+                    genre = genre,
                 )
             )
 
         }
     }
     fun deleteFilm(
-        id: Long,
-        nameCollection: String,
+        id: Int,
         nameFilm: String,
         urlFilm: String,
-        isIWantToSee:Boolean
-    ) {
+        genre: String ,
+
+        ) {
         viewModelScope.launch {
-            dao.deleteSelectedFilm(
-                SelectedFilms(
-                    selectedFilmsId = id,
-                    nameCollection = nameCollection,
+            dao.delete(
+                LikeFilms(
+                    likeFilmId = id,
                     nameFilm = nameFilm,
                     urlFilm = urlFilm,
-                    isIWantToSee = isIWantToSee
+                    genre = genre,
                 )
             )
 
         }
     }
+
+
 }

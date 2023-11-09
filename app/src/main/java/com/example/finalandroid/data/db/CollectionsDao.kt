@@ -8,7 +8,6 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.example.finalandroid.data.db.entity.Collections
-import com.example.finalandroid.data.db.entity.CollectionsWithSelectedFilms
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -18,10 +17,7 @@ interface CollectionsDao {
 
     @Transaction
     @Query("SELECT * FROM collections WHERE collections_id = :collectionsId")
-    suspend fun getCollectionsWithSelectedFilms(collectionsId: Long): CollectionsWithSelectedFilms
-
-    @Query("SELECT * FROM collections WHERE collections_id IN (:collectionsId)")
-    suspend fun getCollectionsByIds(collectionsId: List<Long>): List<Collections>
+    suspend fun getCollectionsWithSelectedFilms(collectionsId: Long): Collections
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCollection(collection: Collections): Long

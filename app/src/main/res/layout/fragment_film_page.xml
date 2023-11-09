@@ -116,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@color/white_transparent"
-                        android:src="@drawable/i_want_to_see"
+                        android:src="@drawable/ic_i_want_to_see"
                         />
                 </FrameLayout>
                 <FrameLayout

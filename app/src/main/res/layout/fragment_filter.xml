@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+    tools:context=".presentation.search.fragments.FilterFragment">
+
+    <ImageView
+        android:id="@+id/iconBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:clickable="true"
+        android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="@+id/search_setting"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/search_setting" />
+
+    <TextView
+        android:id="@+id/search_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/text_search_setting"
+        android:textColor="#272727"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_setting">
+
+        <TextView
+            android:id="@+id/show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="24dp"
+            android:text="@string/text_show"
+            android:textColor="@color/my_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/bn_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:src="@drawable/ic_all" />
+
+            <ImageButton
+                android:id="@+id/bn_films"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:src="@drawable/ic_films_disabled" />
+
+            <ImageButton
+                android:id="@+id/bn_tv_series"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:src="@drawable/ic_tv_series_disabled" />
+        </LinearLayout>
+
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    app:cardCornerRadius="10dp"
+    android:layout_marginTop="16dp"
+    >
+    <TextView
+        android:id="@+id/dialog_country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_country"
+        android:textColor="@color/my_black"
+        android:layout_marginStart="24dp"
+        android:textSize="16sp"
+        android:layout_gravity="center_vertical"/>
+    <TextView
+        android:id="@+id/text_dialog_country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Россия"
+        android:textColor="@color/my_gray"
+        android:layout_marginEnd="24dp"
+        android:textSize="14sp"
+        android:layout_gravity="center_vertical|end"/>
+
+</androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:cardCornerRadius="10dp"
+            android:layout_marginTop="16dp"
+            >
+            <TextView
+                android:id="@+id/dialog_genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_genre"
+                android:textColor="@color/my_black"
+                android:layout_marginStart="24dp"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/text_dialog_genre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Комедия"
+                android:textColor="@color/my_gray"
+                android:layout_marginEnd="24dp"
+                android:textSize="14sp"
+                android:layout_gravity="center_vertical|end"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:cardCornerRadius="10dp"
+            android:layout_marginTop="16dp"
+            >
+            <TextView
+                android:id="@+id/dialog_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_year"
+                android:textColor="@color/my_black"
+                android:layout_marginStart="24dp"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/text_dialog_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="с 1998 до 2017"
+                android:textColor="@color/my_gray"
+                android:layout_marginEnd="24dp"
+                android:textSize="14sp"
+                android:layout_gravity="center_vertical|end"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            app:cardCornerRadius="10dp"
+            android:layout_marginTop="16dp"
+            >
+            <TextView
+                android:id="@+id/dialog_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_rating"
+                android:textColor="@color/my_black"
+                android:layout_marginStart="24dp"
+                android:textSize="16sp"
+                android:layout_gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/text_dialog_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Любой"
+                android:textColor="@color/my_gray"
+                android:layout_marginEnd="24dp"
+                android:textSize="14sp"
+                android:layout_gravity="center_vertical|end"/>
+
+
+
+
+<com.google.android.material.slider.RangeSlider
+    android:id="@+id/range_slider"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:valueFrom="0.0"
+    android:valueTo="10.0"
+    android:stepSize="1.0"
+    app:values="@array/initial_slider_values"
+    />
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

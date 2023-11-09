@@ -96,7 +96,7 @@ class ProfileFragment : Fragment() {
             )
             vmAddCollection.addCollection(
                 name = NAME_COLLECTION_I_WANT_TO_SEE,
-                icon = R.drawable.i_want_to_see
+                icon = R.drawable.ic_i_want_to_see
             )
             saveData(true)
         }
@@ -107,7 +107,7 @@ class ProfileFragment : Fragment() {
             recyclerViewed.adapter = viewedAdapter
             vmViewed.allViewedFilms.onEach { viewedAdapter.setData(it) }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
-            val counterViewedValue = (vmViewed.allViewedFilms.value.size + 1).toString()
+            val counterViewedValue = (vmViewed.allViewedFilms.value.size).toString()
             counterViewed.text = counterViewedValue
 
             addMyCollections.setOnClickListener { findNavController().navigate(R.id.addCollectionFragment) }
@@ -120,7 +120,7 @@ class ProfileFragment : Fragment() {
             recyclerYouWereWondering.adapter = wereWonderingAdapter
             vmWondering.allWereWondering.onEach { wereWonderingAdapter.setData(it) }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
-            val counterWereWonderingValue = (vmWondering.allWereWondering.value.size + 1).toString()
+            val counterWereWonderingValue = (vmWondering.allWereWondering.value.size).toString()
             counterYouWereWondering.text = counterWereWonderingValue
 
         }
