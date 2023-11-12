@@ -1,8 +1,9 @@
 package com.example.finalandroid.presentation.search.fragments
 
 import android.app.AlertDialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
-import android.graphics.ColorFilter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,12 +12,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.finalandroid.R
 import com.example.finalandroid.databinding.FragmentFilterBinding
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.slider.RangeSlider
-import com.google.android.material.snackbar.Snackbar
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 
 private const val TYPE = "type"
@@ -30,6 +26,27 @@ private const val RATING2 = "rating2"
 class FilterFragment : Fragment() {
     private var _binding: FragmentFilterBinding? = null
     private val binding get() = _binding!!
+    private var type = "ALL"
+    private var country = "Россия"
+    private var genre = "Комедия"
+    private var year1 = 0
+    private var year2 = 0
+    private var rating1 = 0
+    private var rating2 = 0
+    private var countryPref: SharedPreferences? = null
+    private var genrePref: SharedPreferences? = null
+    private var year1Pref: SharedPreferences? = null
+    private var year2Pref: SharedPreferences? = null
+    private var rating1Pref: SharedPreferences? = null
+    private var rating2Pref: SharedPreferences? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            year1 = it.getInt(YEAR1)
+            year2 = it.getInt(YEAR2)
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,19 +55,32 @@ class FilterFragment : Fragment() {
         return binding.root
     }
 
-    private var type = "ALL"
-    private var country = "Россия"
-    private var genre = "Комедия"
-    private var year1 = "1998"
-    private var year2 = "2017"
-    private var rating1 = 0
-    private var rating2 = 0
-    private val calendar = Calendar.getInstance()
-    private val myFormat = "yyyy"
-    private val dateFormat = SimpleDateFormat(myFormat, Locale.US)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        countryPref = this.activity?.getSharedPreferences("COUNTRY", Context.MODE_PRIVATE)
+        country = countryPref?.getString("Country", "Россия")!!
+        binding.textDialogCountry.text = country
+
+        genrePref = this.activity?.getSharedPreferences("GENRE", Context.MODE_PRIVATE)
+        genre = genrePref?.getString("Genre", "Комедия")!!
+        binding.textDialogGenre.text = genre
+
+        year1Pref = this.activity?.getSharedPreferences("YEAR_1", Context.MODE_PRIVATE)
+        year1 = year1Pref?.getInt("YEAR1", 1998)!!
+        year2Pref = this.activity?.getSharedPreferences("YEAR_2", Context.MODE_PRIVATE)
+        year2 = year2Pref?.getInt("YEAR2", 2023)!!
+        val textDialogYear = " С $year1 до $year2"
+        binding.textDialogYear.text = textDialogYear
+
+        rating1Pref = this.activity?.getSharedPreferences("RATING_1", Context.MODE_PRIVATE)
+        rating1 = rating1Pref?.getInt("RATING1", 0)!!
+        rating2Pref = this.activity?.getSharedPreferences("RATING_2", Context.MODE_PRIVATE)
+        rating2 = rating2Pref?.getInt("RATING2", 10)!!
+        val textDialogRating = "От $rating1 до $rating2"
+        binding.textDialogRating.text = textDialogRating
 
         binding.bnAll.setOnClickListener {
             binding.apply {
@@ -84,92 +114,31 @@ class FilterFragment : Fragment() {
         }
         binding.dialogCountry.setOnClickListener { choiceCountryDialog() }
         binding.dialogGenre.setOnClickListener { choiceGenreDialog() }
-    }
-
-    private val countryArray = arrayOf("Россия", "Великобритания", "США", "Германия", "Франция")
-    private fun choiceCountryDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Выберите страну")
-            .setItems(countryArray) { dialog, wich ->
-                binding.textDialogCountry.text = countryArray[wich]
-                country = countryArray[wich]
-            }
-        builder.show()
-
-    }
-
-    private val genreArray = arrayOf("Комедия", "Мелодрама", "Боевик", "Вестерн", "Драма")
-    private fun choiceGenreDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Выберите жанр")
-            .setItems(genreArray) { dialog, wich ->
-                binding.textDialogGenre.text = genreArray[wich]
-                genre = genreArray[wich]
-            }
-        builder.show()
-
-
+        binding.dialogYear.setOnClickListener {
+            findNavController().navigate(R.id.action_filterFragment_to_myDialog)
+        }
         binding.rangeSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: RangeSlider) {}
 
             override fun onStopTrackingTouch(slider: RangeSlider) {}
         })
-
         binding.rangeSlider.addOnChangeListener { _, _, _ ->
             val values = binding.rangeSlider.values
             val text = "От ${values[0]} до ${values[1]}"
             binding.textDialogRating.text = text
             rating1 = values[0].toInt()
+            saveRating1(rating1)
             rating2 = values[1].toInt()
+            saveRating2(rating2)
 
         }
-        val yearArray = arrayOf("1998", "1990", "2000", "2001", "2002", "2003", "2004", "2005", "2006","2007", "2008","2009")
-        binding.dialogYear.setOnClickListener {
-
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Искать в период с")
-                .setItems(yearArray) { dialog, wich ->
-
-                    year1 = yearArray[wich]
-                }
-            val builder1 = AlertDialog.Builder(requireContext())
-            builder1.setTitle("Искать в период до")
-                .setItems(yearArray) { dialog, wich ->
-
-                    year2 = yearArray[wich]
-                }
-
-            builder.show()
-
-
-
-
-
-//            val dateDialog = MaterialDatePicker.Builder.datePicker()
-//                .setTitleText(resources.getString(R.string.dialog_data))
-//                .build()
-//            dateDialog.addOnPositiveButtonClickListener { timeInMillis ->
-//                //calendar.timeInMillis = timeInMillis
-//                val year = calendar.get(Calendar.YEAR)
-//                val date1 = year
-//                binding.textDialogYear.text = date1.toString()
-//                Snackbar.make(
-//                    binding.dialogYear,
-//                    dateFormat.format(calendar.time),
-//                    Snackbar.LENGTH_SHORT
-//                ).show()
-            }
-        binding.textDialogYear.text = "C $year1 до $year2"
-
-        //    dateDialog.show(parentFragmentManager, "DatePicker")
-       // }
         binding.iconBack.setOnClickListener {
             val bundle = Bundle().apply {
                 putString(TYPE, type)
                 putString(COUNTRY, country)
                 putString(GENRE, genre)
-                putString(YEAR1, year1)
-                putString(YEAR2, year2)
+                putInt(YEAR1, year1)
+                putInt(YEAR2, year2)
                 putInt(RATING1, rating1)
                 putInt(RATING2, rating2)
             }
@@ -179,7 +148,50 @@ class FilterFragment : Fragment() {
             )
         }
     }
+    private val countryArray = arrayOf("Россия", "Великобритания", "США", "Германия", "Франция")
+    private fun choiceCountryDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Выберите страну")
+            .setItems(countryArray) { _, wich ->
+                binding.textDialogCountry.text = countryArray[wich]
+                country = countryArray[wich]
+                saveCountry(country)
+            }
+        builder.show()
 
+    }
+
+    private val genreArray = arrayOf("Комедия", "Мелодрама", "Боевик", "Вестерн", "Драма")
+    private fun choiceGenreDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Выберите жанр")
+            .setItems(genreArray) { _, wich ->
+                binding.textDialogGenre.text = genreArray[wich]
+                genre = genreArray[wich]
+                saveGenre(genre)
+            }
+        builder.show()
+    }
+    private fun saveCountry(country: String) {
+        val editor = countryPref?.edit()
+        editor?.putString("Country", country)
+        editor?.apply()
+    }
+    private fun saveGenre(genre: String) {
+        val editor = genrePref?.edit()
+        editor?.putString("Genre", genre)
+        editor?.apply()
+    }
+    private fun saveRating1(rating: Int) {
+        val editor = rating1Pref?.edit()
+        editor?.putInt("RATING1", rating)
+        editor?.apply()
+    }
+    private fun saveRating2(rating: Int) {
+        val editor = rating2Pref?.edit()
+        editor?.putInt("RATING2", rating)
+        editor?.apply()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

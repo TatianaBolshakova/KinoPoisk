@@ -41,14 +41,6 @@ class HomePage : Fragment() {
     private val vmThrillers: ThrillersViewModel by viewModels()
     private val vmRandomType: RandomTypeViewModel by viewModels()
     private val vmTop: TopMovieViewModel by viewModels()
-    private val vmWondering: AddWereWonderingViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                val dao: WereWonderingDao = (activity?.application as App).db.wereWonderingDao()
-                return AddWereWonderingViewModel(dao) as T
-            }
-        }
-    }
 
     private val premiersAdapter = MovieAdapter { movie -> onItemClick(movie) }
     private val thrillersAdapter = MovieAdapter { movie -> onItemClick(movie) }
