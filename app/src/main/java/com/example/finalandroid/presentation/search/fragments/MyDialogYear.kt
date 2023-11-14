@@ -7,19 +7,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.finalandroid.R
+import com.example.finalandroid.data.adapters.YearAdapter
 import com.example.finalandroid.databinding.FragmentMyDialogBinding
+
+
 
 private const val YEAR1 = "year1"
 private const val YEAR2 = "year2"
 
 class MyDialogYear : Fragment() {
+
     private val yearAdapter = YearAdapter { year -> onItemClick1(year) }
     private val yearAdapter2 = YearAdapter { year -> onItemClick2(year) }
-
-    private var isClick: Boolean = false
 
     private var _binding: FragmentMyDialogBinding? = null
     private val binding get() = _binding!!
@@ -35,56 +36,33 @@ class MyDialogYear : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.yearUp.adapter = yearAdapter
-        yearAdapter.setData()
+        binding.apply {
+            yearUp.adapter = yearAdapter
+            yearAdapter.setData()
+            yearUp.scrollToPosition(yearAdapter.data.size-965)
 
-        binding.next.setOnClickListener {
-            binding.yearUp.smoothScrollBy(450, 0)
+            next.setOnClickListener { yearUp.smoothScrollBy(450, 0) }
+            back.setOnClickListener { yearUp.smoothScrollBy(-450, 0) }
 
+            yearTo.adapter = yearAdapter2
+            yearAdapter2.setData()
+            yearTo.scrollToPosition(yearAdapter2.data.size-955)
+
+            next2.setOnClickListener { yearTo.smoothScrollBy(450, 0) }
+            back2.setOnClickListener { yearTo.smoothScrollBy(-450, 0) }
+
+           save.setOnClickListener { findNavController().navigate(R.id.action_myDialog_to_filterFragment) }
+           iconBack.setOnClickListener {  findNavController().navigate(R.id.action_myDialog_to_filterFragment)}
         }
-        binding.back.setOnClickListener {
-            binding.yearUp.smoothScrollBy(-450, 0)
-
-        }
-        binding.yearTo.adapter = yearAdapter2
-        yearAdapter2.setData()
-
-        binding.next2.setOnClickListener {
-            binding.yearTo.smoothScrollBy(450, 0)
-
-        }
-        binding.back2.setOnClickListener {
-            binding.yearTo.smoothScrollBy(-450, 0)
-
-        }
-
         year1Pref = this.activity?.getSharedPreferences("YEAR_1", Context.MODE_PRIVATE)
         year1 = year1Pref?.getInt("YEAR1", 1998)!!
-        val valueClick1 = year1Pref?.getBoolean("valueClickYear1", false)
-        if (isClick != valueClick1) {
-            State.NoClick
-        } else {
-            State.Click
-        }
+        binding.textYearUp.text = year1.toString()
+
         year2Pref = this.activity?.getSharedPreferences("YEAR_2", Context.MODE_PRIVATE)
         year2 = year2Pref?.getInt("YEAR2", 2023)!!
-        val valueClick2 = year2Pref?.getBoolean("valueClickYear2", false)
-        if (isClick != valueClick1) {
-            State.NoClick
-        } else {
-            State.Click
-        }
-
-        binding.save.setOnClickListener {
-            val bundle = Bundle().apply {
-                putInt(YEAR1, year1)
-                putInt(YEAR2, year2)
-            }
-            findNavController().navigate(R.id.action_myDialog_to_filterFragment, args = bundle)
-        }
+        binding.textYearTo.text = year2.toString()
     }
     private fun saveYear1Boolean(result: Boolean) {
         val editor = year1Pref?.edit()
@@ -111,8 +89,7 @@ class MyDialogYear : Fragment() {
         year1 = item
         saveYear1Boolean(true)
         saveYear1Value(year1)
-        Toast.makeText(requireContext(), "${year1} -year1", Toast.LENGTH_SHORT).show()
-
+        binding.textYearUp.text = year1.toString()
     }
 
     private fun onItemClick2(item: Int) {
@@ -120,8 +97,7 @@ class MyDialogYear : Fragment() {
         year2 = item
         saveYear2Boolean(true)
         saveYear2Value(year2)
-        Toast.makeText(requireContext(), "${year2} -year2", Toast.LENGTH_SHORT).show()
-
+        binding.textYearTo.text = year2.toString()
     }
 
     override fun onDestroyView() {

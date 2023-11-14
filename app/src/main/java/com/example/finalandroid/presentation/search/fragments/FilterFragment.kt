@@ -39,6 +39,7 @@ class FilterFragment : Fragment() {
     private var year2Pref: SharedPreferences? = null
     private var rating1Pref: SharedPreferences? = null
     private var rating2Pref: SharedPreferences? = null
+    private var textDialogYear = "С ... до ... "
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +73,11 @@ class FilterFragment : Fragment() {
         year1 = year1Pref?.getInt("YEAR1", 1998)!!
         year2Pref = this.activity?.getSharedPreferences("YEAR_2", Context.MODE_PRIVATE)
         year2 = year2Pref?.getInt("YEAR2", 2023)!!
-        val textDialogYear = " С $year1 до $year2"
+        if (year1<year2){
+            textDialogYear = " С $year1 до $year2"
+        }else{
+            textDialogYear = " С $year1 до $year1"
+        }
         binding.textDialogYear.text = textDialogYear
 
         rating1Pref = this.activity?.getSharedPreferences("RATING_1", Context.MODE_PRIVATE)

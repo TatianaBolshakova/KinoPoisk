@@ -29,10 +29,10 @@
     <string name="text_search_no_result">К сожалению, по Вашему запросу ничего не найдено</string>
     <string name="text_search_setting">Настройки поиска</string>
     <string name="text_search_period">Период</string>
-    <string name="text_search_period_up">Искать в период с</string>
+    <string name="text_search_period_up">Искать в период с:</string>
     <string name="text_search_period_up_year">Укажите год начала поиска</string>
     <string name="text_search_period_to_year">Укажите год окончания поиска</string>
-    <string name="text_search_period_to">Искать в период до</string>
+    <string name="text_search_period_to">Искать в период до:</string>
     <string name="text_show">Показывать</string>
     <string name="text_country">Страна</string>
     <string name="text_genre">Жанр</string>

@@ -36,8 +36,8 @@
         android:id="@+id/search_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:text="@string/text_search_period_up"
         android:textColor="@color/my_gray"
         android:textSize="16sp"
@@ -49,7 +49,7 @@
         android:id="@+id/card_view_search_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_margin="36dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_up">
@@ -64,12 +64,12 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/period_up"
+                    android:id="@+id/text_year_up"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/text_search_period_up_year"
-                    android:textColor="@color/my_gray"
+                    android:textColor="@color/my_blue"
 
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -122,8 +122,8 @@
         android:id="@+id/search_to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:text="@string/text_search_period_to"
         android:textColor="@color/my_gray"
         android:textSize="16sp"
@@ -135,7 +135,7 @@
         android:id="@+id/card_view_search_to"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_margin="36dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_to">
@@ -150,13 +150,13 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/period_to"
+                    android:id="@+id/text_year_to"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"
                     android:layout_marginStart="8dp"
                     android:text="@string/text_search_period_to_year"
-                    android:textColor="@color/my_gray"
+                    android:textColor="@color/my_blue"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
