@@ -13,6 +13,8 @@ data class Movie(
     @Json(name = "premiereRu") val premiereRu: String,
     @Json(name = "countries") val countries: List <Country>,
     @Json(name = "rating") val rating: Double,
+    @Json(name = "ratingKinopoisk") val ratingKinopoisk: Double,
+    @Json(name = "ratingImdb") val ratingImdb: Double,
     @Json(name = "filmId") val filmId: Int,
     @Json(name = "imageUrl") val imageUrl: String,
     @Json(name = "type") val type: String
@@ -20,10 +22,12 @@ data class Movie(
 
 @JsonClass(generateAdapter = true)
 data class Genre(
-    @Json(name = "genre") val genre: String
+    @Json(name = "genre") val genre: String,
+    @Json(name = "id") val id: Int
 )
 
 @JsonClass(generateAdapter = true)
 data class Country(
-    @Json(name = "country") val country: String
+    @Json(name = "country") val country: String,
+    @Json(name = "id") val id: Int
 )

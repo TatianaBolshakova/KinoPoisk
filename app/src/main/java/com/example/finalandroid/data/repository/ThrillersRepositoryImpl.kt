@@ -11,10 +11,10 @@ class ThrillersRepositoryImpl: ThrillersRepository {
    override suspend fun getMovieThrillers():List<Movie>{
         return retrofit.thrillers().items
     }
-   override suspend fun getId(): List<Genre> {
-        return retrofit.idAndCountries().genres
-    }
-   override suspend fun getCountries(): List<Country> {
-        return retrofit.idAndCountries().countries
-    }
+//   override suspend fun getId(): List<Genre> {
+//        return retrofit.idAndCountries().genres
+//    }
+//   override suspend fun getCountries(): List<Country> {
+//        return retrofit.idAndCountries().countries
+//    }
 }

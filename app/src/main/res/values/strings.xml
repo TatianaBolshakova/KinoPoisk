@@ -6,6 +6,8 @@
     <string name="text_next">Пропустить</string>
     <string name="title_movie">Название фильма</string>
     <string name="genres_movie">Жанр</string>
+    <string name="country_movie">Страна</string>
+    <string name="rating_movie">Рейтинг</string>
     <string name="text_premiers">Премьеры</string>
     <string name="text_thrillers">Триллеры</string>
     <string name="top_list">Топ РЕЙТИНГ ВЫШЕ 7.0 </string>
@@ -33,6 +35,8 @@
     <string name="text_search_period_up_year">Укажите год начала поиска</string>
     <string name="text_search_period_to_year">Укажите год окончания поиска</string>
     <string name="text_search_period_to">Искать в период до:</string>
+    <string name="text_search_hint">Искать...</string>
+    <string name="text_save_bn">Сохранить</string>
     <string name="text_show">Показывать</string>
     <string name="text_country">Страна</string>
     <string name="text_genre">Жанр</string>
@@ -41,9 +45,11 @@
     <string name="text_sort">Сортировать</string>
     <string name="dialog_data">Select date of birth</string>
 
-    <string name="title_home">Home</string>
-    <string name="title_search">Search</string>
-    <string name="title_profile">Profile</string>
+
+
+    <string name="title_home">Дом</string>
+    <string name="title_search">Поиск</string>
+    <string name="title_profile">Профиль</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

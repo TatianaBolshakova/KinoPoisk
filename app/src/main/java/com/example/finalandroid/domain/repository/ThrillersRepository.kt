@@ -8,6 +8,6 @@ import com.example.finalandroid.data.models.Movie
 interface ThrillersRepository {
 
     suspend fun getMovieThrillers():List<Movie>
-    suspend fun getId(): List<Genre>
-    suspend fun getCountries(): List<Country>
+//    suspend fun getId(): List<Genre>
+//    suspend fun getCountries(): List<Country>
 }

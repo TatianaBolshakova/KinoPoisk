@@ -13,10 +13,6 @@ import com.example.finalandroid.data.adapters.YearAdapter
 import com.example.finalandroid.databinding.FragmentMyDialogBinding
 
 
-
-private const val YEAR1 = "year1"
-private const val YEAR2 = "year2"
-
 class MyDialogYear : Fragment() {
 
     private val yearAdapter = YearAdapter { year -> onItemClick1(year) }

@@ -188,22 +188,61 @@
                 android:textSize="14sp"
                 android:layout_gravity="center_vertical|end"/>
 
-
-
-
 <com.google.android.material.slider.RangeSlider
     android:id="@+id/range_slider"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginHorizontal="24dp"
     android:valueFrom="0.0"
     android:valueTo="10.0"
     android:stepSize="1.0"
     app:values="@array/initial_slider_values"
     />
 
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            app:cardCornerRadius="10dp"
+            android:layout_marginTop="16dp"
+            >
 
+            <TextView
+                android:id="@+id/sort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="24dp"
+                android:text="@string/text_sort"
+                android:textColor="@color/my_gray" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
 
+                <ImageButton
+                    android:id="@+id/bn_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:src="@drawable/ic_date" />
 
+                <ImageButton
+                    android:id="@+id/bn_populars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:src="@drawable/ic_populars_disabled" />
+
+                <ImageButton
+                    android:id="@+id/bn_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:src="@drawable/ic_rating_disabled" />
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>

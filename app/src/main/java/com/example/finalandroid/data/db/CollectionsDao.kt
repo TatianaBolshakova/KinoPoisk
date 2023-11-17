@@ -14,7 +14,8 @@ import kotlinx.coroutines.flow.Flow
 interface CollectionsDao {
     @Query("SELECT * FROM collections")
     fun getAllCollections(): Flow<List<Collections>>
-
+    @Query("SELECT collections_name FROM collections")
+    fun getListNameCollections(): Array<String>
     @Transaction
     @Query("SELECT * FROM collections WHERE collections_id = :collectionsId")
     suspend fun getCollectionsWithSelectedFilms(collectionsId: Long): Collections

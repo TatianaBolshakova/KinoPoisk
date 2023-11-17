@@ -1,5 +1,6 @@
 package com.example.finalandroid.presentation.profile.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,7 +18,7 @@ import com.example.finalandroid.presentation.home.fragments.FilmPage
 import com.example.finalandroid.presentation.profile.viewmodel.AddCollectionViewModel
 
 
-class AddCollectionFragment : Fragment() {
+ class AddCollectionFragment : Fragment() {
 
     val filmPage = FilmPage()
     private var _binding: FragmentAddCollectionBinding? = null
@@ -39,6 +40,9 @@ class AddCollectionFragment : Fragment() {
                 icon = R.drawable.my_collection,
             )
             findNavController().navigate(R.id.navigation_profile)}
+        binding.iconBack.setOnClickListener {
+            findNavController().navigate(R.id.navigation_profile)
+        }
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -37,7 +37,9 @@ class SearchMovieAdapter(
         val item = data.getOrNull(position)
         with(holder.binding) {
             titleText.text = item?.nameRu ?: "Название не указано"
-            genresText.text = item?.genres?.first()?.genre ?: ""
+            genresText.text = item?.genres?.joinToString { genre -> genre.genre }?:""
+            countryText.text = item?.countries?.joinToString { country -> country.country }?:""
+            ratingText.text = item?.ratingKinopoisk.toString()
             imageView.isClickable= false
             item?.let {
                 Glide

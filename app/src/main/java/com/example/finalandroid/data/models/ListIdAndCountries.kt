@@ -5,6 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 class ListIdAndCountries (
-    @Json(name = "genres") val genres: List<Genre>,
-    @Json(name = "countries") val countries: List<Country>
+    @Json(name = "genres") val genres: Array<Genre>,
+    @Json(name = "countries") val countries: Array<Country>
         )

@@ -22,7 +22,7 @@
         android:focusable="false"
         app:goIcon="@drawable/ic_filter"
         app:iconifiedByDefault="false"
-        app:queryHint="Search..."
+        app:queryHint="@string/text_search_hint"
         app:searchHintIcon="@null"
         app:searchIcon="@drawable/ic_search" />
     <ImageButton

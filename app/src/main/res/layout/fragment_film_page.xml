@@ -85,6 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="34dp"
                 android:orientation="horizontal"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/image_movie"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

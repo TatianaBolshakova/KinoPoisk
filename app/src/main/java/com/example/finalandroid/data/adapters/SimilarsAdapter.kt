@@ -37,7 +37,7 @@ class SimilarsAdapter(
         val item = data.getOrNull(position)
         with(holder.binding) {
             titleText.text = item?.nameRu ?: ""
-            genresText.text = item?.genres?.get(0)?.genre ?: ""
+            genresText.text = item?.genres?.joinToString { genre -> genre.genre }?:""
             layout.bringToFront()
             val rating= item?.rating?.toString()
             if(rating=="0.0"){

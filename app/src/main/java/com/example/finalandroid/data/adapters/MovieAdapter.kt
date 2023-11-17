@@ -37,9 +37,9 @@ class MovieAdapter(
         val item = data.getOrNull(position)
         with(holder.binding) {
             titleText.text = item?.nameRu ?: ""
-            genresText.text = item?.genres?.first()?.genre ?: ""
+            genresText.text = item?.genres?.joinToString { genre -> genre.genre }?:""
             layout.bringToFront()
-            val rating= item?.rating?.toString()
+            val rating= item?.ratingKinopoisk.toString()
             if(rating=="0.0"){
                 textRating.visibility = View.INVISIBLE
                 imageRating.visibility = View.INVISIBLE

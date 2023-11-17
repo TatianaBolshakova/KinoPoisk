@@ -1,11 +1,13 @@
 package com.example.finalandroid.presentation.home.fragments
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -23,6 +25,7 @@ import com.example.finalandroid.data.models.Movie
 import com.example.finalandroid.data.adapters.SimilarsAdapter
 import com.example.finalandroid.databinding.FragmentFilmPageBinding
 import com.example.finalandroid.data.db.App
+import com.example.finalandroid.data.db.CollectionsDao
 import com.example.finalandroid.data.db.IWantToSeeDao
 import com.example.finalandroid.data.db.LikeDao
 import com.example.finalandroid.data.db.ViewedDao
@@ -31,10 +34,13 @@ import com.example.finalandroid.presentation.home.viewmodel.ActorsViewModel
 import com.example.finalandroid.presentation.home.viewmodel.FilmViewModel
 import com.example.finalandroid.presentation.home.viewmodel.ImagesViewModel
 import com.example.finalandroid.presentation.home.viewmodel.SimilarsViewModel
+import com.example.finalandroid.presentation.profile.fragments.AddCollectionFragment
+import com.example.finalandroid.presentation.profile.viewmodel.AddCollectionViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddLikeFilmViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddIWantToSeeViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddViewedViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddWereWonderingViewModel
+import com.example.finalandroid.presentation.profile.viewmodel.ListNameCollectionViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -45,6 +51,7 @@ private const val ITEM_IMAGE = "item_image"
 private const val NAME_FILM = "name_film"
 private const val URL_FILM = "url_film"
 private const val GENRE = "genre"
+
 class FilmPage : Fragment() {
 
     private var _binding: FragmentFilmPageBinding? = null
@@ -82,7 +89,14 @@ class FilmPage : Fragment() {
             }
         }
     }
-
+    private val vmListNameCollection: ListNameCollectionViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                val dao: CollectionsDao = (activity?.application as App).db.collectionsDao()
+                return ListNameCollectionViewModel(dao) as T
+            }
+        }
+    }
     private val vmActors: ActorsViewModel by viewModels()
     private val vmImages: ImagesViewModel by viewModels()
     private val vmSimilars: SimilarsViewModel by viewModels()
@@ -90,14 +104,13 @@ class FilmPage : Fragment() {
     private val workedOnTheFilmAdapter = WorkedOnTheFilmAdapter { actors -> onItemClick(actors) }
     private val imagesAdapter = ImagesAdapter { images -> onImageClick(images) }
     private val similarsAdapter = SimilarsAdapter { movie -> onMovieClick(movie) }
-
     private var isLike: Boolean = false
     private var isIWantToSee: Boolean = false
     private var pref: SharedPreferences? = null
     private var id = 0
     private var nameFilm = ""
     private var urlFilm = ""
-    private var genre =""
+    private var genre = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -205,7 +218,20 @@ class FilmPage : Fragment() {
 
         binding.apply {
             imagePlay.setOnClickListener {
-                vmViewed.addViewed(viewedFilmId = id, nameFilm = nameFilm, urlFilm = urlFilm, genre = genre)
+                vmViewed.addViewed(
+                    viewedFilmId = id,
+                    nameFilm = nameFilm,
+                    urlFilm = urlFilm,
+                    genre = genre
+                )
+            }
+            frameAddAlreadyViewed.setOnClickListener {
+                vmViewed.addViewed(
+                    viewedFilmId = id,
+                    nameFilm = nameFilm,
+                    urlFilm = urlFilm,
+                    genre = genre
+                )
             }
             frameAddLike.setOnClickListener {
                 if (isLike == valueLike) {
@@ -252,7 +278,14 @@ class FilmPage : Fragment() {
                 }
 
             }
+            frameShare.setOnClickListener {
+                addInCollectionDialog()
+            }
+            frameOpenAdditionalMenu.setOnClickListener {
+                findNavController().navigate(R.id.addCollectionFragment)
+            }
         }
+        vmListNameCollection.selectCollection()
     }
 
     private fun saveLikeBoolean(result: Boolean) {
@@ -290,6 +323,43 @@ class FilmPage : Fragment() {
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }
+
+    private fun addInCollectionDialog() {
+        var collections: Array<String> = arrayOf()
+
+        lifecycleScope.launch {
+            vmListNameCollection.list
+                .collect {
+                    collections = it
+                }
+        }
+        val checkedCollections = BooleanArray(collections.size)
+        val selectedCollections = mutableListOf(*collections)
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder
+            .setTitle("Выберите коллекцию")
+            .setMultiChoiceItems(collections, checkedCollections) { dialog, which, isChecked ->
+                checkedCollections[which] = isChecked
+                val currentCollections = selectedCollections[which]
+            }
+            .setCancelable(false)
+            .setPositiveButton("Сохранить") { dialog, which ->
+                for (i in checkedCollections.indices) {
+                    if (checkedCollections[i]) {
+                        //binding.description1.text = String.format("%s%s, ", binding.description1.text, selectedCollections[i])
+                    }
+                }
+            }
+            .setNegativeButton("Закрыть окно") { dialog, which ->
+                dialog.cancel()
+            }
+
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -18,16 +18,6 @@ class FilmViewModel private constructor(
 
     private val _info = MutableStateFlow<InfoMovie?>(null)
     val info = _info.asStateFlow()
-//    fun loadInfo(id:Int) {
-//        viewModelScope.launch(Dispatchers.IO){
-//            kotlin.runCatching {
-//                repository.getInfoFilm(502838)
-//            }.fold(
-//                onSuccess = {_info.value = it},
-//                onFailure = { Log.d("MovieListViewModel", it.message ?: "")}
-//            )
-//        }
-//    }
 
     fun loadInfo(id: Int) {
         viewModelScope.launch {

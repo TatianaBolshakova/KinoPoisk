@@ -4,7 +4,7 @@ package com.example.finalandroid.presentation.search.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.finalandroid.data.models.Movie
-import com.example.finalandroid.data.repository.SearchKeyWordRepositoryImpl
+import com.example.finalandroid.data.repository.SearchRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,10 +12,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class SearchKeyWordViewModel private constructor(
-    private val repository: SearchKeyWordRepositoryImpl
+class SearchViewModel private constructor(
+    private val repository: SearchRepositoryImpl
 ) : ViewModel() {
-    constructor() : this(SearchKeyWordRepositoryImpl())
+    constructor() : this(SearchRepositoryImpl())
 
     private val _movie = MutableStateFlow<List<Movie>>(emptyList())
     val movie = _movie.asStateFlow()
@@ -23,12 +23,23 @@ class SearchKeyWordViewModel private constructor(
     private val _error = Channel<String>()
     val error = _error.receiveAsFlow()
 
-    
 
-    fun loadMovie(keyword: String) {
+    fun loadMovie(
+        keyword: String = "",
+        type: String,
+        country: Array<Int>,
+        genre: Array<Int>,
+        year1: Int,
+        year2: Int,
+        rating1: Int,
+        rating2: Int,
+        order: String
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                repository.getSearchKeyWord(keyword)
+                repository.getSearchKeyWord(
+                    keyword, type, country, genre, year1, year2, rating1, rating2, order
+                )
             }.fold(
                 onSuccess = { _movie.value = it },
                 onFailure = { _error.send("К сожалению, по Вашему запросу ничего не найдено") }

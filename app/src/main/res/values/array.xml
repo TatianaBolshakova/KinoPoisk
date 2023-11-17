@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="country_item">
-        <item>Россия</item>
-        <item>Великобритания</item>
-        <item>Германия</item>
-        <item>США</item>
-        <item>Франция</item>
-    </string-array>
-
-    <string-array name="genre_item">
-        <item>Комедия</item>
-        <item>Мелодрама</item>
-        <item>Боевик</item>
-        <item>Вестерн</item>
-        <item>Драма</item>
-    </string-array>
-
 
         <array name="initial_slider_values">
-            <item>2.0</item>
-            <item>7.0</item>
+            <item>0.0</item>
+            <item>10.0</item>
         </array>
+
 
 </resources>
