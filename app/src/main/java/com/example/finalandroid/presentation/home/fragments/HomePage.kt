@@ -104,7 +104,7 @@ class HomePage : Fragment() {
             putInt(ID_FILM, item.kinopoiskId)
             putString(NAME_FILM, item.nameRu)
             putString(URL_FILM, item.posterUrl)
-            putString(GENRE, item.genres[0].genre)
+            putString(GENRE, item.genres.joinToString { genre -> genre.genre })
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }

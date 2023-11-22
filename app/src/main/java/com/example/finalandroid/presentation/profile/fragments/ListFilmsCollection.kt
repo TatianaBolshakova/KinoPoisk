@@ -14,6 +14,7 @@ import com.example.finalandroid.R
 import com.example.finalandroid.data.adapters.IWantToSeeFilmAdapter
 import com.example.finalandroid.data.adapters.LikeFilmAdapter
 import com.example.finalandroid.data.db.App
+import com.example.finalandroid.data.db.CollectionsDao
 import com.example.finalandroid.data.db.IWantToSeeDao
 import com.example.finalandroid.data.db.LikeDao
 import com.example.finalandroid.data.db.entity.IWantToSeeFilms
@@ -36,8 +37,9 @@ class ListFilmsCollection : Fragment() {
     private val vmLikeFilm: AddLikeFilmViewModel by viewModels {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                val dao: LikeDao = (activity?.application as App).db.likeDao()
-                return AddLikeFilmViewModel(dao) as T
+                val likeDao: LikeDao = (activity?.application as App).db.likeDao()
+                val collectionDao: CollectionsDao = (activity?.application as App).db.collectionsDao()
+                return AddLikeFilmViewModel(likeDao, collectionDao) as T
             }
         }
     }

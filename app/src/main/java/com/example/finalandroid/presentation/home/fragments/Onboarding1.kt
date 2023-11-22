@@ -12,7 +12,6 @@ import com.example.finalandroid.databinding.FragmentOnboarding1Binding
 class Onboarding1 : Fragment() {
     private var _binding: FragmentOnboarding1Binding? = null
     private val binding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,7 +26,11 @@ class Onboarding1 : Fragment() {
         binding.textViewNext.setOnClickListener {
             findNavController().navigate(R.id.onboarding2)
         }
+        binding.ellipse2.setOnClickListener {
+            findNavController().navigate(R.id.onboarding2)
+        }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

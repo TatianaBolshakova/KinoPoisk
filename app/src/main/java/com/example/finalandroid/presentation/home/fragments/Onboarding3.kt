@@ -27,7 +27,11 @@ class Onboarding3 : Fragment() {
         binding.textViewNext.setOnClickListener {
             findNavController().navigate(R.id.loader)
         }
+        binding.ellipse2.setOnClickListener {
+            findNavController().navigate(R.id.onboarding2)
+        }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

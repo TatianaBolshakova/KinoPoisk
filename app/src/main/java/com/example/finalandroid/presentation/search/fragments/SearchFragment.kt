@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.core.view.isEmpty
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,6 +15,7 @@ import com.example.finalandroid.data.adapters.SearchMovieAdapter
 import com.example.finalandroid.data.models.Movie
 import com.example.finalandroid.databinding.FragmentSearchBinding
 import com.example.finalandroid.presentation.search.viewmodel.SearchViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -84,18 +85,11 @@ class SearchFragment : Fragment() {
             rating2 = rating2,
             order = order
         )
-        Toast.makeText(
-            requireContext(),
-            "${countryIdArray[0]} -countryIdArray ",
-            Toast.LENGTH_SHORT
-        ).show()
-        Toast.makeText(requireContext(), "${genreIdArray[0]} -genreIdArray ", Toast.LENGTH_SHORT)
-            .show()
+
         binding.recyclerSearchResult.adapter = searchKeyWordAdapter
         vmSearch.movie.onEach {
             searchKeyWordAdapter.setData(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
 
         binding.search.setOnQueryTextListener(object : OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -105,38 +99,36 @@ class SearchFragment : Fragment() {
             override fun onQueryTextChange(keyword: String?): Boolean {
 
                 vmSearch.loadMovie(
-                    keyword.toString(), type, countryIdArray, genreIdArray, year1, year2, rating1, rating2, order
+                    keyword.toString(),
+                    type = type,
+                    country = countryIdArray,
+                    genre = genreIdArray,
+                    year1 = year1,
+                    year2 = year2,
+                    rating1 = rating1,
+                    rating2 = rating2,
+                    order = order
                 )
-                binding.recyclerSearchResult.adapter = searchKeyWordAdapter
-                vmSearch.movie.onEach {
-                    searchKeyWordAdapter.setData(it)
-//                    if (it.isEmpty()){
-//                        binding.textSearchNoResult.text ="К сожалению, по Вашему запросу ничего не найдено"
-//                        binding.textSearchNoResult.visibility = View.VISIBLE
-//                    }
-
-
-                }.launchIn(viewLifecycleOwner.lifecycleScope)
-//                if (binding.recyclerSearchResult.isEmpty()) {
-//                    binding.textSearchNoResult.visibility = View.VISIBLE
-//                }
-//                else {
-//                    binding.textSearchNoResult.visibility = View.GONE
-//                }
-
-//                viewLifecycleOwner.lifecycleScope.launch {
-//                    vmSearchKeyWord.error.collect {
-//                        binding.textSearchNoResult.text = it
-//                        Toast.makeText(requireContext(), "$it = text ", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-
+                binding.apply {
+                    recyclerSearchResult.adapter = searchKeyWordAdapter
+                    vmSearch.movie.onEach {
+                        searchKeyWordAdapter.setData(it)
+                        if (recyclerSearchResult.isEmpty()) {
+                            progress.visibility = View.VISIBLE
+                            delay(1000)
+                            progress.visibility = View.GONE
+                            textSearchNoResult.visibility = View.VISIBLE
+                            textSearchNoResult.text =
+                                "К сожалению, по Вашему запросу ничего не найдено"
+                        } else {
+                            searchKeyWordAdapter.setData(it)
+                            textSearchNoResult.visibility = View.GONE
+                        }
+                    }.launchIn(viewLifecycleOwner.lifecycleScope)
+                }
                 return true
             }
-
         })
-
-
 
         binding.imageButton.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_search_to_filterFragment)
@@ -149,7 +141,7 @@ class SearchFragment : Fragment() {
             putInt(ID_FILM, item.kinopoiskId)
             putString(NAME_FILM, item.nameRu)
             putString(URL_FILM, item.posterUrl)
-            putString(GENRE_FILM, item.genres[0].genre)
+            putString(GENRE_FILM, item.genres?.joinToString { genre -> genre.genre })
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }

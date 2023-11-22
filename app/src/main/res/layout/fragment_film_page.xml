@@ -218,6 +218,18 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/description_2" />
+                <TextView
+                    android:id="@+id/all_actors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="26dp"
+                    android:clickable="true"
+                    android:text="@string/text_all"
+                    android:textColor="@color/my_blue"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/text_actors"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_actors"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_actors"
@@ -243,6 +255,18 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recycler_actors" />
+                <TextView
+                    android:id="@+id/all_worked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="26dp"
+                    android:clickable="true"
+                    android:text="@string/text_all"
+                    android:textColor="@color/my_blue"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/text_worked_on_the_film"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_worked_on_the_film"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_worked_on_the_film"

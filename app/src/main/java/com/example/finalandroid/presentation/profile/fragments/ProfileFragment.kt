@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -18,6 +19,7 @@ import com.example.finalandroid.data.adapters.ViewedFilmsAdapter
 import com.example.finalandroid.data.adapters.WereWonderingFilmsAdapter
 import com.example.finalandroid.data.db.App
 import com.example.finalandroid.data.db.CollectionsDao
+import com.example.finalandroid.data.db.LikeDao
 import com.example.finalandroid.data.db.ViewedDao
 import com.example.finalandroid.data.db.WereWonderingDao
 import com.example.finalandroid.data.db.entity.Collections
@@ -25,21 +27,28 @@ import com.example.finalandroid.data.db.entity.ViewedFilms
 import com.example.finalandroid.data.db.entity.WereWondering
 import com.example.finalandroid.databinding.FragmentProfileBinding
 import com.example.finalandroid.presentation.profile.viewmodel.AddCollectionViewModel
+import com.example.finalandroid.presentation.profile.viewmodel.AddLikeFilmViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddViewedViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddWereWonderingViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 private const val NAME = "name_collection"
 private const val NAME_COLLECTION_LIKE = "Любимые"
 private const val NAME_COLLECTION_I_WANT_TO_SEE = "Хочу посмотреть"
-private const val ID_FILM = "id"
+private const val ID_FILM = "film_id"
 
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private var isDefault = false
+    private var counterViewedValue = 0
+    private var counterLikeValue = 0
+    private var counterIWantToSeeValue = 0
+    private var counterWereWonderingValue = 0
+
     private var pref: SharedPreferences? = null
     private val viewedAdapter = ViewedFilmsAdapter { movie -> onMovieViewedClick(movie) }
     private val wereWonderingAdapter =
@@ -68,6 +77,15 @@ class ProfileFragment : Fragment() {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 val dao: WereWonderingDao = (activity?.application as App).db.wereWonderingDao()
                 return AddWereWonderingViewModel(dao) as T
+            }
+        }
+    }
+    private val vmLikeFilm: AddLikeFilmViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                val likeDao: LikeDao = (activity?.application as App).db.likeDao()
+                val collectionDao: CollectionsDao = (activity?.application as App).db.collectionsDao()
+                return AddLikeFilmViewModel(likeDao, collectionDao) as T
             }
         }
     }
@@ -105,24 +123,35 @@ class ProfileFragment : Fragment() {
         binding.apply {
 
             recyclerViewed.adapter = viewedAdapter
-            vmViewed.allViewedFilms.onEach { viewedAdapter.setData(it) }
+            vmViewed.allViewedFilms.onEach {
+                viewedAdapter.setData(it)
+                counterViewedValue = it.size
+            }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
-            val counterViewedValue = (vmViewed.allViewedFilms.value.size).toString()
-            counterViewed.text = counterViewedValue
+            counterViewed.text = counterViewedValue.toString()
 
             addMyCollections.setOnClickListener { findNavController().navigate(R.id.addCollectionFragment) }
-
 
             recyclerCollections.adapter = collectionAdapter
             vmAddCollection.allCollections.onEach { collectionAdapter.setData(it) }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
 
-            recyclerYouWereWondering.adapter = wereWonderingAdapter
-            vmWondering.allWereWondering.onEach { wereWonderingAdapter.setData(it) }
-                .launchIn(viewLifecycleOwner.lifecycleScope)
-            val counterWereWonderingValue = (vmWondering.allWereWondering.value.size).toString()
-            counterYouWereWondering.text = counterWereWonderingValue
+            lifecycleScope.launch {
+                vmLikeFilm.allSelectedFilm
+                    .collect {
+                        counterLikeValue = it.size
+                    }
+            }
 
+
+
+            recyclerYouWereWondering.adapter = wereWonderingAdapter
+            vmWondering.allWereWondering.onEach {
+                wereWonderingAdapter.setData(it)
+                counterWereWonderingValue =it.size
+            }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+            counterYouWereWondering.text = counterWereWonderingValue.toString()
         }
 
     }
@@ -138,7 +167,7 @@ class ProfileFragment : Fragment() {
         val bundle = Bundle().apply {
             putString(NAME, item.collectionsName)
         }
-        findNavController().navigate(R.id.listFilmsCollection, args = bundle)
+        findNavController().navigate(R.id.action_listFilmsCollection_to_filmPage, args = bundle)
     }
 
     private fun onMovieViewedClick(item: ViewedFilms) {
@@ -154,7 +183,7 @@ class ProfileFragment : Fragment() {
         val bundle = Bundle().apply {
             putInt(ID_FILM, item.wereWonderingFilmId)
         }
-        findNavController().navigate(R.id.filmPage, args = bundle)
+        findNavController().navigate(R.id.action_navigation_profile_to_filmPage, args = bundle)
     }
 
     override fun onDestroyView() {

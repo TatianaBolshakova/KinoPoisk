@@ -23,8 +23,8 @@ interface CollectionsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCollection(collection: Collections): Long
 
-    @Update
-    suspend fun updateCollection(collection: Collections): Int
+    @Query("UPDATE collections SET number_of_elements = number_of_elements+1 ")
+    suspend fun updateCollection()
 
     @Delete
     suspend fun deleteCollection(collection: Collections): Int

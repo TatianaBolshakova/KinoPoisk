@@ -1,6 +1,7 @@
 package com.example.finalandroid.presentation.search.viewmodel
 
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.finalandroid.data.models.Movie
@@ -42,7 +43,7 @@ class SearchViewModel private constructor(
                 )
             }.fold(
                 onSuccess = { _movie.value = it },
-                onFailure = { _error.send("К сожалению, по Вашему запросу ничего не найдено") }
+                onFailure = { Log.d("SearchViewModel", it.message ?: "")}
             )
 
         }

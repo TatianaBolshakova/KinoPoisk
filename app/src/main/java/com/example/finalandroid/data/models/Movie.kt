@@ -1,5 +1,7 @@
 package com.example.finalandroid.data.models
 
+
+import com.example.finalandroid.data.db.entity.ViewedFilms
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -9,7 +11,7 @@ data class Movie(
     @Json(name = "nameRu") val nameRu: String,
     @Json(name = "posterUrl") val posterUrl: String,
     @Json(name = "posterUrlPreview") val posterUrlPreview: String,
-    @Json(name = "genres") val genres: List <Genre>,
+    @Json(name = "genres") val genres: List<Genre>,
     @Json(name = "premiereRu") val premiereRu: String,
     @Json(name = "countries") val countries: List <Country>,
     @Json(name = "rating") val rating: Double,
@@ -18,7 +20,9 @@ data class Movie(
     @Json(name = "filmId") val filmId: Int,
     @Json(name = "imageUrl") val imageUrl: String,
     @Json(name = "type") val type: String
-)
+){
+
+}
 
 @JsonClass(generateAdapter = true)
 data class Genre(

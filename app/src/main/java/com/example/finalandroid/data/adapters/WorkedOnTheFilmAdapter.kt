@@ -1,7 +1,6 @@
 package com.example.finalandroid.data.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,6 +17,7 @@ class WorkedOnTheFilmAdapter(
 ) : RecyclerView.Adapter<ActorsViewHolder>() {
 
     private var data: List<InfoActorsItem> = emptyList()
+    private var dataWorked: List<InfoActorsItem> = emptyList()
 
     fun setData(data: List<InfoActorsItem>) {
         this.data = data
@@ -37,7 +37,6 @@ class WorkedOnTheFilmAdapter(
     override fun onBindViewHolder(holder: ActorsViewHolder, position: Int) {
         val item = data.getOrNull(position)
         with(holder.binding) {
-            if (item?.professionText!="Актеры"){
                 nameText.text = item?.nameRu ?: ""
                 descriptionText.text = item?.professionText ?: ""
                 imageView.isClickable= false
@@ -46,19 +45,11 @@ class WorkedOnTheFilmAdapter(
 
                         .with(imageView.context)
                         .load(it.posterUrl)
-                        .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                      //  .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
                         .placeholder(R.drawable.ic_man)
                         .into(imageView)
 
                 }
-                if (item==null){
-                    nameText.visibility = View.GONE
-                    descriptionText.visibility = View.GONE
-                    imageView.visibility = View.GONE
-                }
-            }
-
-
         }
         holder.binding.root.setOnClickListener {
             item?.let {
@@ -67,5 +58,11 @@ class WorkedOnTheFilmAdapter(
         }
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int{
+        data.toMutableList()
+        dataWorked= data.filter { infoActorsItem ->
+            infoActorsItem.professionKey!="ACTOR"
+        }
+        return dataWorked.size
+    }
 }

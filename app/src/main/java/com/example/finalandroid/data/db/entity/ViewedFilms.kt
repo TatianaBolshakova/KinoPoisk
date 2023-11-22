@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "viewed_films")
-data class ViewedFilms (
+class ViewedFilms(
     @PrimaryKey
     @ColumnInfo(name = "viewed_film_id")
     val viewedFilmId: Int,
@@ -13,6 +13,6 @@ data class ViewedFilms (
     val nameFilm: String,
     @ColumnInfo(name = "url_film")
     val urlFilm: String,
-    @ColumnInfo(name = "genre")
-    val genre: String
+    @ColumnInfo(name = "genres")
+    val genres: String
 )

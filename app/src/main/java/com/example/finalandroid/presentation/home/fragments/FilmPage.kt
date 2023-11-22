@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.setViewTreeOnBackPressedDispatcherOwner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -34,8 +35,6 @@ import com.example.finalandroid.presentation.home.viewmodel.ActorsViewModel
 import com.example.finalandroid.presentation.home.viewmodel.FilmViewModel
 import com.example.finalandroid.presentation.home.viewmodel.ImagesViewModel
 import com.example.finalandroid.presentation.home.viewmodel.SimilarsViewModel
-import com.example.finalandroid.presentation.profile.fragments.AddCollectionFragment
-import com.example.finalandroid.presentation.profile.viewmodel.AddCollectionViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddLikeFilmViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddIWantToSeeViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddViewedViewModel
@@ -51,6 +50,10 @@ private const val ITEM_IMAGE = "item_image"
 private const val NAME_FILM = "name_film"
 private const val URL_FILM = "url_film"
 private const val GENRE = "genre"
+private const val NAME = "name"
+private const val ALL_ACTORS = "Все актеры фильма"
+private const val WORKED_ON_THE_FILM = "Над фильмом работали"
+
 
 class FilmPage : Fragment() {
 
@@ -60,8 +63,10 @@ class FilmPage : Fragment() {
     private val vmAddFilm: AddLikeFilmViewModel by viewModels {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                val dao: LikeDao = (activity?.application as App).db.likeDao()
-                return AddLikeFilmViewModel(dao) as T
+                val likeDao: LikeDao = (activity?.application as App).db.likeDao()
+                val collectionDao: CollectionsDao =
+                    (activity?.application as App).db.collectionsDao()
+                return AddLikeFilmViewModel(likeDao, collectionDao) as T
             }
         }
     }
@@ -106,6 +111,7 @@ class FilmPage : Fragment() {
     private val similarsAdapter = SimilarsAdapter { movie -> onMovieClick(movie) }
     private var isLike: Boolean = false
     private var isIWantToSee: Boolean = false
+    private var isViewed: Boolean = false
     private var pref: SharedPreferences? = null
     private var id = 0
     private var nameFilm = ""
@@ -118,7 +124,6 @@ class FilmPage : Fragment() {
             id = it.getInt(ID_FILM)
             nameFilm = it.getString(NAME_FILM).toString()
             urlFilm = it.getString(URL_FILM).toString()
-            genre = it.getString(GENRE).toString()
         }
     }
 
@@ -132,7 +137,7 @@ class FilmPage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        vmFilm.loadInfo(id)
         vmWondering.addWereWondering(
             wereWonderingFilmId = id,
             nameFilm = nameFilm,
@@ -156,28 +161,19 @@ class FilmPage : Fragment() {
         } else {
             binding.iWantToSee.setImageResource(R.drawable.ic_i_want_to_see)
         }
+        val valueViewed = pref?.getBoolean("Viewed $id", false)!!
+        if (isViewed != valueViewed) {
+            binding.addAlreadyViewed.setImageResource(R.drawable.ic_visibility)
+        } else {
+            binding.addAlreadyViewed.setImageResource(R.drawable.already_viewed)
+        }
 
-
-        vmFilm.loadInfo(id)
         with(binding) {
             lifecycleScope.launch {
                 vmFilm.info
                     .collect {
-                        val genreFirst = it?.genres?.first()?.genre
-                        var genreLast = it?.genres?.last()?.genre
-                        if (genreFirst == genreLast) {
-                            genreLast = ""
-                        }
-                        val countryFifst = it?.countries?.first()?.country
-                        var countryLast = it?.countries?.last()?.country
-                        if (countryFifst == countryLast) {
-                            countryLast = ""
-                        }
-                        it?.genres?.last()?.genre
-                        val textInfo = "" +
-                                "${it?.ratingKinopoisk} ${it?.nameRu} \n " +
-                                "${it?.year}, $genreFirst, $genreLast \n " +
-                                "$countryFifst, $countryLast ${it?.filmLength} min, ${it?.ratingAgeLimits}+"
+                        val textInfo =
+                            "${it?.ratingKinopoisk} ${it?.nameRu} \n${it?.year}, ${it?.genres?.joinToString { genre -> genre.genre }}, \n ${it?.countries?.joinToString { country -> country.country }}, ${it?.filmLength} min, ${it?.ratingAgeLimits}+"
                         info.text = textInfo
 
                         description1.text = it?.description
@@ -193,17 +189,43 @@ class FilmPage : Fragment() {
                     }
             }
         }
-        binding.iconBack.setOnClickListener { findNavController().navigate(R.id.homePage) }
+        binding.iconBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
         vmActors.loadInfo(id)
+        binding.apply {
+            recyclerActors.adapter = actorsAdapter
+            vmActors.actors.onEach {
+                actorsAdapter.setData(it)
+                allActors.text = actorsAdapter.itemCount.toString()
+            }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+            allActors.setOnClickListener {
+                val bundle = Bundle().apply {
+                    putString(NAME, ALL_ACTORS)
+                    putInt(ID_FILM, id)
+                }
+                findNavController().navigate(R.id.listFilms, args = bundle)
+            }
+        }
 
-        binding.recyclerActors.adapter = actorsAdapter
-        vmActors.actors.onEach { actorsAdapter.setData(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+        binding.apply {
+            recyclerWorkedOnTheFilm.adapter = workedOnTheFilmAdapter
+            vmActors.actors.onEach {
+                workedOnTheFilmAdapter.setData(it)
+                allWorked.text = it.size.toString()
+            }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+            allWorked.setOnClickListener{
+                val bundle = Bundle().apply {
+                    putString(NAME, WORKED_ON_THE_FILM)
+                    putInt(ID_FILM, id)
+                }
+                findNavController().navigate(R.id.listFilms, args = bundle)
+            }
+        }
 
-        binding.recyclerWorkedOnTheFilm.adapter = workedOnTheFilmAdapter
-        vmActors.actors.onEach { workedOnTheFilmAdapter.setData(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         vmImages.loadInfo(id)
         binding.recyclerImages.adapter = imagesAdapter
@@ -222,16 +244,20 @@ class FilmPage : Fragment() {
                     viewedFilmId = id,
                     nameFilm = nameFilm,
                     urlFilm = urlFilm,
-                    genre = genre
+                    genres = genre
                 )
+                binding.addAlreadyViewed.setImageResource(R.drawable.ic_visibility)
+                saveViewedBoolean(true)
             }
             frameAddAlreadyViewed.setOnClickListener {
                 vmViewed.addViewed(
                     viewedFilmId = id,
                     nameFilm = nameFilm,
                     urlFilm = urlFilm,
-                    genre = genre
+                    genres = genre
                 )
+                binding.addAlreadyViewed.setImageResource(R.drawable.ic_visibility)
+                saveViewedBoolean(true)
             }
             frameAddLike.setOnClickListener {
                 if (isLike == valueLike) {
@@ -297,6 +323,12 @@ class FilmPage : Fragment() {
     private fun saveIWantTiSeeBoolean(result: Boolean) {
         val editor = pref?.edit()
         editor?.putBoolean("I want to see $id", result)
+        editor?.apply()
+    }
+
+    private fun saveViewedBoolean(result: Boolean) {
+        val editor = pref?.edit()
+        editor?.putBoolean("Viewed $id", result)
         editor?.apply()
     }
 

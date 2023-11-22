@@ -3,6 +3,7 @@ package com.example.finalandroid.data.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.finalandroid.data.models.InfoActorsItem
 import com.example.finalandroid.data.models.Movie
 import com.example.finalandroid.data.viewholders.BestFilmViewHolder
 import com.example.finalandroid.databinding.BestFilmItemBinding
@@ -13,7 +14,7 @@ class ActorFilmBestAdapter(
 ) : RecyclerView.Adapter<BestFilmViewHolder>() {
 
     private var data: List<Movie> = emptyList()
-
+    private var dataBest: List<Movie> = emptyList()
     fun setData(data: List<Movie>) {
         this.data = data
         notifyDataSetChanged()
@@ -32,10 +33,11 @@ class ActorFilmBestAdapter(
     override fun onBindViewHolder(holder: BestFilmViewHolder, position: Int) {
         val item = data.getOrNull(position)
         with(holder.binding) {
-            if (item?.rating!! >= 7.0){
-                titleText.text = item.nameRu
-                textRating.text = item.rating.toString()
-            }
+           // if (item?.rating!=null&& item.rating >= 7.0){
+                titleText.text = item?.nameRu?:""
+                textRating.text = item?.rating?.toString()?:""
+            //genreText.text = item.genres.joinToString { it.genre }?:"Жанр не указан"
+           // }
         }
         holder.binding.root.setOnClickListener {
             item?.let {
@@ -44,7 +46,14 @@ class ActorFilmBestAdapter(
         }
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int{
+        data.toMutableList()
+        dataBest= data.filter {movie->
+            movie.rating.toString() == "8.0"
+        }
+        return dataBest.size
+    }
+
 }
 
 

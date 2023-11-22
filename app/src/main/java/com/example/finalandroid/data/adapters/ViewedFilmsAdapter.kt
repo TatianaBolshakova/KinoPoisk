@@ -38,7 +38,8 @@ class ViewedFilmsAdapter(
 
         with(holder.binding) {
             titleText.text = item?.nameFilm
-            genresText.text = item?.genre
+            genresText.text = item?.genres
+            imageView.isClickable= false
 
             item?.let {
                 Glide.with(imageView.context)
@@ -54,6 +55,8 @@ class ViewedFilmsAdapter(
             }
         }
     }
+
+
 
     override fun getItemCount(): Int = data.size
 }

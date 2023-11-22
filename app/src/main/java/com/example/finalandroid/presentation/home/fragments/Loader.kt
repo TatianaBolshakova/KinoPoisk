@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.finalandroid.R
 import com.example.finalandroid.databinding.FragmentLoaderBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class Loader : Fragment() {
 
@@ -25,9 +28,13 @@ class Loader : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.textViewNext.setOnClickListener {
-            findNavController().navigate(R.id.homePage)
+        lifecycleScope.launch {
+            next()
         }
+    }
+    suspend fun next(){
+        delay(3000)
+        findNavController().navigate(R.id.homePage)
     }
     override fun onDestroyView() {
         super.onDestroyView()

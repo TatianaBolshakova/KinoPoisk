@@ -16,5 +16,7 @@ interface ViewedDao {
 
     @Query("DELETE FROM viewed_films")
     suspend fun delete()
+//    @Query("UPDATE viewed_films SET numberOfRepetitions = numberOfRepetitions+1 ")
+//    suspend fun update()
 
 }

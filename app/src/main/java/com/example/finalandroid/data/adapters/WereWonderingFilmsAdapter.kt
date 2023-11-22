@@ -41,6 +41,7 @@ class WereWonderingFilmsAdapter(
 
             titleText.text = item?.nameFilm
             genresText.text = item?.genre
+            imageView.isClickable= false
 
             item?.let {
                 Glide.with(imageView.context)

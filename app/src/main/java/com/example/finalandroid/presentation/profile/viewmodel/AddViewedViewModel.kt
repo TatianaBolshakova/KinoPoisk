@@ -22,18 +22,17 @@ class AddViewedViewModel constructor(
         )
 
 
-    fun addViewed(viewedFilmId: Int, nameFilm: String, urlFilm: String, genre: String) {
+    fun addViewed(viewedFilmId: Int, nameFilm: String, urlFilm: String, genres:String) {
         viewModelScope.launch {
             dao.insert(
                 ViewedFilms(
                     viewedFilmId = viewedFilmId,
                     nameFilm = nameFilm,
                     urlFilm = urlFilm,
-                    genre = genre
+                    genres = genres
 
                 )
             )
         }
     }
-
 }

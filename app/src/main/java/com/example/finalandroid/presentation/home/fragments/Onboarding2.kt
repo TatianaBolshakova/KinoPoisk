@@ -24,9 +24,15 @@ class Onboarding2 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.textViewNext.setOnClickListener {
-            findNavController().navigate(R.id.onboarding3)
-        }
+           binding.textViewNext.setOnClickListener {
+               findNavController().navigate(R.id.onboarding3)
+           }
+           binding.ellipse1.setOnClickListener {
+               findNavController().navigate(R.id.onboarding1)
+           }
+           binding.ellipse3.setOnClickListener {
+               findNavController().navigate(R.id.onboarding3)
+           }
     }
 
     override fun onDestroyView() {

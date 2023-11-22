@@ -32,13 +32,13 @@ class ActorPage : Fragment() {
     private var idFilm: Int = 0
     private val vmActor: ActorViewModel by viewModels()
     private val vmActorFilm: ActorFilmViewModel by viewModels()
-    private val filmActorAdapter = ActorFilmBestAdapter { film -> onItemClick(film) }
+    private val filmBestAdapter = ActorFilmBestAdapter { film -> onItemClick(film) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            idActor = it.getInt(com.example.finalandroid.presentation.home.fragments.ID_ACTOR)
-            idFilm = it.getInt(com.example.finalandroid.presentation.home.fragments.ID_FILM)
+            idActor = it.getInt(ID_ACTOR)
+            idFilm = it.getInt(ID_FILM)
         }
     }
 
@@ -68,24 +68,24 @@ class ActorPage : Fragment() {
         }
 
         binding.iconBack.setOnClickListener {
-            val bundle = Bundle().apply {
-                putInt(com.example.finalandroid.presentation.home.fragments.ID_FILM, idFilm)
-            }
-            findNavController().navigate(R.id.filmPage, args = bundle) }
+            findNavController().popBackStack() }
 
         vmActorFilm.loadInfo(idActor)
-        binding.recyclerBest.adapter = filmActorAdapter
-        vmActorFilm.actor.onEach { filmActorAdapter.setData(it) }.launchIn(viewLifecycleOwner.lifecycleScope)
+        binding.recyclerBest.adapter = filmBestAdapter
+        vmActorFilm.actor.onEach {
+            filmBestAdapter.setData(it)
+            binding.all.text = it.size.toString()
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.list.setOnClickListener {
             val bundle = Bundle().apply {
-                putInt(com.example.finalandroid.presentation.home.fragments.ID_ACTOR, idActor)
+                putInt(ID_ACTOR, idActor)
             }
-            findNavController().navigate(R.id.filmography) }
+            findNavController().navigate(R.id.filmography, args = bundle) }
     }
     private fun onItemClick(item: Movie) {
         val bundle = Bundle().apply {
-            putInt(com.example.finalandroid.presentation.home.fragments.ID_FILM, item.filmId)
+            putInt(ID_FILM, item.filmId)
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }

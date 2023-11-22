@@ -1,6 +1,5 @@
 package com.example.finalandroid.presentation.profile.fragments
 
-import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -39,9 +38,9 @@ import com.example.finalandroid.presentation.profile.viewmodel.AddCollectionView
                 name = binding.enterNameCollection.text.toString(),
                 icon = R.drawable.my_collection,
             )
-            findNavController().navigate(R.id.navigation_profile)}
+            findNavController().popBackStack()}
         binding.iconBack.setOnClickListener {
-            findNavController().navigate(R.id.navigation_profile)
+            findNavController().popBackStack()
         }
     }
     override fun onCreateView(
