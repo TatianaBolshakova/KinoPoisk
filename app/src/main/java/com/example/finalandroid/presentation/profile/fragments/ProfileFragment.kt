@@ -167,7 +167,7 @@ class ProfileFragment : Fragment() {
         val bundle = Bundle().apply {
             putString(NAME, item.collectionsName)
         }
-        findNavController().navigate(R.id.action_listFilmsCollection_to_filmPage, args = bundle)
+        findNavController().navigate(R.id.listFilmsCollection, args = bundle)
     }
 
     private fun onMovieViewedClick(item: ViewedFilms) {

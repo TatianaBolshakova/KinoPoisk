@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.finalandroid.R
+import com.example.finalandroid.data.adapters.ActorFilmAllAdapter
 import com.example.finalandroid.data.adapters.ActorFilmBestAdapter
 import com.example.finalandroid.data.models.Movie
 import com.example.finalandroid.databinding.FragmentActorPageBinding
@@ -22,7 +23,11 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 private const val ID_ACTOR = "actor_id"
+private const val NAME_ACTOR = "name_actor"
 private const val ID_FILM = "film_id"
+private const val NAME_PAGE = "Name page"
+private const val BEST = "Лучшее"
+private const val FILMOGRAPHY = "Фильмография"
 
 class ActorPage : Fragment() {
 
@@ -30,10 +35,11 @@ class ActorPage : Fragment() {
     private val binding get() = _binding!!
     private var idActor: Int = 0
     private var idFilm: Int = 0
+    private var nameActor:String = ""
     private val vmActor: ActorViewModel by viewModels()
     private val vmActorFilm: ActorFilmViewModel by viewModels()
     private val filmBestAdapter = ActorFilmBestAdapter { film -> onItemClick(film) }
-
+    private val filmAllAdapter = ActorFilmAllAdapter{ film -> onItemClick(film) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -57,7 +63,8 @@ class ActorPage : Fragment() {
         lifecycleScope.launch {
             vmActor.actor
                 .collect {
-                    binding.nameActors.text = it?.nameRu
+                    nameActor = it?.nameRu.toString()
+                    binding.nameActors.text = nameActor
                     binding.prof.text = it?.profession
 
                     Glide.with(this@ActorPage)
@@ -74,15 +81,41 @@ class ActorPage : Fragment() {
         binding.recyclerBest.adapter = filmBestAdapter
         vmActorFilm.actor.onEach {
             filmBestAdapter.setData(it)
-            binding.all.text = it.size.toString()
+            binding.all.text = filmBestAdapter.itemCount.toString()
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        binding.all.setOnClickListener {
+            val bundle = Bundle().apply {
+                putInt(ID_ACTOR, idActor)
+                putString(NAME_ACTOR,nameActor )
+                putString(NAME_PAGE, BEST )
+            }
+            findNavController().navigate(R.id.name_page, args = bundle) }
+
+
+
+        binding.recyclerAllFilmActor.adapter = filmAllAdapter
+        vmActorFilm.actor.onEach {
+            filmAllAdapter.setData(it)
+            binding.list.text = it.size.toString()
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.list.setOnClickListener {
             val bundle = Bundle().apply {
                 putInt(ID_ACTOR, idActor)
+                putString(NAME_ACTOR,nameActor )
+                putString(NAME_PAGE, FILMOGRAPHY )
             }
-            findNavController().navigate(R.id.filmography, args = bundle) }
+            findNavController().navigate(R.id.name_page, args = bundle) }
+
+
+
     }
+
+
+
+
+
     private fun onItemClick(item: Movie) {
         val bundle = Bundle().apply {
             putInt(ID_FILM, item.filmId)

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.home.fragments.FilmPage">
+    tools:context=".presentation.home.fragments.ActorPage">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -63,6 +63,7 @@
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/image_actors"
                 app:layout_constraintTop_toBottomOf="@+id/name_actors" />
+
             <TextView
                 android:id="@+id/best"
                 android:layout_width="wrap_content"
@@ -101,17 +102,13 @@
                 android:layout_marginTop="24dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/best"
-                app:layout_constraintVertical_bias="0.0"
+                app:spanCount="2"
                 tools:listitem="@layout/best_film_item" />
 
             <TextView
-                android:id="@+id/filmography"
+                android:id="@+id/name_page"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -127,6 +124,7 @@
                 app:layout_constraintVertical_bias="0"
 
                 />
+
             <TextView
                 android:id="@+id/list"
                 android:layout_width="wrap_content"
@@ -136,10 +134,21 @@
                 android:text="@string/text_list"
                 android:textColor="@color/my_blue"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/filmography"
+                app:layout_constraintBottom_toBottomOf="@+id/name_page"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/filmography" />
+                app:layout_constraintTop_toTopOf="@+id/name_page" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_all_film_actor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/name_page"
+                app:spanCount="2"
+                tools:listitem="@layout/best_film_item" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

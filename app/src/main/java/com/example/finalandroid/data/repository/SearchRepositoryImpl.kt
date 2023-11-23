@@ -17,7 +17,7 @@ class SearchRepositoryImpl : SearchRepository {
         rating2: Int,
         order: String
     ): List<Movie> {
-        return retrofit.getSearchKeyWord(
+        return retrofit.getSearch(
             keyword = keyword,
             countries = country,
            genres = genre,

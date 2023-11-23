@@ -1,17 +1,20 @@
 package com.example.finalandroid.data.api
 
-import com.example.finalandroid.data.models.Country
+import android.provider.MediaStore
 import com.example.finalandroid.data.models.Images
 import com.example.finalandroid.data.models.InfoActorItem
 import com.example.finalandroid.data.models.InfoActorsItem
 import com.example.finalandroid.data.models.InfoMovie
+import com.example.finalandroid.data.models.Item
 import com.example.finalandroid.data.models.ListIdAndCountries
 import com.example.finalandroid.data.models.MovieList
 import com.example.finalandroid.data.models.SimilarFilms
+import com.example.finalandroid.data.models.Video
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
@@ -92,29 +95,29 @@ interface MovieListApi {
         @Query("imdbId") imdbId: String
     ): MovieList
 
-    // Поиск Filter
     @Headers("X-API-KEY: $api_key")
-    @GET("/api/v2.2/films")
-    suspend fun getSearchFilter(
-        @Query("countries") countries: Array<Int>,//???
-        @Query("genres") genres: Array<Int>,//???
-        @Query("order") order: String = "RATING",
-        @Query("type") type: String = "ALL",
-        @Query("ratingFrom") ratingFrom: Int = 0,
-        @Query("ratingTo") ratingTo: Int = 10,
-        @Query("yearFrom") yearFrom: Int = 1000,
-        @Query("yearTo") yearTo: Int = 3000,
-        @Query("imdbId") imdbId: String = "imdbId",
-        @Query("page") page: Int = 1,
-    ): MovieList
+    @GET("/api/v2.2/films/{id}/videos")
+    suspend fun video(
+        @Path("id") id: Int
+    ): Video
 
-    // Поиск KeyWord
+   // @Headers("X-API-KEY: AIzaSyB8tEEjNA6hbv67rxvRVWHT_LTWKOVsCL8")
+    @Headers("Content-Type: application/json")
+    @GET("{url}")
+    suspend fun videoPlay(
+        @Path("url") url: String
+    )
+
+
+
+
+    // Поиск
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v2.2/films")
-    suspend fun getSearchKeyWord(
+    suspend fun getSearch(
         @Query("keyword") keyword: String = "keyword",
-        @Query("countries") countries: Array<Int> = arrayOf(1),//???
-        @Query("genres") genres: Array<Int> = arrayOf(1),//???
+        @Query("countries") countries: Array<Int> = arrayOf(1),
+        @Query("genres") genres: Array<Int> = arrayOf(1),
         @Query("order") order: String = "RATING",
         @Query("type") type: String = "ALL",
         @Query("ratingFrom") ratingFrom: Int = 0,
@@ -126,8 +129,8 @@ interface MovieListApi {
 
 
     private companion object {
-       // private const val api_key = "51379e98-b7c3-4b66-be90-8da65604f1b7"
-        private const val api_key = "7d439c2f-5cb6-4448-96e1-1fc7ba004253" // key 2
+        private const val api_key = "51379e98-b7c3-4b66-be90-8da65604f1b7"
+       // private const val api_key = "7d439c2f-5cb6-4448-96e1-1fc7ba004253" // key 2
     }
 }
 
@@ -143,10 +146,10 @@ val retrofit = Retrofit
     .build()
     .create(MovieListApi::class.java)
 
-//object RetrofitInstance {
-//    private val retrofit = Retrofit.Builder()
-//        .baseUrl(BASE_URL)
-//        .addConverterFactory(MoshiConverterFactory.create())
-//        .build()
-//    val getApi = retrofit.create(MovieListApi::class.java)
-//}
+
+     val retrofitX = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(MoshiConverterFactory.create().asLenient())
+        .build()
+        .create(MovieListApi::class.java)
+   //val getApi = retrofitX.create(MovieListApi::class.java)

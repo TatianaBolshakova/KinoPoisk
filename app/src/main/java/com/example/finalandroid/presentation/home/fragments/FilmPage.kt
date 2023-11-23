@@ -24,6 +24,8 @@ import com.example.finalandroid.data.models.InfoActorsItem
 import com.example.finalandroid.data.models.Items
 import com.example.finalandroid.data.models.Movie
 import com.example.finalandroid.data.adapters.SimilarsAdapter
+import com.example.finalandroid.data.api.retrofit
+import com.example.finalandroid.data.api.retrofitX
 import com.example.finalandroid.databinding.FragmentFilmPageBinding
 import com.example.finalandroid.data.db.App
 import com.example.finalandroid.data.db.CollectionsDao
@@ -35,11 +37,13 @@ import com.example.finalandroid.presentation.home.viewmodel.ActorsViewModel
 import com.example.finalandroid.presentation.home.viewmodel.FilmViewModel
 import com.example.finalandroid.presentation.home.viewmodel.ImagesViewModel
 import com.example.finalandroid.presentation.home.viewmodel.SimilarsViewModel
+import com.example.finalandroid.presentation.home.viewmodel.VideoViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddLikeFilmViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddIWantToSeeViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddViewedViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddWereWonderingViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.ListNameCollectionViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -105,6 +109,7 @@ class FilmPage : Fragment() {
     private val vmActors: ActorsViewModel by viewModels()
     private val vmImages: ImagesViewModel by viewModels()
     private val vmSimilars: SimilarsViewModel by viewModels()
+    private val vmVideo: VideoViewModel by viewModels()
     private val actorsAdapter = ActorsAdapter { actors -> onItemClick(actors) }
     private val workedOnTheFilmAdapter = WorkedOnTheFilmAdapter { actors -> onItemClick(actors) }
     private val imagesAdapter = ImagesAdapter { images -> onImageClick(images) }
@@ -217,7 +222,7 @@ class FilmPage : Fragment() {
                 allWorked.text = it.size.toString()
             }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
-            allWorked.setOnClickListener{
+            allWorked.setOnClickListener {
                 val bundle = Bundle().apply {
                     putString(NAME, WORKED_ON_THE_FILM)
                     putInt(ID_FILM, id)
@@ -237,9 +242,19 @@ class FilmPage : Fragment() {
         vmSimilars.movie.onEach { similarsAdapter.setData(it) }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-
+        vmVideo.loadInfo(id)
         binding.apply {
             imagePlay.setOnClickListener {
+                lifecycleScope.launch {
+                    vmVideo.info.collect {
+                      // val x =  it.joinToString { it.url }
+                        val x =  it[0].url
+
+                        Toast.makeText(requireContext(), "${x} -url ", Toast.LENGTH_SHORT).show()
+                        retrofitX.videoPlay(x)
+
+                    }
+                }
                 vmViewed.addViewed(
                     viewedFilmId = id,
                     nameFilm = nameFilm,

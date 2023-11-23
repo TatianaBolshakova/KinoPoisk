@@ -94,7 +94,7 @@
             app:destination="@id/filmPage" />
         <action
             android:id="@+id/action_actorPage_to_filmography"
-            app:destination="@id/filmography" />
+            app:destination="@id/name_page" />
     </fragment>
     <fragment
         android:id="@+id/imagePage"
@@ -102,7 +102,7 @@
         android:label="fragment_image_page"
         tools:layout="@layout/fragment_image_page" />
     <fragment
-        android:id="@+id/filmography"
+        android:id="@+id/name_page"
         android:name="com.example.finalandroid.presentation.home.fragments.Filmography"
         android:label="fragment_filmography"
         tools:layout="@layout/fragment_filmography">

@@ -38,6 +38,7 @@ class LikeFilmAdapter(
         with(holder.binding) {
 
             titleText.text = item?.nameFilm
+            genresText.text = item?.genre
 
             item?.let {
                 Glide

@@ -15,7 +15,7 @@ class ActorsAdapter(
 ) : RecyclerView.Adapter<ActorsViewHolder>() {
 
     private var data: List<InfoActorsItem> = emptyList()
-    private var dataActor: List<InfoActorsItem> = emptyList()
+
     fun setData(data: List<InfoActorsItem>) {
         this.data = data
 
@@ -62,11 +62,10 @@ class ActorsAdapter(
     }
 
     override fun getItemCount(): Int{
-        data.toMutableList()
-        dataActor= data.filter { infoActorsItem ->
+        data= data.filter { infoActorsItem ->
             infoActorsItem.professionKey=="ACTOR"
         }
-        return dataActor.size
+        return data.size
     }
 }
 

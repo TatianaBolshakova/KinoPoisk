@@ -17,7 +17,6 @@ class WorkedOnTheFilmAdapter(
 ) : RecyclerView.Adapter<ActorsViewHolder>() {
 
     private var data: List<InfoActorsItem> = emptyList()
-    private var dataWorked: List<InfoActorsItem> = emptyList()
 
     fun setData(data: List<InfoActorsItem>) {
         this.data = data
@@ -45,7 +44,6 @@ class WorkedOnTheFilmAdapter(
 
                         .with(imageView.context)
                         .load(it.posterUrl)
-                      //  .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
                         .placeholder(R.drawable.ic_man)
                         .into(imageView)
 
@@ -59,10 +57,9 @@ class WorkedOnTheFilmAdapter(
     }
 
     override fun getItemCount(): Int{
-        data.toMutableList()
-        dataWorked= data.filter { infoActorsItem ->
+        data= data.filter { infoActorsItem ->
             infoActorsItem.professionKey!="ACTOR"
         }
-        return dataWorked.size
+        return data.size
     }
 }

@@ -19,7 +19,9 @@ data class Movie(
     @Json(name = "ratingImdb") val ratingImdb: Double,
     @Json(name = "filmId") val filmId: Int,
     @Json(name = "imageUrl") val imageUrl: String,
-    @Json(name = "type") val type: String
+    @Json(name = "type") val type: String,
+    @Json(name = "professionKey") val professionKey: String
+
 ){
 
 }
