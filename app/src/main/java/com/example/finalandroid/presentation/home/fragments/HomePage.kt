@@ -6,21 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.finalandroid.R
 import com.example.finalandroid.data.models.Movie
-import com.example.finalandroid.data.adapters.MovieAdapter
-import com.example.finalandroid.data.db.App
-import com.example.finalandroid.data.db.WereWonderingDao
+import com.example.finalandroid.data.adapters.MoviePagedListAdapter
 import com.example.finalandroid.databinding.FragmentHomePageBinding
 import com.example.finalandroid.presentation.home.viewmodel.PremiersViewModel
 import com.example.finalandroid.presentation.home.viewmodel.RandomTypeViewModel
 import com.example.finalandroid.presentation.home.viewmodel.ThrillersViewModel
 import com.example.finalandroid.presentation.home.viewmodel.TopMovieViewModel
-import com.example.finalandroid.presentation.profile.viewmodel.AddWereWonderingViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -31,6 +26,8 @@ private const val GENRE = "genre"
 private const val NAME = "name"
 private const val NAME_PREMIERS = "Премьеры"
 private const val NAME_THRILLERS = "Триллеры"
+private const val TOP_250_RU = "ТОП 250 ЛУЧШИХ ФИЛЬМОВ"
+private const val RANDOM_TYPE = "Случайная подборка фильмов"
 
 class HomePage : Fragment() {
 
@@ -42,10 +39,11 @@ class HomePage : Fragment() {
     private val vmRandomType: RandomTypeViewModel by viewModels()
     private val vmTop: TopMovieViewModel by viewModels()
 
-    private val premiersAdapter = MovieAdapter { movie -> onItemClick(movie) }
-    private val thrillersAdapter = MovieAdapter { movie -> onItemClick(movie) }
-    private val randomTypeAdapter = MovieAdapter { movie -> onItemClick(movie) }
-    private val topMovieAdapter = MovieAdapter { movie -> onItemTopClick(movie) }
+    private val premiersAdapter = MoviePagedListAdapter { movie -> onItemClick(movie) }
+    private val thrillersAdapter = MoviePagedListAdapter { movie -> onItemClick(movie) }
+    private val randomTypeAdapter = MoviePagedListAdapter { movie -> onItemClick(movie) }
+    private val topMovieAdapter = MoviePagedListAdapter { movie -> onItemTopClick(movie) }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,20 +61,16 @@ class HomePage : Fragment() {
             recyclerTvSeries.adapter = randomTypeAdapter
             recyclerTop.adapter = topMovieAdapter
         }
-        val nameRandomType = vmRandomType.nameRandomType
-        val nameRandomTop = vmTop.nameRandomTop
-        vmTop.loadMovie()
-        binding.tvSeries.text = nameRandomType
-        binding.topList.text = vmTop.nameRandomTop
+        //val nameRandomType = vmRandomType.nameRandomType
 
-        vmPremiers.movie.onEach { premiersAdapter.setData(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-        vmThrillers.movie.onEach { thrillersAdapter.setData(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-        vmRandomType.movie.onEach { randomTypeAdapter.setData(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
-        vmTop.movie.onEach { topMovieAdapter.setData(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+        binding.tvSeries.text = RANDOM_TYPE
+        binding.topList.text =TOP_250_RU
+
+        vmPremiers.pagedMovies.onEach { premiersAdapter.submitData(it)}.launchIn(viewLifecycleOwner.lifecycleScope)
+        vmThrillers.pagedMovies.onEach { thrillersAdapter.submitData(it)}.launchIn(viewLifecycleOwner.lifecycleScope)
+        vmRandomType.pagedMovies.onEach { randomTypeAdapter.submitData(it) }.launchIn(viewLifecycleOwner.lifecycleScope)
+        vmTop.pagedMovies.onEach { topMovieAdapter.submitData(it)}.launchIn(viewLifecycleOwner.lifecycleScope)
+
         binding.apply {
             allPremiers.setOnClickListener {
                 val bundle = Bundle().apply { putString(NAME, NAME_PREMIERS) }
@@ -87,12 +81,12 @@ class HomePage : Fragment() {
                 findNavController().navigate(R.id.listFilms, args = bundle)
             }
             allTopList.setOnClickListener {
-                val bundle = Bundle().apply { putString(NAME, nameRandomTop) }
+                val bundle = Bundle().apply { putString(NAME, TOP_250_RU) }
                 findNavController().navigate(R.id.listFilms, args = bundle)
             }
 
             allTvSeries.setOnClickListener {
-                val bundle = Bundle().apply { putString(NAME, nameRandomType) }
+                val bundle = Bundle().apply { putString(NAME, RANDOM_TYPE) }
                 findNavController().navigate(R.id.listFilms, args = bundle)
             }
         }

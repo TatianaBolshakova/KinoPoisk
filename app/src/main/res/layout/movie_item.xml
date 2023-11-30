@@ -80,6 +80,8 @@
             android:layout_height="wrap_content"
             android:text="@string/genres_movie"
             android:textSize="12sp"
+            android:ellipsize="end"
+            android:lines="2"
             app:layout_constraintEnd_toEndOf="@+id/titleText"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="@+id/titleText"

@@ -5,5 +5,5 @@ import com.example.finalandroid.data.models.Movie
 
 interface TopMovieRepository {
 
-    suspend fun getTopMovie(type: String):List<Movie>
+    suspend fun getTopMovie(type: String, page: Int):List<Movie>
 }

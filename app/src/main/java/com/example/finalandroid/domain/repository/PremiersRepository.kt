@@ -5,6 +5,6 @@ import com.example.finalandroid.data.models.Movie
 
 interface PremiersRepository{
 
-    suspend fun getMoviePremiers(year: Int, month: String):List<Movie>
+    suspend fun getMoviePremiers(year: Int, month: String, page: Int):List<Movie>
 
 }

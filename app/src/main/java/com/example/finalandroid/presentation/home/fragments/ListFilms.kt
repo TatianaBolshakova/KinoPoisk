@@ -13,6 +13,8 @@ import com.example.finalandroid.R
 import com.example.finalandroid.data.adapters.ActorsAdapter
 import com.example.finalandroid.data.models.Movie
 import com.example.finalandroid.data.adapters.MovieAdapter
+import com.example.finalandroid.data.adapters.MovieListAdapter
+import com.example.finalandroid.data.adapters.MoviePagedListAdapter
 import com.example.finalandroid.data.adapters.WorkedOnTheFilmAdapter
 import com.example.finalandroid.data.models.InfoActorsItem
 import com.example.finalandroid.databinding.ListFilmsBinding
@@ -50,10 +52,10 @@ class ListFilms : Fragment() {
     private val vmTvSeries: RandomTypeViewModel by viewModels()
     private val vmThrillers: ThrillersViewModel by viewModels()
     private val vmActors: ActorsViewModel by viewModels()
-    private val topMovieAdapter = MovieAdapter { movie -> onItemClick1(movie) }
-    private val premiersAdapter = MovieAdapter { movie -> onItemClick(movie) }
-    private val randomTypeAdapter = MovieAdapter { movie -> onItemClick(movie) }
-    private val thrillersAdapter = MovieAdapter { movie -> onItemClick(movie) }
+    private val topMovieAdapter = MoviePagedListAdapter{ movie -> onItemClick1(movie) }
+    private val premiersAdapter = MoviePagedListAdapter { movie -> onItemClick(movie) }
+    private val randomTypeAdapter = MoviePagedListAdapter { movie -> onItemClick(movie) }
+    private val thrillersAdapter = MoviePagedListAdapter { movie -> onItemClick(movie) }
     private val actorsAdapter = ActorsAdapter { actors -> onItemClick(actors) }
     private val workedOnTheFilmAdapter = WorkedOnTheFilmAdapter { actors -> onItemClick(actors) }
     private var id = 0
@@ -80,23 +82,23 @@ class ListFilms : Fragment() {
         binding.iconBack.setOnClickListener { findNavController().popBackStack() }
         if (name == TOP_100_RU || name == TOP_250_RU || name == TOP_AWAIT_RU) {
             binding.recyclerTv.adapter = topMovieAdapter
-            vmTop.movie.onEach { topMovieAdapter.setData(it) }
+            vmTop.pagedMovies.onEach { topMovieAdapter.submitData(it) }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
         if (name == NAME_PREMIERS) {
             binding.recyclerTv.adapter = premiersAdapter
-            vmPremiers.movie.onEach { premiersAdapter.setData(it) }
+            vmPremiers.pagedMovies.onEach { premiersAdapter.submitData(it) }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
         if (name == FILM_RU || name == TV_SHOW_RU || name == TV_SERIES_RU || name == MINI_SERIES_RU || name == ALL_RU) {
 
             binding.recyclerTv.adapter = randomTypeAdapter
-            vmTvSeries.movie.onEach { randomTypeAdapter.setData(it) }
+            vmTvSeries.pagedMovies.onEach { randomTypeAdapter.submitData(it) }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
         if (name == NAME_THRILLERS) {
             binding.recyclerTv.adapter = thrillersAdapter
-            vmThrillers.movie.onEach { thrillersAdapter.setData(it) }
+            vmThrillers.pagedMovies.onEach { thrillersAdapter.submitData(it) }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
         if (name == ALL_ACTORS) {

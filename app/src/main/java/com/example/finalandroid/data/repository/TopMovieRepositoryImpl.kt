@@ -6,8 +6,8 @@ import com.example.finalandroid.domain.repository.TopMovieRepository
 
 class TopMovieRepositoryImpl: TopMovieRepository {
 
-    override suspend fun getTopMovie(type: String):List<Movie>{
-        return retrofit.topList(type).films
+    override suspend fun getTopMovie(type: String, page: Int):List<Movie>{
+        return retrofit.topList(type, page).films
     }
 
 }

@@ -1,35 +1,19 @@
 package com.example.finalandroid.presentation.home.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.finalandroid.data.models.Movie
-import com.example.finalandroid.data.repository.PremiersRepositoryImpl
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import com.example.finalandroid.data.pagingsource.MoviePremiersPagingSource
+import kotlinx.coroutines.flow.Flow
 
 class PremiersViewModel private constructor(
-    private val repository: PremiersRepositoryImpl
-): ViewModel(){
-    constructor():this(PremiersRepositoryImpl())
-
-    private val _movie = MutableStateFlow<List<Movie>>(emptyList())
-    val movie = _movie.asStateFlow()
-
-    init {
-        loadMovie()
-    }
-
-    private fun loadMovie() {
-        viewModelScope.launch(Dispatchers.IO){
-            kotlin.runCatching {
-                repository.getMoviePremiers(2023," OCTOBER")
-            }.fold(
-                onSuccess = {_movie.value = it},
-                onFailure = { Log.d("MovieListViewModel", it.message ?: "")}
-            )
-        }
-    }
+) : ViewModel() {
+    val pagedMovies: Flow<PagingData<Movie>> = Pager(
+        config = PagingConfig(pageSize = 10),
+        pagingSourceFactory = { MoviePremiersPagingSource() }
+    ).flow.cachedIn(viewModelScope)
 }

@@ -7,8 +7,8 @@ import com.example.finalandroid.domain.repository.PremiersRepository
 
 class PremiersRepositoryImpl: PremiersRepository {
 
-   override suspend fun getMoviePremiers(year: Int, month: String):List<Movie>{
-        return retrofit.premieres(year, month).items
+   override suspend fun getMoviePremiers(year: Int, month: String, page: Int):List<Movie>{
+       return retrofit.premieres(year, month, page).items
     }
 
 }

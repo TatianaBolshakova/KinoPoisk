@@ -247,11 +247,9 @@ class FilmPage : Fragment() {
             imagePlay.setOnClickListener {
                 lifecycleScope.launch {
                     vmVideo.info.collect {
-                      // val x =  it.joinToString { it.url }
-                        val x =  it[0].url
-
-                        Toast.makeText(requireContext(), "${x} -url ", Toast.LENGTH_SHORT).show()
-                        retrofitX.videoPlay(x)
+                        val urlVideo =  it[0].url
+                        Toast.makeText(requireContext(), "${urlVideo} -urlVideo ", Toast.LENGTH_SHORT).show()
+                      //  retrofitX.videoPlay(x)
 
                     }
                 }

@@ -33,7 +33,7 @@ class Loader : Fragment() {
         }
     }
     suspend fun next(){
-        delay(3000)
+        delay(2000)
         findNavController().navigate(R.id.homePage)
     }
     override fun onDestroyView() {

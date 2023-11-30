@@ -26,12 +26,16 @@ interface MovieListApi {
     // Премьеры
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v2.2/films/premieres")
-    suspend fun premieres(@Query("year") year: Int, @Query("month") month: String): MovieList
+    suspend fun premieres(
+        @Query("year") year: Int,
+        @Query("month") month: String,
+        @Query("page") page: Int,
+    ): MovieList
 
     // Триллеры
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v2.2/films?genres=1")
-    suspend fun thrillers(): MovieList
+    suspend fun thrillers(@Query("page") page: Int): MovieList
 
     // id стран и жанров
     @Headers("X-API-KEY: $api_key")
@@ -42,14 +46,18 @@ interface MovieListApi {
     // Топ фильмов (рандомный выбор из категории)
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v2.2/films/top")
-    suspend fun topList(@Query("type") type: String): MovieList
+    suspend fun topList(
+        @Query("type") type: String,
+        @Query("page") page: Int
+        ): MovieList
 
     // Сериалы (рандомный выбор из категории)
     @Headers("X-API-KEY: $api_key")
     @GET("/api/v2.2/films")
     suspend fun tvSeries(
         @Query("type") type: String,
-        @Query("countries") countries: Int
+       // @Query("countries") countries: Int,
+        @Query("page") page: Int
     ): MovieList
 
     // Информация о фильме
@@ -100,7 +108,7 @@ interface MovieListApi {
     suspend fun video(
         @Path("id") id: Int
     ): Video
-
+//AIzaSyAG-U7opubpmYNq5zcWNjQcDKYmCLowfnA
    // @Headers("X-API-KEY: AIzaSyB8tEEjNA6hbv67rxvRVWHT_LTWKOVsCL8")
     @Headers("Content-Type: application/json")
     @GET("{url}")
