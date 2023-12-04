@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.finalandroid.R
 import com.example.finalandroid.data.models.Movie
 import com.example.finalandroid.data.adapters.MoviePagedListAdapter
+import com.example.finalandroid.data.adapters.MyLoadStateAdapter
 import com.example.finalandroid.databinding.FragmentHomePageBinding
 import com.example.finalandroid.presentation.home.viewmodel.PremiersViewModel
 import com.example.finalandroid.presentation.home.viewmodel.RandomTypeViewModel
@@ -56,10 +57,10 @@ class HomePage : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            recyclerPremiers.adapter = premiersAdapter
-            recyclerThrillers.adapter = thrillersAdapter
-            recyclerTvSeries.adapter = randomTypeAdapter
-            recyclerTop.adapter = topMovieAdapter
+            recyclerPremiers.adapter = premiersAdapter.withLoadStateFooter(MyLoadStateAdapter())
+            recyclerThrillers.adapter = thrillersAdapter.withLoadStateFooter(MyLoadStateAdapter())
+            recyclerTvSeries.adapter = randomTypeAdapter.withLoadStateFooter(MyLoadStateAdapter())
+            recyclerTop.adapter = topMovieAdapter.withLoadStateFooter(MyLoadStateAdapter())
         }
         //val nameRandomType = vmRandomType.nameRandomType
 

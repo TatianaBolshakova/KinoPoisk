@@ -36,7 +36,6 @@ class CollectionAdapter(
         with(holder.binding) {
 
                     textNameCollection.text = item?.collectionsName
-                    textCount.text = item?.numberOfElements.toString()
                     item?.let {
                         Glide
                             .with(image.context)

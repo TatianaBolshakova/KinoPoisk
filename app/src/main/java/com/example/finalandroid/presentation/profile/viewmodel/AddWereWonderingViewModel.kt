@@ -35,5 +35,17 @@ class AddWereWonderingViewModel constructor(
             )
         }
     }
+    fun deleteWereWondering(wereWonderingFilmId: Int, nameFilm: String, urlFilm: String, genre: String) {
+        viewModelScope.launch {
+            dao.delete(WereWondering(
+                wereWonderingFilmId = wereWonderingFilmId,
+                nameFilm = nameFilm,
+                urlFilm = urlFilm,
+                genre = genre
+
+            ))
+        }
+    }
+
 
 }

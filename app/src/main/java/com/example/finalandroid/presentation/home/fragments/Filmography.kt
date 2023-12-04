@@ -71,13 +71,17 @@ class Filmography : Fragment() {
                 filmographyAdapter.setData(it)
             professionCountFilm = it.size
             }.launchIn(viewLifecycleOwner.lifecycleScope)
+            binding.chip1.visibility = View.GONE
+            binding.chip2.visibility = View.GONE
+            binding.chip3.visibility = View.GONE
+
             vmActor.loadInfo(idActor)
             lifecycleScope.launch {
                 vmActor.actor.collect {
-                    professionText = it?.profession.toString()
-                    //professionText2 = it?.
-                    personId = it?.personId?: 0
-                    binding.chip1.text ="$professionText $professionCountFilm"
+//                    professionText = it?.profession.toString()
+//                    //professionText2 = it?.
+//                    personId = it?.personId?: 0
+//                    binding.chip1.text ="$professionText $professionCountFilm"
                 }
             }
 
@@ -89,6 +93,10 @@ class Filmography : Fragment() {
             binding.recyclerFilmography.adapter = bestAdapter
             vmActorFilmAll.actor.onEach { bestAdapter.setData(it) }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
+            binding.chip1.visibility = View.GONE
+            binding.chip2.visibility = View.GONE
+            binding.chip3.visibility = View.GONE
+
         }
 
         binding.iconBack.setOnClickListener { findNavController().popBackStack()

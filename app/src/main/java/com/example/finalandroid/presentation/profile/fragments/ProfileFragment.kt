@@ -45,8 +45,6 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private var isDefault = false
     private var counterViewedValue = 0
-    private var counterLikeValue = 0
-    private var counterIWantToSeeValue = 0
     private var counterWereWonderingValue = 0
 
     private var pref: SharedPreferences? = null
@@ -84,7 +82,8 @@ class ProfileFragment : Fragment() {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 val likeDao: LikeDao = (activity?.application as App).db.likeDao()
-                val collectionDao: CollectionsDao = (activity?.application as App).db.collectionsDao()
+                val collectionDao: CollectionsDao =
+                    (activity?.application as App).db.collectionsDao()
                 return AddLikeFilmViewModel(likeDao, collectionDao) as T
             }
         }
@@ -106,6 +105,7 @@ class ProfileFragment : Fragment() {
             "COLLECTION",
             Context.MODE_PRIVATE
         )
+
         val valueDefault = pref?.getBoolean("isDefault", false)!!
         if (isDefault == valueDefault) {
             vmAddCollection.addCollection(
@@ -120,39 +120,28 @@ class ProfileFragment : Fragment() {
         }
 
 
-        binding.apply {
-
-            recyclerViewed.adapter = viewedAdapter
-            vmViewed.allViewedFilms.onEach {
-                viewedAdapter.setData(it)
-                counterViewedValue = it.size
-            }
-                .launchIn(viewLifecycleOwner.lifecycleScope)
-            counterViewed.text = counterViewedValue.toString()
-
-            addMyCollections.setOnClickListener { findNavController().navigate(R.id.addCollectionFragment) }
-
-            recyclerCollections.adapter = collectionAdapter
-            vmAddCollection.allCollections.onEach { collectionAdapter.setData(it) }
-                .launchIn(viewLifecycleOwner.lifecycleScope)
-
-            lifecycleScope.launch {
-                vmLikeFilm.allSelectedFilm
-                    .collect {
-                        counterLikeValue = it.size
-                    }
-            }
-
-
-
-            recyclerYouWereWondering.adapter = wereWonderingAdapter
-            vmWondering.allWereWondering.onEach {
-                wereWonderingAdapter.setData(it)
-                counterWereWonderingValue =it.size
-            }
-                .launchIn(viewLifecycleOwner.lifecycleScope)
-            counterYouWereWondering.text = counterWereWonderingValue.toString()
+        binding.recyclerViewed.adapter = viewedAdapter
+        vmViewed.allViewedFilms.onEach {
+            viewedAdapter.setData(it)
+            counterViewedValue = it.size
+            binding.counterViewed.text = counterViewedValue.toString()
         }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        binding.addMyCollections.setOnClickListener { findNavController().navigate(R.id.addCollectionFragment) }
+
+        binding.recyclerCollections.adapter = collectionAdapter
+        vmAddCollection.allCollections.onEach { collectionAdapter.setData(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+
+        binding.recyclerYouWereWondering.adapter = wereWonderingAdapter
+        vmWondering.allWereWondering.onEach {
+            wereWonderingAdapter.setData(it)
+            counterWereWonderingValue = it.size
+            binding.counterYouWereWondering.text = counterWereWonderingValue.toString()
+        }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
     }
 
@@ -183,7 +172,13 @@ class ProfileFragment : Fragment() {
         val bundle = Bundle().apply {
             putInt(ID_FILM, item.wereWonderingFilmId)
         }
-        findNavController().navigate(R.id.action_navigation_profile_to_filmPage, args = bundle)
+//        vmWondering.deleteWereWondering(
+//            item.wereWonderingFilmId,
+//            item.nameFilm,
+//            item.urlFilm,
+//            item.genre
+//        )
+        findNavController().navigate(R.id.filmPage, args = bundle)
     }
 
     override fun onDestroyView() {

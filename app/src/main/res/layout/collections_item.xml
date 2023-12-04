@@ -37,28 +37,6 @@
             android:textColor="@color/my_black"
             android:textSize="12sp" />
 
-        <RelativeLayout
-            android:id="@+id/layout"
-            android:layout_marginTop="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/image_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/frame_7294" />
-
-            <TextView
-                android:id="@+id/textCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="count"
-                android:textColor="@color/white"
-                android:textSize="6sp" />
-
-        </RelativeLayout>
     </LinearLayout>
 
 

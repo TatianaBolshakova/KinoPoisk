@@ -9,9 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="24dp"
         android:layout_marginBottom="56dp"
-
         android:orientation="vertical"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="-163dp">
@@ -28,7 +26,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_viewed"
-                android:textColor="#272727"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,9 +59,8 @@
                 android:id="@+id/collections"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/text_collections"
-                android:textColor="#272727"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +90,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="@string/text_add_my_collections"
-                    android:textColor="#272727"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/recycler_viewed" />
@@ -119,9 +114,7 @@
                 android:id="@+id/you_were_wondering"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:text="@string/text_you_were_wondering"
-                android:textColor="#272727"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"

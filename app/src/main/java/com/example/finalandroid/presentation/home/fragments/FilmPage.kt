@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.setViewTreeOnBackPressedDispatcherOwner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -24,8 +23,6 @@ import com.example.finalandroid.data.models.InfoActorsItem
 import com.example.finalandroid.data.models.Items
 import com.example.finalandroid.data.models.Movie
 import com.example.finalandroid.data.adapters.SimilarsAdapter
-import com.example.finalandroid.data.api.retrofit
-import com.example.finalandroid.data.api.retrofitX
 import com.example.finalandroid.databinding.FragmentFilmPageBinding
 import com.example.finalandroid.data.db.App
 import com.example.finalandroid.data.db.CollectionsDao
@@ -43,7 +40,6 @@ import com.example.finalandroid.presentation.profile.viewmodel.AddIWantToSeeView
 import com.example.finalandroid.presentation.profile.viewmodel.AddViewedViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddWereWonderingViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.ListNameCollectionViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -53,10 +49,10 @@ private const val ID_FILM = "film_id"
 private const val ITEM_IMAGE = "item_image"
 private const val NAME_FILM = "name_film"
 private const val URL_FILM = "url_film"
-private const val GENRE = "genre"
 private const val NAME = "name"
 private const val ALL_ACTORS = "Все актеры фильма"
 private const val WORKED_ON_THE_FILM = "Над фильмом работали"
+private const val NAME_SIMILARS = "Похожие фильмы"
 
 
 class FilmPage : Fragment() {
@@ -122,6 +118,7 @@ class FilmPage : Fragment() {
     private var nameFilm = ""
     private var urlFilm = ""
     private var genre = ""
+    private var isWondering = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -142,17 +139,23 @@ class FilmPage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vmFilm.loadInfo(id)
-        vmWondering.addWereWondering(
-            wereWonderingFilmId = id,
-            nameFilm = nameFilm,
-            urlFilm = urlFilm,
-            genre = genre
-        )
         pref = this.activity?.getSharedPreferences(
             "COLLECTION",
             Context.MODE_PRIVATE
         )
+        val valueWondering = pref?.getBoolean("isWondering $id", false)!!
+
+        vmFilm.loadInfo(id)
+        if (isWondering == valueWondering){
+            vmWondering.addWereWondering(
+                wereWonderingFilmId = id,
+                nameFilm = nameFilm,
+                urlFilm = urlFilm,
+                genre = genre
+            )
+            saveWonderingBoolean(true)
+        }
+
         val valueLike = pref?.getBoolean("Like $id", false)!!
         if (isLike != valueLike) {
             binding.like.setImageResource(R.drawable.ic_like_enabled)
@@ -168,7 +171,7 @@ class FilmPage : Fragment() {
         }
         val valueViewed = pref?.getBoolean("Viewed $id", false)!!
         if (isViewed != valueViewed) {
-            binding.addAlreadyViewed.setImageResource(R.drawable.ic_visibility)
+            binding.addAlreadyViewed.setImageResource(R.drawable.ic_viewed)
         } else {
             binding.addAlreadyViewed.setImageResource(R.drawable.already_viewed)
         }
@@ -247,9 +250,13 @@ class FilmPage : Fragment() {
             imagePlay.setOnClickListener {
                 lifecycleScope.launch {
                     vmVideo.info.collect {
-                        val urlVideo =  it[0].url
-                        Toast.makeText(requireContext(), "${urlVideo} -urlVideo ", Toast.LENGTH_SHORT).show()
-                      //  retrofitX.videoPlay(x)
+                        val urlVideo = it[0].url
+                        Toast.makeText(
+                            requireContext(),
+                            "${urlVideo} -urlVideo ",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        //  retrofitX.videoPlay(x)
 
                     }
                 }
@@ -259,7 +266,7 @@ class FilmPage : Fragment() {
                     urlFilm = urlFilm,
                     genres = genre
                 )
-                binding.addAlreadyViewed.setImageResource(R.drawable.ic_visibility)
+                binding.addAlreadyViewed.setImageResource(R.drawable.ic_viewed)
                 saveViewedBoolean(true)
             }
             frameAddAlreadyViewed.setOnClickListener {
@@ -269,7 +276,7 @@ class FilmPage : Fragment() {
                     urlFilm = urlFilm,
                     genres = genre
                 )
-                binding.addAlreadyViewed.setImageResource(R.drawable.ic_visibility)
+                binding.addAlreadyViewed.setImageResource(R.drawable.ic_viewed)
                 saveViewedBoolean(true)
             }
             frameAddLike.setOnClickListener {
@@ -325,6 +332,20 @@ class FilmPage : Fragment() {
             }
         }
         vmListNameCollection.selectCollection()
+
+        binding.allImage.setOnClickListener {
+            val bundle = Bundle().apply {
+                putInt(ID_FILM, id)
+            }
+            findNavController().navigate(R.id.gallery, args = bundle)
+        }
+        binding.allSimilars.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString(NAME, NAME_SIMILARS)
+                putInt(ID_FILM, id)
+            }
+            findNavController().navigate(R.id.listFilms, args = bundle)
+        }
     }
 
     private fun saveLikeBoolean(result: Boolean) {
@@ -332,7 +353,11 @@ class FilmPage : Fragment() {
         editor?.putBoolean("Like $id", result)
         editor?.apply()
     }
-
+    private fun saveWonderingBoolean(result: Boolean) {
+        val editor = pref?.edit()
+        editor?.putBoolean("isWondering $id", result)
+        editor?.apply()
+    }
     private fun saveIWantTiSeeBoolean(result: Boolean) {
         val editor = pref?.edit()
         editor?.putBoolean("I want to see $id", result)
@@ -381,24 +406,67 @@ class FilmPage : Fragment() {
         val checkedCollections = BooleanArray(collections.size)
         val selectedCollections = mutableListOf(*collections)
 
+        val valueLike = pref?.getBoolean("Like $id", false)!!
+        if (isLike != valueLike) {
+            checkedCollections[0] = true
+        }
+        val valueIWantToSee = pref?.getBoolean("I want to see $id", false)!!
+        if (isIWantToSee != valueIWantToSee) {
+            checkedCollections[1] = true
+        }
+
+
         val builder = AlertDialog.Builder(requireContext())
         builder
             .setTitle("Выберите коллекцию")
             .setMultiChoiceItems(collections, checkedCollections) { dialog, which, isChecked ->
                 checkedCollections[which] = isChecked
-                val currentCollections = selectedCollections[which]
+                if (isLike == valueLike && which == 0) {
+                    vmAddFilm.addFilm(
+                        id = id,
+                        nameFilm = nameFilm,
+                        urlFilm = urlFilm,
+                        genre = genre,
+                    )
+                    binding.like.setImageResource(R.drawable.ic_like_enabled)
+                    saveLikeBoolean(true)
+                }
+                if (isLike != valueLike && which == 0) {
+                    vmAddFilm.deleteFilm(
+                        id = id,
+                        nameFilm = nameFilm,
+                        urlFilm = urlFilm,
+                        genre = genre
+                    )
+                    binding.like.setImageResource(R.drawable.ic_like_disabled)
+                    saveLikeBoolean(false)
+                }
+                if (isIWantToSee == valueIWantToSee && which == 1) {
+                    vmAddFilm2.addFilm(
+                        id,
+                        nameFilm,
+                        urlFilm,
+                        genre
+                    )
+                    binding.iWantToSee.setImageResource(R.drawable.ic_i_want_to_see_activ)
+                    saveLikeBoolean(true)
+                }
+                if (isIWantToSee != valueIWantToSee && which == 1) {
+                    vmAddFilm2.deleteFilm(
+                        id,
+                        nameFilm,
+                        urlFilm,
+                        genre
+                    )
+                    binding.iWantToSee.setImageResource(R.drawable.ic_i_want_to_see)
+                    saveLikeBoolean(false)
+                }
             }
             .setCancelable(false)
             .setPositiveButton("Сохранить") { dialog, which ->
-                for (i in checkedCollections.indices) {
-                    if (checkedCollections[i]) {
-                        //binding.description1.text = String.format("%s%s, ", binding.description1.text, selectedCollections[i])
-                    }
-                }
+
             }
-            .setNegativeButton("Закрыть окно") { dialog, which ->
-                dialog.cancel()
-            }
+
 
 
         val dialog: AlertDialog = builder.create()

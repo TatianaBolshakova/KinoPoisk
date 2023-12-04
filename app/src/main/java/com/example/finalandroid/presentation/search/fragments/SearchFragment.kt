@@ -97,7 +97,11 @@ class SearchFragment : Fragment() {
             }
 
             override fun onQueryTextChange(keyword: String?): Boolean {
-
+                if (keyword?.length != 0) {
+                    binding.imageButton.visibility = View.GONE
+                }else{
+                    binding.imageButton.visibility = View.VISIBLE
+                }
                 vmSearch.loadMovie(
                     keyword.toString(),
                     type = type,
@@ -141,7 +145,7 @@ class SearchFragment : Fragment() {
             putInt(ID_FILM, item.kinopoiskId)
             putString(NAME_FILM, item.nameRu)
             putString(URL_FILM, item.posterUrl)
-            putString(GENRE_FILM, item.genres?.joinToString { genre -> genre.genre })
+            putString(GENRE_FILM, item.genres.joinToString { genre -> genre.genre })
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }

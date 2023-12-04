@@ -2,154 +2,133 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context=".presentation.home.fragments.ActorPage">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="55dp"
-        tools:layout_editor_absoluteY="-189dp">
+    <ImageView
+        android:id="@+id/image_actors"
+        android:layout_width="146dp"
+        android:layout_height="201dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="23dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iconBack"
+        tools:src="@tools:sample/backgrounds/scenic" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="26dp"
-            android:layout_marginEnd="26dp">
+    <ImageView
+        android:id="@+id/iconBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/image_actors"
-                android:layout_width="146dp"
-                android:layout_height="201dp"
-                android:layout_marginTop="23dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iconBack"
-                tools:src="@tools:sample/backgrounds/scenic" />
+    <TextView
+        android:id="@+id/name_actors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/name_text"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/image_actors"
+        app:layout_constraintStart_toEndOf="@+id/image_actors"
+        app:layout_constraintTop_toTopOf="@+id/image_actors"
+        app:layout_constraintVertical_bias="0" />
 
-            <ImageView
-                android:id="@+id/iconBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="34dp"
-                android:clickable="true"
-                android:src="@drawable/ic_back"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/prof"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/profession_text"
+        android:textColor="@color/my_gray"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/image_actors"
+        app:layout_constraintTop_toBottomOf="@+id/name_actors" />
 
-            <TextView
-                android:id="@+id/name_actors"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/name_text"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/image_actors"
-                app:layout_constraintStart_toEndOf="@+id/image_actors"
-                app:layout_constraintTop_toTopOf="@+id/image_actors"
-                app:layout_constraintVertical_bias="0" />
+    <TextView
+        android:id="@+id/best"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/text_best"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_actors" />
 
-            <TextView
-                android:id="@+id/prof"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/profession_text"
-                android:textColor="@color/my_gray"
-                android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/image_actors"
-                app:layout_constraintTop_toBottomOf="@+id/name_actors" />
+    <TextView
+        android:id="@+id/all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="26dp"
+        android:clickable="true"
+        android:text="@string/text_all"
+        android:textColor="@color/my_blue"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/best"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/best" />
 
-            <TextView
-                android:id="@+id/best"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/text_best"
-                android:textColor="#272727"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_actors"
-                app:layout_constraintVertical_bias="0"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_best"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/best"
+        app:spanCount="2"
+        tools:listitem="@layout/best_film_item" />
 
-                />
+    <TextView
+        android:id="@+id/name_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/text_filmography"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_best" />
 
-            <TextView
-                android:id="@+id/all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="26dp"
-                android:clickable="true"
-                android:text="@string/text_all"
-                android:textColor="@color/my_blue"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/best"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/best" />
+    <TextView
+        android:id="@+id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="26dp"
+        android:clickable="true"
+        android:text="@string/text_list"
+        android:textColor="@color/my_blue"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/name_page"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/name_page" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_best"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/best"
-                app:spanCount="2"
-                tools:listitem="@layout/best_film_item" />
-
-            <TextView
-                android:id="@+id/name_page"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/text_filmography"
-                android:textColor="#272727"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recycler_best"
-                app:layout_constraintVertical_bias="0"
-
-                />
-
-            <TextView
-                android:id="@+id/list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="26dp"
-                android:clickable="true"
-                android:text="@string/text_list"
-                android:textColor="@color/my_blue"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/name_page"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/name_page" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_all_film_actor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/name_page"
-                app:spanCount="2"
-                tools:listitem="@layout/best_film_item" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_all_film_actor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name_page"
+        app:spanCount="2"
+        tools:listitem="@layout/best_film_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

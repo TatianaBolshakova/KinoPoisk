@@ -1,6 +1,7 @@
 package com.example.finalandroid.data.db
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -14,7 +15,7 @@ interface WereWonderingDao {
     @Insert(entity = WereWondering::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(wereWondering: WereWondering)
 
-    @Query("DELETE FROM were_wondering")
-    suspend fun delete()
+    @Delete
+    suspend fun delete(wereWondering: WereWondering)
 
 }

@@ -35,7 +35,6 @@ class ViewedFilmsAdapter(
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val item = data.getOrNull(position)
 
-
         with(holder.binding) {
             titleText.text = item?.nameFilm
             genresText.text = item?.genres

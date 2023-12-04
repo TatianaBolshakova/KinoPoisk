@@ -40,10 +40,10 @@ class ImagePage : Fragment() {
             .into(binding.imageView2)
 
         binding.iconBack.setOnClickListener {
-            val bundle = Bundle().apply {
-                putInt(ID_FILM, idFilm)
-            }
-            findNavController().navigate(R.id.filmPage, args = bundle) }
+//            val bundle = Bundle().apply {
+//                putInt(ID_FILM, idFilm)
+//            }
+            findNavController().popBackStack()}
     }
 
 }

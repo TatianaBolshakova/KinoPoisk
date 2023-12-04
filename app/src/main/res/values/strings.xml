@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Final Android lvl 1</string>
+    <string name="app_name">КиноПоиск</string>
     <string name="text_onboarding">Узнавай о премьерах</string>
     <string name="text_onboarding_2">Создавай коллекции</string>
     <string name="text_onboarding_3">Делись с друзьями</string>
@@ -10,7 +10,7 @@
     <string name="rating_movie">Рейтинг</string>
     <string name="text_premiers">Премьеры</string>
     <string name="text_thrillers">Триллеры</string>
-    <string name="top_list">Топ РЕЙТИНГ ВЫШЕ 7.0 </string>
+    <string name="top_list">Топ  </string>
     <string name="tv_series">Сериалы </string>
     <string name="text_best">Лучшее</string>
     <string name="text_all">Все </string>

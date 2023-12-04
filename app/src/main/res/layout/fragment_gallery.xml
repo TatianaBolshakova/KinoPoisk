@@ -21,9 +21,8 @@
             android:id="@+id/topList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="24dp"
             android:text="@string/text_gallery"
-            android:textColor="#272727"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,7 +47,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_top_all"
+                    android:id="@+id/recycler_image"
                     android:layout_width="370dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -61,7 +60,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
                     app:spanCount="3"
-                    tools:listitem="@layout/photo_rv_item" />
+                    tools:listitem="@layout/images_item" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 

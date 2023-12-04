@@ -27,8 +27,9 @@ import kotlinx.coroutines.flow.onEach
 
 private const val NAME = "name_collection"
 private const val ID_FILM = "film_id"
-private const val NAME_COLLECTION_LIKE= "Любимые"
+private const val NAME_COLLECTION_LIKE = "Любимые"
 private const val NAME_COLLECTION_I_WANT_TO_SEE = "Хочу посмотреть"
+
 class ListFilmsCollection : Fragment() {
     private var _binding: ListFilmsCollectionBinding? = null
     private val binding get() = _binding!!
@@ -38,7 +39,8 @@ class ListFilmsCollection : Fragment() {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 val likeDao: LikeDao = (activity?.application as App).db.likeDao()
-                val collectionDao: CollectionsDao = (activity?.application as App).db.collectionsDao()
+                val collectionDao: CollectionsDao =
+                    (activity?.application as App).db.collectionsDao()
                 return AddLikeFilmViewModel(likeDao, collectionDao) as T
             }
         }
@@ -53,7 +55,8 @@ class ListFilmsCollection : Fragment() {
     }
 
     private val likeFilmAdapter = LikeFilmAdapter { movie -> onLikeFilmClick(movie) }
-    private val iWantToSeeFilmAdapter = IWantToSeeFilmAdapter { movie -> onIWantToSeeFilmClick(movie) }
+    private val iWantToSeeFilmAdapter =
+        IWantToSeeFilmAdapter { movie -> onIWantToSeeFilmClick(movie) }
 
     var name: String = "Name"
 
@@ -80,19 +83,23 @@ class ListFilmsCollection : Fragment() {
         binding.iconBack.setOnClickListener { findNavController().navigate(R.id.navigation_profile) }
 
 
-        if (name== NAME_COLLECTION_LIKE){
+        if (name == NAME_COLLECTION_LIKE) {
             binding.recyclerTv.adapter = likeFilmAdapter
-            vmLikeFilm.allSelectedFilm.onEach { likeFilmAdapter.setData(it) }
+            vmLikeFilm.allSelectedFilm.onEach {
+                likeFilmAdapter.setData(it)
+                binding.count.text = it.size.toString()
+            }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
+
         }
-        if (name== NAME_COLLECTION_I_WANT_TO_SEE){
+        if (name == NAME_COLLECTION_I_WANT_TO_SEE) {
             binding.recyclerTv.adapter = iWantToSeeFilmAdapter
-            vmIWantToSee.allSelectedFilm.onEach { iWantToSeeFilmAdapter.setData(it) }
+            vmIWantToSee.allSelectedFilm.onEach {
+                iWantToSeeFilmAdapter.setData(it)
+                binding.count.text = it.size.toString()
+            }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
-
-
-
     }
 
     private fun onLikeFilmClick(item: LikeFilms) {
@@ -101,6 +108,7 @@ class ListFilmsCollection : Fragment() {
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }
+
     private fun onIWantToSeeFilmClick(item: IWantToSeeFilms) {
         val bundle = Bundle().apply {
             putInt(ID_FILM, item.iWantToSeeFilmId)

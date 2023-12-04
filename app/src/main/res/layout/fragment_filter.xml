@@ -27,7 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/text_search_setting"
-        android:textColor="#272727"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +63,7 @@
                 android:id="@+id/bn_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/white_transparent"
                 android:src="@drawable/ic_all" />
 
             <ImageButton
@@ -93,7 +92,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/text_country"
-        android:textColor="@color/my_black"
         android:layout_marginStart="24dp"
         android:textSize="16sp"
         android:layout_gravity="center_vertical"/>
@@ -120,7 +118,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_genre"
-                android:textColor="@color/my_black"
                 android:layout_marginStart="24dp"
                 android:textSize="16sp"
                 android:layout_gravity="center_vertical"/>
@@ -147,7 +144,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_year"
-                android:textColor="@color/my_black"
                 android:layout_marginStart="24dp"
                 android:textSize="16sp"
                 android:layout_gravity="center_vertical"/>
@@ -174,7 +170,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_rating"
-                android:textColor="@color/my_black"
                 android:layout_marginStart="24dp"
                 android:textSize="16sp"
                 android:layout_gravity="center_vertical"/>
@@ -226,7 +221,7 @@
                     android:id="@+id/bn_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="@color/white_transparent"
                     android:src="@drawable/ic_date" />
 
                 <ImageButton

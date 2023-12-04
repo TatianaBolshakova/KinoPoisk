@@ -1,5 +1,6 @@
 package com.example.finalandroid.data.adapters
 
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +17,6 @@ import com.example.finalandroid.databinding.MovieItemBinding
 class MoviePagedListAdapter(
     private val onClick: (Movie) -> Unit
 ) : PagingDataAdapter<Movie, MovieViewHolder>(DiffUtilCallback()) {
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         return MovieViewHolder(
             MovieItemBinding.inflate(
@@ -49,7 +48,6 @@ class MoviePagedListAdapter(
                     .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
                     .into(imageView)
             }
-
         }
         holder.binding.root.setOnClickListener {
             item?.let {

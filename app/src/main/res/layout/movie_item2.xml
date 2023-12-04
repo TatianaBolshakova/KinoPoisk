@@ -29,7 +29,6 @@
         android:ellipsize="end"
         android:lines="2"
         android:text="@string/title_movie"
-        android:textColor="#272727"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
