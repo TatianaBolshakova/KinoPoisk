@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.finalandroid.R
 import com.example.finalandroid.data.adapters.ActorFilmAllAdapter
 import com.example.finalandroid.data.adapters.ActorFilmBestAdapter
+import com.example.finalandroid.data.constsnts.Constants
 import com.example.finalandroid.data.models.Movie
 import com.example.finalandroid.databinding.FragmentActorPageBinding
 import com.example.finalandroid.presentation.home.viewmodel.ActorFilmViewModel
@@ -22,29 +23,22 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-private const val ID_ACTOR = "actor_id"
-private const val NAME_ACTOR = "name_actor"
-private const val ID_FILM = "film_id"
-private const val NAME_PAGE = "Name page"
-private const val BEST = "Лучшее"
-private const val FILMOGRAPHY = "Фильмография"
-
 class ActorPage : Fragment() {
 
     private var _binding: FragmentActorPageBinding? = null
     private val binding get() = _binding!!
     private var idActor: Int = 0
     private var idFilm: Int = 0
-    private var nameActor:String = ""
+    private var nameActor: String = ""
     private val vmActor: ActorViewModel by viewModels()
     private val vmActorFilm: ActorFilmViewModel by viewModels()
     private val filmBestAdapter = ActorFilmBestAdapter { film -> onItemClick(film) }
-    private val filmAllAdapter = ActorFilmAllAdapter{ film -> onItemClick(film) }
+    private val filmAllAdapter = ActorFilmAllAdapter { film -> onItemClick(film) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            idActor = it.getInt(ID_ACTOR)
-            idFilm = it.getInt(ID_FILM)
+            idActor = it.getInt(Constants.ID_ACTOR)
+            idFilm = it.getInt(Constants.ID_FILM)
         }
     }
 
@@ -55,6 +49,7 @@ class ActorPage : Fragment() {
         _binding = FragmentActorPageBinding.inflate(inflater)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -75,7 +70,8 @@ class ActorPage : Fragment() {
         }
 
         binding.iconBack.setOnClickListener {
-            findNavController().popBackStack() }
+            findNavController().popBackStack()
+        }
 
         vmActorFilm.loadInfo(idActor)
         binding.recyclerBest.adapter = filmBestAdapter
@@ -86,13 +82,12 @@ class ActorPage : Fragment() {
 
         binding.all.setOnClickListener {
             val bundle = Bundle().apply {
-                putInt(ID_ACTOR, idActor)
-                putString(NAME_ACTOR,nameActor )
-                putString(NAME_PAGE, BEST )
+                putInt(Constants.ID_ACTOR, idActor)
+                putString(Constants.NAME_ACTOR, nameActor)
+                putString(Constants.NAME_PAGE, Constants.BEST)
             }
-            findNavController().navigate(R.id.name_page, args = bundle) }
-
-
+            findNavController().navigate(R.id.name_page, args = bundle)
+        }
 
         binding.recyclerAllFilmActor.adapter = filmAllAdapter
         vmActorFilm.actor.onEach {
@@ -102,23 +97,17 @@ class ActorPage : Fragment() {
 
         binding.list.setOnClickListener {
             val bundle = Bundle().apply {
-                putInt(ID_ACTOR, idActor)
-                putString(NAME_ACTOR,nameActor )
-                putString(NAME_PAGE, FILMOGRAPHY )
+                putInt(Constants.ID_ACTOR, idActor)
+                putString(Constants.NAME_ACTOR, nameActor)
+                putString(Constants.NAME_PAGE, Constants.FILMOGRAPHY)
             }
-            findNavController().navigate(R.id.name_page, args = bundle) }
-
-
-
+            findNavController().navigate(R.id.name_page, args = bundle)
+        }
     }
-
-
-
-
 
     private fun onItemClick(item: Movie) {
         val bundle = Bundle().apply {
-            putInt(ID_FILM, item.filmId)
+            putInt(Constants.ID_FILM, item.filmId)
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }

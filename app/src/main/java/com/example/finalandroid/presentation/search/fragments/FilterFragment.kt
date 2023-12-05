@@ -13,29 +13,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.finalandroid.R
+import com.example.finalandroid.data.constsnts.Constants
 import com.example.finalandroid.databinding.FragmentFilterBinding
 import com.example.finalandroid.presentation.search.viewmodel.IdCountryViewModel
 import com.example.finalandroid.presentation.search.viewmodel.IdGenreViewModel
 import com.google.android.material.slider.RangeSlider
 import kotlinx.coroutines.launch
 
-
-private const val TYPE = "type"
-private const val COUNTRY = "country"
-private const val COUNTRY_ID = "country_id"
-private const val GENRE = "genre"
-private const val GENRE_ID = "genre_id"
-private const val YEAR1 = "year1"
-private const val YEAR2 = "year2"
-private const val RATING1 = "rating1"
-private const val RATING2 = "rating2"
-private const val ORDER = "order"
-
 class FilterFragment : Fragment() {
     private var _binding: FragmentFilterBinding? = null
     private val binding get() = _binding!!
     private var type = "ALL"
-    private var country = "Россия"
+    private var country = Constants.DEF_VALUE_COUNTRY
     private var countryId = 1
     private var genre = "Комедия"
     private var genreId =1
@@ -44,14 +33,11 @@ class FilterFragment : Fragment() {
     private var rating1 = 0
     private var rating2 = 10
     private var order = "RATING"
-    private var countryPref: SharedPreferences? = null
-    private var countryIdPref: SharedPreferences? = null
-    private var genrePref: SharedPreferences? = null
-    private var genreIdPref: SharedPreferences? = null
+    private var pref: SharedPreferences? = null
+    private var prefInt: SharedPreferences? = null
+    private var prefYear: SharedPreferences? = null
     private var year1Pref: SharedPreferences? = null
     private var year2Pref: SharedPreferences? = null
-    private var rating1Pref: SharedPreferences? = null
-    private var rating2Pref: SharedPreferences? = null
     private var textDialogYear = "С ... до ... "
     private var textDialogRating = "Любой"
     private val vmIdCountry: IdCountryViewModel by viewModels()
@@ -69,24 +55,24 @@ class FilterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        countryPref = this.activity?.getSharedPreferences("COUNTRY", Context.MODE_PRIVATE)
-        country = countryPref?.getString("Country", "Россия")!!
+
+        pref = this.activity?.getSharedPreferences(Constants.NAME_PREF_FILTER, Context.MODE_PRIVATE)
+        prefInt = this.activity?.getSharedPreferences(Constants.NAME_PREF_FILTER_1, Context.MODE_PRIVATE)
+
+
+        country = pref?.getString(Constants.KEY_COUNTRY, Constants.DEF_VALUE_COUNTRY)!!
         binding.textDialogCountry.text = country
 
-        countryIdPref = this.activity?.getSharedPreferences("COUNTRY_ID", Context.MODE_PRIVATE)
-        countryId = countryIdPref?.getInt("CountryId", 1)!!
+        countryId = prefInt?.getInt(Constants.KEY_COUNTRY_ID, 1)!!
 
-        genrePref = this.activity?.getSharedPreferences("GENRE", Context.MODE_PRIVATE)
-        genre = genrePref?.getString("Genre", "Комедия")!!
+        genre = pref?.getString(Constants.KEY_GENRE, Constants.DEF_VALUE_GENRE)!!
         binding.textDialogGenre.text = genre
 
-        genreIdPref = this.activity?.getSharedPreferences("GENRE_ID", Context.MODE_PRIVATE)
-        genreId = genreIdPref?.getInt("GenreId", 1)!!
+        genreId = prefInt?.getInt(Constants.KEY_GENRE_ID, 1)!!
 
-        year1Pref = this.activity?.getSharedPreferences("YEAR_1", Context.MODE_PRIVATE)
-        year1 = year1Pref?.getInt("YEAR1", 1998)!!
-        year2Pref = this.activity?.getSharedPreferences("YEAR_2", Context.MODE_PRIVATE)
-        year2 = year2Pref?.getInt("YEAR2", 2023)!!
+        prefYear = this.activity?.getSharedPreferences(Constants.NAME_PREF_YEAR, Context.MODE_PRIVATE)
+        year1 = prefYear?.getInt(Constants.KEY_YEAR_1, 1998)!!
+        year2 = prefYear?.getInt(Constants.KEY_YEAR_2, 2023)!!
         if (year1 < year2) {
             textDialogYear = " С $year1 до $year2"
         } else {
@@ -95,10 +81,8 @@ class FilterFragment : Fragment() {
         }
         binding.textDialogYear.text = textDialogYear
 
-        rating1Pref = this.activity?.getSharedPreferences("RATING_1", Context.MODE_PRIVATE)
-        rating1 = rating1Pref?.getInt("RATING1", 0)!!
-        rating2Pref = this.activity?.getSharedPreferences("RATING_2", Context.MODE_PRIVATE)
-        rating2 = rating2Pref?.getInt("RATING2", 10)!!
+        rating1 = prefInt?.getInt(Constants.KEY_RATING_1, 0)!!
+        rating2 = prefInt?.getInt(Constants.KEY_RATING_2, 10)!!
         textDialogRating = "От $rating1 до $rating2"
         binding.textDialogRating.text = textDialogRating
         binding.apply {
@@ -175,16 +159,16 @@ class FilterFragment : Fragment() {
         }
         binding.iconBack.setOnClickListener {
             val bundle = Bundle().apply {
-                putString(TYPE, type)
-                putString(COUNTRY, country)
-                putInt(COUNTRY_ID, countryId)
-                putString(GENRE, genre)
-                putInt(GENRE_ID, genreId)
-                putInt(YEAR1, year1)
-                putInt(YEAR2, year2)
-                putInt(RATING1, rating1)
-                putInt(RATING2, rating2)
-                putString(ORDER, order)
+                putString(Constants.TYPE, type)
+                putString(Constants.COUNTRY, country)
+                putInt(Constants.COUNTRY_ID, countryId)
+                putString(Constants.GENRE, genre)
+                putInt(Constants.GENRE_ID, genreId)
+                putInt(Constants.YEAR1, year1)
+                putInt(Constants.YEAR2, year2)
+                putInt(Constants.RATING1, rating1)
+                putInt(Constants.RATING2, rating2)
+                putString(Constants.ORDER, order)
             }
             findNavController().navigate(
                 R.id.action_filterFragment_to_navigation_search,
@@ -248,36 +232,37 @@ class FilterFragment : Fragment() {
     }
 
     private fun saveCountry(country: String) {
-        val editor = countryPref?.edit()
-        editor?.putString("Country", country)
+        val editor = pref?.edit()
+        editor?.putString(Constants.KEY_COUNTRY, country)
+
         editor?.apply()
     }
     private fun saveCountryId(countryId: Int) {
-        val editor = countryIdPref?.edit()
-        editor?.putInt("CountryId", countryId)
+        val editor = prefInt?.edit()
+        editor?.putInt(Constants.KEY_COUNTRY_ID, countryId)
         editor?.apply()
     }
 
     private fun saveGenre(genre: String) {
-        val editor = genrePref?.edit()
-        editor?.putString("Genre", genre)
+        val editor = pref?.edit()
+        editor?.putString(Constants.KEY_GENRE, genre)
         editor?.apply()
     }
     private fun saveGenreId(genreId: Int) {
-        val editor = genreIdPref?.edit()
-        editor?.putInt("GenreId", genreId)
+        val editor = prefInt?.edit()
+        editor?.putInt(Constants.KEY_GENRE_ID, genreId)
         editor?.apply()
     }
 
     private fun saveRating1(rating: Int) {
-        val editor = rating1Pref?.edit()
-        editor?.putInt("RATING1", rating)
+        val editor = prefInt?.edit()
+        editor?.putInt(Constants.KEY_RATING_1, rating)
         editor?.apply()
     }
 
     private fun saveRating2(rating: Int) {
-        val editor = rating2Pref?.edit()
-        editor?.putInt("RATING2", rating)
+        val editor = prefInt?.edit()
+        editor?.putInt(Constants.KEY_RATING_2, rating)
         editor?.apply()
     }
 

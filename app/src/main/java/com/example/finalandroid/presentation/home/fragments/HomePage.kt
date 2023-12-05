@@ -12,6 +12,7 @@ import com.example.finalandroid.R
 import com.example.finalandroid.data.models.Movie
 import com.example.finalandroid.data.adapters.MoviePagedListAdapter
 import com.example.finalandroid.data.adapters.MyLoadStateAdapter
+import com.example.finalandroid.data.constsnts.Constants
 import com.example.finalandroid.databinding.FragmentHomePageBinding
 import com.example.finalandroid.presentation.home.viewmodel.PremiersViewModel
 import com.example.finalandroid.presentation.home.viewmodel.RandomTypeViewModel
@@ -20,15 +21,6 @@ import com.example.finalandroid.presentation.home.viewmodel.TopMovieViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-private const val ID_FILM = "film_id"
-private const val NAME_FILM = "name_film"
-private const val URL_FILM = "url_film"
-private const val GENRE = "genre"
-private const val NAME = "name"
-private const val NAME_PREMIERS = "Премьеры"
-private const val NAME_THRILLERS = "Триллеры"
-private const val TOP_250_RU = "ТОП 250 ЛУЧШИХ ФИЛЬМОВ"
-private const val RANDOM_TYPE = "Случайная подборка фильмов"
 
 class HomePage : Fragment() {
 
@@ -62,10 +54,9 @@ class HomePage : Fragment() {
             recyclerTvSeries.adapter = randomTypeAdapter.withLoadStateFooter(MyLoadStateAdapter())
             recyclerTop.adapter = topMovieAdapter.withLoadStateFooter(MyLoadStateAdapter())
         }
-        //val nameRandomType = vmRandomType.nameRandomType
 
-        binding.tvSeries.text = RANDOM_TYPE
-        binding.topList.text =TOP_250_RU
+        binding.tvSeries.text = Constants.RANDOM_TYPE
+        binding.topList.text =Constants.TOP_250_RU
 
         vmPremiers.pagedMovies.onEach { premiersAdapter.submitData(it)}.launchIn(viewLifecycleOwner.lifecycleScope)
         vmThrillers.pagedMovies.onEach { thrillersAdapter.submitData(it)}.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -74,40 +65,38 @@ class HomePage : Fragment() {
 
         binding.apply {
             allPremiers.setOnClickListener {
-                val bundle = Bundle().apply { putString(NAME, NAME_PREMIERS) }
+                val bundle = Bundle().apply { putString(Constants.NAME, Constants.NAME_PREMIERS) }
                 findNavController().navigate(R.id.listFilms, args = bundle)
             }
             allThrillers.setOnClickListener {
-                val bundle = Bundle().apply { putString(NAME, NAME_THRILLERS) }
+                val bundle = Bundle().apply { putString(Constants.NAME, Constants.NAME_THRILLERS) }
                 findNavController().navigate(R.id.listFilms, args = bundle)
             }
             allTopList.setOnClickListener {
-                val bundle = Bundle().apply { putString(NAME, TOP_250_RU) }
+                val bundle = Bundle().apply { putString(Constants.NAME, Constants.TOP_250_RU) }
                 findNavController().navigate(R.id.listFilms, args = bundle)
             }
 
             allTvSeries.setOnClickListener {
-                val bundle = Bundle().apply { putString(NAME, RANDOM_TYPE) }
+                val bundle = Bundle().apply { putString(Constants.NAME, Constants.RANDOM_TYPE) }
                 findNavController().navigate(R.id.listFilms, args = bundle)
             }
         }
-
-
     }
 
     private fun onItemClick(item: Movie) {
 
         val bundle = Bundle().apply {
-            putInt(ID_FILM, item.kinopoiskId)
-            putString(NAME_FILM, item.nameRu)
-            putString(URL_FILM, item.posterUrl)
-            putString(GENRE, item.genres.joinToString { genre -> genre.genre })
+            putInt(Constants.ID_FILM, item.kinopoiskId)
+            putString(Constants.NAME_FILM, item.nameRu)
+            putString(Constants.URL_FILM, item.posterUrl)
+            putString(Constants.GENRE, item.genres.joinToString { genre -> genre.genre })
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }
 
     private fun onItemTopClick(item: Movie) {
-        val bundle = Bundle().apply { putInt(ID_FILM, item.filmId) }
+        val bundle = Bundle().apply { putInt(Constants.ID_FILM, item.filmId) }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }
 

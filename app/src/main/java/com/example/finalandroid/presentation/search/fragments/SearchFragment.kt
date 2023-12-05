@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.finalandroid.R
 import com.example.finalandroid.data.adapters.SearchMovieAdapter
+import com.example.finalandroid.data.constsnts.Constants
 import com.example.finalandroid.data.models.Movie
 import com.example.finalandroid.databinding.FragmentSearchBinding
 import com.example.finalandroid.presentation.search.viewmodel.SearchViewModel
@@ -19,18 +20,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-private const val ID_FILM = "film_id"
-private const val NAME_FILM = "name_film"
-private const val URL_FILM = "url_film"
-private const val GENRE_FILM = "genre"
-private const val TYPE = "type"
-private const val COUNTRY_ID = "country_id"
-private const val GENRE_ID = "genre_id"
-private const val YEAR1 = "year1"
-private const val YEAR2 = "year2"
-private const val RATING1 = "rating1"
-private const val RATING2 = "rating2"
-private const val ORDER = "order"
 
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
@@ -51,14 +40,14 @@ class SearchFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            type = it.getString(TYPE).toString()
-            genreId = it.getInt(GENRE_ID)
-            countryId = it.getInt(COUNTRY_ID)
-            year1 = it.getInt(YEAR1)
-            year2 = it.getInt(YEAR2)
-            rating1 = it.getInt(RATING1)
-            rating2 = it.getInt(RATING2)
-            order = it.getString(ORDER).toString()
+            type = it.getString(Constants.TYPE).toString()
+            genreId = it.getInt(Constants.GENRE_ID)
+            countryId = it.getInt(Constants.COUNTRY_ID)
+            year1 = it.getInt(Constants.YEAR1)
+            year2 = it.getInt(Constants.YEAR2)
+            rating1 = it.getInt(Constants.RATING1)
+            rating2 = it.getInt(Constants.RATING2)
+            order = it.getString(Constants.ORDER).toString()
         }
     }
 
@@ -99,7 +88,7 @@ class SearchFragment : Fragment() {
             override fun onQueryTextChange(keyword: String?): Boolean {
                 if (keyword?.length != 0) {
                     binding.imageButton.visibility = View.GONE
-                }else{
+                } else {
                     binding.imageButton.visibility = View.VISIBLE
                 }
                 vmSearch.loadMovie(
@@ -122,8 +111,7 @@ class SearchFragment : Fragment() {
                             delay(1000)
                             progress.visibility = View.GONE
                             textSearchNoResult.visibility = View.VISIBLE
-                            textSearchNoResult.text =
-                                "К сожалению, по Вашему запросу ничего не найдено"
+                            textSearchNoResult.text = getText(R.string.text_search_no_result)
                         } else {
                             searchKeyWordAdapter.setData(it)
                             textSearchNoResult.visibility = View.GONE
@@ -142,10 +130,10 @@ class SearchFragment : Fragment() {
     private fun onItemClick(item: Movie) {
 
         val bundle = Bundle().apply {
-            putInt(ID_FILM, item.kinopoiskId)
-            putString(NAME_FILM, item.nameRu)
-            putString(URL_FILM, item.posterUrl)
-            putString(GENRE_FILM, item.genres.joinToString { genre -> genre.genre })
+            putInt(Constants.ID_FILM, item.kinopoiskId)
+            putString(Constants.NAME_FILM, item.nameRu)
+            putString(Constants.URL_FILM, item.posterUrl)
+            putString(Constants.GENRE_FILM, item.genres.joinToString { genre -> genre.genre })
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }

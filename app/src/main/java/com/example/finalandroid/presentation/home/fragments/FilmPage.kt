@@ -1,6 +1,6 @@
 package com.example.finalandroid.presentation.home.fragments
 
-import android.app.AlertDialog
+
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -24,6 +24,7 @@ import com.example.finalandroid.data.models.InfoActorsItem
 import com.example.finalandroid.data.models.Items
 import com.example.finalandroid.data.models.Movie
 import com.example.finalandroid.data.adapters.SimilarsAdapter
+import com.example.finalandroid.data.constsnts.Constants
 import com.example.finalandroid.databinding.FragmentFilmPageBinding
 import com.example.finalandroid.data.db.App
 import com.example.finalandroid.data.db.CollectionsDao
@@ -44,16 +45,6 @@ import com.example.finalandroid.presentation.profile.viewmodel.ListNameCollectio
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-
-private const val ID_ACTOR = "actor_id"
-private const val ID_FILM = "film_id"
-private const val ITEM_IMAGE = "item_image"
-private const val NAME_FILM = "name_film"
-private const val URL_FILM = "url_film"
-private const val NAME = "name"
-private const val ALL_ACTORS = "Все актеры фильма"
-private const val WORKED_ON_THE_FILM = "Над фильмом работали"
-private const val NAME_SIMILARS = "Похожие фильмы"
 
 
 class FilmPage : Fragment() {
@@ -124,9 +115,9 @@ class FilmPage : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            id = it.getInt(ID_FILM)
-            nameFilm = it.getString(NAME_FILM).toString()
-            urlFilm = it.getString(URL_FILM).toString()
+            id = it.getInt(Constants.ID_FILM)
+            nameFilm = it.getString(Constants.NAME_FILM).toString()
+            urlFilm = it.getString(Constants.URL_FILM).toString()
         }
     }
 
@@ -147,7 +138,7 @@ class FilmPage : Fragment() {
         val valueWondering = pref?.getBoolean("isWondering $id", false)!!
 
         vmFilm.loadInfo(id)
-        if (isWondering == valueWondering){
+        if (isWondering == valueWondering) {
             vmWondering.addWereWondering(
                 wereWonderingFilmId = id,
                 nameFilm = nameFilm,
@@ -212,8 +203,8 @@ class FilmPage : Fragment() {
                 .launchIn(viewLifecycleOwner.lifecycleScope)
             allActors.setOnClickListener {
                 val bundle = Bundle().apply {
-                    putString(NAME, ALL_ACTORS)
-                    putInt(ID_FILM, id)
+                    putString(Constants.NAME, Constants.ALL_ACTORS)
+                    putInt(Constants.ID_FILM, id)
                 }
                 findNavController().navigate(R.id.listFilms, args = bundle)
             }
@@ -228,8 +219,8 @@ class FilmPage : Fragment() {
                 .launchIn(viewLifecycleOwner.lifecycleScope)
             allWorked.setOnClickListener {
                 val bundle = Bundle().apply {
-                    putString(NAME, WORKED_ON_THE_FILM)
-                    putInt(ID_FILM, id)
+                    putString(Constants.NAME, Constants.WORKED_ON_THE_FILM)
+                    putInt(Constants.ID_FILM, id)
                 }
                 findNavController().navigate(R.id.listFilms, args = bundle)
             }
@@ -326,13 +317,13 @@ class FilmPage : Fragment() {
 
             }
             frameShare.setOnClickListener {
-               // addInCollectionDialog()
+                // addInCollectionDialog()
 
-                    val intent= Intent()
-                    intent.action=Intent.ACTION_SEND
-                    intent.putExtra(Intent.EXTRA_TEXT,"Привет, посмотрите этот замечательный фильм:")
-                    intent.type="text/plain"
-                    startActivity(Intent.createChooser(intent,"Поделиться с:"))
+                val intent = Intent()
+                intent.action = Intent.ACTION_SEND
+                intent.putExtra(Intent.EXTRA_TEXT, "Привет, посмотрите этот замечательный фильм:")
+                intent.type = "text/plain"
+                startActivity(Intent.createChooser(intent, "Поделиться с:"))
 
             }
             frameOpenAdditionalMenu.setOnClickListener {
@@ -343,14 +334,14 @@ class FilmPage : Fragment() {
 
         binding.allImage.setOnClickListener {
             val bundle = Bundle().apply {
-                putInt(ID_FILM, id)
+                putInt(Constants.ID_FILM, id)
             }
             findNavController().navigate(R.id.gallery, args = bundle)
         }
         binding.allSimilars.setOnClickListener {
             val bundle = Bundle().apply {
-                putString(NAME, NAME_SIMILARS)
-                putInt(ID_FILM, id)
+                putString(Constants.NAME, Constants.NAME_SIMILARS)
+                putInt(Constants.ID_FILM, id)
             }
             findNavController().navigate(R.id.listFilms, args = bundle)
         }
@@ -361,11 +352,13 @@ class FilmPage : Fragment() {
         editor?.putBoolean("Like $id", result)
         editor?.apply()
     }
+
     private fun saveWonderingBoolean(result: Boolean) {
         val editor = pref?.edit()
         editor?.putBoolean("isWondering $id", result)
         editor?.apply()
     }
+
     private fun saveIWantTiSeeBoolean(result: Boolean) {
         val editor = pref?.edit()
         editor?.putBoolean("I want to see $id", result)
@@ -380,16 +373,16 @@ class FilmPage : Fragment() {
 
     private fun onImageClick(item: Items) {
         val bundle = Bundle().apply {
-            putString(ITEM_IMAGE, item.imageUrl)
-            putInt(ID_FILM, id)
+            putString(Constants.ITEM_IMAGE, item.imageUrl)
+            putInt(Constants.ID_FILM, id)
         }
         findNavController().navigate(R.id.imagePage, args = bundle)
     }
 
     private fun onItemClick(item: InfoActorsItem) {
         val bundle = Bundle().apply {
-            putInt(ID_ACTOR, item.staffId)
-            putInt(ID_FILM, id)
+            putInt(Constants.ID_ACTOR, item.staffId)
+            putInt(Constants.ID_FILM, id)
         }
         findNavController().navigate(R.id.actorPage, args = bundle)
     }
@@ -397,90 +390,10 @@ class FilmPage : Fragment() {
     private fun onMovieClick(item: Movie) {
 
         val bundle = Bundle().apply {
-            putInt(ID_FILM, item.filmId)
+            putInt(Constants.ID_FILM, item.filmId)
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }
-
-    private fun addInCollectionDialog() {
-        var collections: Array<String> = arrayOf()
-
-        lifecycleScope.launch {
-            vmListNameCollection.list
-                .collect {
-                    collections = it
-                }
-        }
-        val checkedCollections = BooleanArray(collections.size)
-        val selectedCollections = mutableListOf(*collections)
-
-        val valueLike = pref?.getBoolean("Like $id", false)!!
-        if (isLike != valueLike) {
-            checkedCollections[0] = true
-        }
-        val valueIWantToSee = pref?.getBoolean("I want to see $id", false)!!
-        if (isIWantToSee != valueIWantToSee) {
-            checkedCollections[1] = true
-        }
-
-
-        val builder = AlertDialog.Builder(requireContext())
-        builder
-            .setTitle("Выберите коллекцию")
-            .setMultiChoiceItems(collections, checkedCollections) { dialog, which, isChecked ->
-                checkedCollections[which] = isChecked
-                if (isLike == valueLike && which == 0) {
-                    vmAddFilm.addFilm(
-                        id = id,
-                        nameFilm = nameFilm,
-                        urlFilm = urlFilm,
-                        genre = genre,
-                    )
-                    binding.like.setImageResource(R.drawable.ic_like_enabled)
-                    saveLikeBoolean(true)
-                }
-                if (isLike != valueLike && which == 0) {
-                    vmAddFilm.deleteFilm(
-                        id = id,
-                        nameFilm = nameFilm,
-                        urlFilm = urlFilm,
-                        genre = genre
-                    )
-                    binding.like.setImageResource(R.drawable.ic_like_disabled)
-                    saveLikeBoolean(false)
-                }
-                if (isIWantToSee == valueIWantToSee && which == 1) {
-                    vmAddFilm2.addFilm(
-                        id,
-                        nameFilm,
-                        urlFilm,
-                        genre
-                    )
-                    binding.iWantToSee.setImageResource(R.drawable.ic_i_want_to_see_activ)
-                    saveLikeBoolean(true)
-                }
-                if (isIWantToSee != valueIWantToSee && which == 1) {
-                    vmAddFilm2.deleteFilm(
-                        id,
-                        nameFilm,
-                        urlFilm,
-                        genre
-                    )
-                    binding.iWantToSee.setImageResource(R.drawable.ic_i_want_to_see)
-                    saveLikeBoolean(false)
-                }
-            }
-            .setCancelable(false)
-            .setPositiveButton("Сохранить") { dialog, which ->
-
-            }
-
-
-
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

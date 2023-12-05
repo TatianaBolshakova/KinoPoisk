@@ -15,6 +15,7 @@ import com.example.finalandroid.data.adapters.MoviePagedListAdapter
 import com.example.finalandroid.data.adapters.MyLoadStateAdapter
 import com.example.finalandroid.data.adapters.SimilarsAdapter
 import com.example.finalandroid.data.adapters.WorkedOnTheFilmAdapter
+import com.example.finalandroid.data.constsnts.Constants
 import com.example.finalandroid.data.models.InfoActorsItem
 import com.example.finalandroid.databinding.ListFilmsBinding
 import com.example.finalandroid.presentation.home.viewmodel.ActorsViewModel
@@ -25,17 +26,6 @@ import com.example.finalandroid.presentation.home.viewmodel.ThrillersViewModel
 import com.example.finalandroid.presentation.home.viewmodel.TopMovieViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-
-private const val TOP_250_RU = "ТОП 250 ЛУЧШИХ ФИЛЬМОВ"
-private const val RANDOM_TYPE = "Случайная подборка фильмов"
-private const val NAME_PREMIERS = "Премьеры"
-private const val NAME_THRILLERS = "Триллеры"
-private const val ID_FILM = "film_id"
-private const val NAME = "name"
-private const val ID_ACTOR = "actor_id"
-private const val ALL_ACTORS = "Все актеры фильма"
-private const val WORKED_ON_THE_FILM = "Над фильмом работали"
-private const val NAME_SIMILARS = "Похожие фильмы"
 
 
 class ListFilms : Fragment() {
@@ -60,8 +50,8 @@ class ListFilms : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            name = it.getString(NAME).toString()
-            id = it.getInt(ID_FILM)
+            name = it.getString(Constants.NAME).toString()
+            id = it.getInt(Constants.ID_FILM)
         }
     }
 
@@ -77,30 +67,30 @@ class ListFilms : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.tv.text = name
         binding.iconBack.setOnClickListener { findNavController().popBackStack() }
-        if (name == TOP_250_RU) {
+        if (name == Constants.TOP_250_RU) {
             binding.recyclerTv.adapter = topMovieAdapter.withLoadStateFooter(MyLoadStateAdapter())
             vmTop.pagedMovies.onEach { topMovieAdapter.submitData(it) }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
-        if (name == NAME_PREMIERS) {
+        if (name == Constants.NAME_PREMIERS) {
             binding.recyclerTv.adapter = premiersAdapter.withLoadStateFooter(MyLoadStateAdapter())
             vmPremiers.pagedMovies.onEach { premiersAdapter.submitData(it) }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
-        if (name == RANDOM_TYPE) {
+        if (name == Constants.RANDOM_TYPE) {
 
             binding.recyclerTv.adapter = randomTypeAdapter.withLoadStateFooter(MyLoadStateAdapter())
             vmTvSeries.pagedMovies.onEach { randomTypeAdapter.submitData(it) }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
-        if (name == NAME_THRILLERS) {
+        if (name == Constants.NAME_THRILLERS) {
             binding.recyclerTv.adapter = thrillersAdapter.withLoadStateFooter(MyLoadStateAdapter())
             vmThrillers.pagedMovies.onEach { thrillersAdapter.submitData(it) }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
 
 
-        if (name == ALL_ACTORS) {
+        if (name == Constants.ALL_ACTORS) {
             vmActors.loadInfo(id)
             binding.apply {
                 recyclerActors.visibility = View.VISIBLE
@@ -112,7 +102,7 @@ class ListFilms : Fragment() {
                     .launchIn(viewLifecycleOwner.lifecycleScope)
             }
         }
-        if (name == WORKED_ON_THE_FILM) {
+        if (name == Constants.WORKED_ON_THE_FILM) {
             vmActors.loadInfo(id)
             binding.recyclerActors.visibility = View.VISIBLE
             binding.recyclerActors.adapter = workedOnTheFilmAdapter
@@ -121,7 +111,7 @@ class ListFilms : Fragment() {
             }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
-        if (name == NAME_SIMILARS) {
+        if (name == Constants.NAME_SIMILARS) {
             vmSimilars.loadInfo(id)
             binding.apply {
                 recyclerTv.adapter = similarsAdapter
@@ -133,22 +123,22 @@ class ListFilms : Fragment() {
 
     private fun onItemClick(item: Movie) {
         val bundle = Bundle().apply {
-            putInt(ID_FILM, item.kinopoiskId)
+            putInt(Constants.ID_FILM, item.kinopoiskId)
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }
 
     private fun onItemClick1(item: Movie) {
         val bundle = Bundle().apply {
-            putInt(ID_FILM, item.filmId)
+            putInt(Constants.ID_FILM, item.filmId)
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }
 
     private fun onItemClick(item: InfoActorsItem) {
         val bundle = Bundle().apply {
-            putInt(ID_ACTOR, item.staffId)
-            putInt(ID_FILM, id)
+            putInt(Constants.ID_ACTOR, item.staffId)
+            putInt(Constants.ID_FILM, id)
         }
         findNavController().navigate(R.id.actorPage, args = bundle)
     }
@@ -156,7 +146,7 @@ class ListFilms : Fragment() {
     private fun onMovieClick(item: Movie) {
 
         val bundle = Bundle().apply {
-            putInt(ID_FILM, item.filmId)
+            putInt(Constants.ID_FILM, item.filmId)
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }

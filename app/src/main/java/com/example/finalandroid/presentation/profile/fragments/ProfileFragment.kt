@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -17,9 +16,9 @@ import com.example.finalandroid.R
 import com.example.finalandroid.data.adapters.CollectionAdapter
 import com.example.finalandroid.data.adapters.ViewedFilmsAdapter
 import com.example.finalandroid.data.adapters.WereWonderingFilmsAdapter
+import com.example.finalandroid.data.constsnts.Constants
 import com.example.finalandroid.data.db.App
 import com.example.finalandroid.data.db.CollectionsDao
-import com.example.finalandroid.data.db.LikeDao
 import com.example.finalandroid.data.db.ViewedDao
 import com.example.finalandroid.data.db.WereWonderingDao
 import com.example.finalandroid.data.db.entity.Collections
@@ -27,17 +26,13 @@ import com.example.finalandroid.data.db.entity.ViewedFilms
 import com.example.finalandroid.data.db.entity.WereWondering
 import com.example.finalandroid.databinding.FragmentProfileBinding
 import com.example.finalandroid.presentation.profile.viewmodel.AddCollectionViewModel
-import com.example.finalandroid.presentation.profile.viewmodel.AddLikeFilmViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddViewedViewModel
 import com.example.finalandroid.presentation.profile.viewmodel.AddWereWonderingViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
-private const val NAME = "name_collection"
-private const val NAME_COLLECTION_LIKE = "Любимые"
-private const val NAME_COLLECTION_I_WANT_TO_SEE = "Хочу посмотреть"
-private const val ID_FILM = "film_id"
+
+
 
 class ProfileFragment : Fragment() {
 
@@ -78,17 +73,6 @@ class ProfileFragment : Fragment() {
             }
         }
     }
-    private val vmLikeFilm: AddLikeFilmViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                val likeDao: LikeDao = (activity?.application as App).db.likeDao()
-                val collectionDao: CollectionsDao =
-                    (activity?.application as App).db.collectionsDao()
-                return AddLikeFilmViewModel(likeDao, collectionDao) as T
-            }
-        }
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -109,11 +93,11 @@ class ProfileFragment : Fragment() {
         val valueDefault = pref?.getBoolean("isDefault", false)!!
         if (isDefault == valueDefault) {
             vmAddCollection.addCollection(
-                name = NAME_COLLECTION_LIKE,
+                name = Constants.NAME_COLLECTION_LIKE,
                 icon = R.drawable.ic_like_disabled
             )
             vmAddCollection.addCollection(
-                name = NAME_COLLECTION_I_WANT_TO_SEE,
+                name = Constants.NAME_COLLECTION_I_WANT_TO_SEE,
                 icon = R.drawable.ic_i_want_to_see
             )
             saveData(true)
@@ -154,7 +138,7 @@ class ProfileFragment : Fragment() {
 
     private fun onCollectionClick(item: Collections) {
         val bundle = Bundle().apply {
-            putString(NAME, item.collectionsName)
+            putString(Constants.NAME, item.collectionsName)
         }
         findNavController().navigate(R.id.listFilmsCollection, args = bundle)
     }
@@ -162,7 +146,7 @@ class ProfileFragment : Fragment() {
     private fun onMovieViewedClick(item: ViewedFilms) {
 
         val bundle = Bundle().apply {
-            putInt(ID_FILM, item.viewedFilmId)
+            putInt(Constants.ID_FILM, item.viewedFilmId)
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }
@@ -170,14 +154,8 @@ class ProfileFragment : Fragment() {
     private fun onMovieWereWonderingClick(item: WereWondering) {
 
         val bundle = Bundle().apply {
-            putInt(ID_FILM, item.wereWonderingFilmId)
+            putInt(Constants.ID_FILM, item.wereWonderingFilmId)
         }
-//        vmWondering.deleteWereWondering(
-//            item.wereWonderingFilmId,
-//            item.nameFilm,
-//            item.urlFilm,
-//            item.genre
-//        )
         findNavController().navigate(R.id.filmPage, args = bundle)
     }
 

@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.finalandroid.R
 import com.example.finalandroid.data.adapters.IWantToSeeFilmAdapter
 import com.example.finalandroid.data.adapters.LikeFilmAdapter
+import com.example.finalandroid.data.constsnts.Constants
 import com.example.finalandroid.data.db.App
 import com.example.finalandroid.data.db.CollectionsDao
 import com.example.finalandroid.data.db.IWantToSeeDao
@@ -25,10 +26,7 @@ import com.example.finalandroid.presentation.profile.viewmodel.AddIWantToSeeView
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-private const val NAME = "name_collection"
-private const val ID_FILM = "film_id"
-private const val NAME_COLLECTION_LIKE = "Любимые"
-private const val NAME_COLLECTION_I_WANT_TO_SEE = "Хочу посмотреть"
+
 
 class ListFilmsCollection : Fragment() {
     private var _binding: ListFilmsCollectionBinding? = null
@@ -63,7 +61,7 @@ class ListFilmsCollection : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            name = it.getString(NAME).toString()
+            name = it.getString(Constants.NAME).toString()
 
         }
     }
@@ -83,7 +81,7 @@ class ListFilmsCollection : Fragment() {
         binding.iconBack.setOnClickListener { findNavController().navigate(R.id.navigation_profile) }
 
 
-        if (name == NAME_COLLECTION_LIKE) {
+        if (name == Constants.NAME_COLLECTION_LIKE) {
             binding.recyclerTv.adapter = likeFilmAdapter
             vmLikeFilm.allSelectedFilm.onEach {
                 likeFilmAdapter.setData(it)
@@ -92,7 +90,7 @@ class ListFilmsCollection : Fragment() {
                 .launchIn(viewLifecycleOwner.lifecycleScope)
 
         }
-        if (name == NAME_COLLECTION_I_WANT_TO_SEE) {
+        if (name ==Constants.NAME_COLLECTION_I_WANT_TO_SEE) {
             binding.recyclerTv.adapter = iWantToSeeFilmAdapter
             vmIWantToSee.allSelectedFilm.onEach {
                 iWantToSeeFilmAdapter.setData(it)
@@ -104,14 +102,14 @@ class ListFilmsCollection : Fragment() {
 
     private fun onLikeFilmClick(item: LikeFilms) {
         val bundle = Bundle().apply {
-            putInt(ID_FILM, item.likeFilmId)
+            putInt(Constants.ID_FILM, item.likeFilmId)
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }
 
     private fun onIWantToSeeFilmClick(item: IWantToSeeFilms) {
         val bundle = Bundle().apply {
-            putInt(ID_FILM, item.iWantToSeeFilmId)
+            putInt(Constants.ID_FILM, item.iWantToSeeFilmId)
         }
         findNavController().navigate(R.id.filmPage, args = bundle)
     }

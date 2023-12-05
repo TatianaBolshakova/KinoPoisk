@@ -38,6 +38,7 @@
     <string name="text_search_hint">Искать...</string>
     <string name="text_save_bn">Сохранить</string>
     <string name="text_show">Показывать</string>
+    <string name="text_country_def">Россия</string>
     <string name="text_country">Страна</string>
     <string name="text_genre">Жанр</string>
     <string name="text_year">Год</string>

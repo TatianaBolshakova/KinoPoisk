@@ -10,15 +10,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.finalandroid.R
 import com.example.finalandroid.data.adapters.ImagesAdapter
+import com.example.finalandroid.data.constsnts.Constants
 import com.example.finalandroid.data.models.Items
-import com.example.finalandroid.databinding.FragmentFilmPageBinding
 import com.example.finalandroid.databinding.FragmentGalleryBinding
 import com.example.finalandroid.presentation.home.viewmodel.ImagesViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-
-private const val ID_FILM = "film_id"
-private const val ITEM_IMAGE = "item_image"
 
 class Gallery : Fragment() {
 
@@ -30,7 +27,7 @@ class Gallery : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            id = it.getInt(ID_FILM)
+            id = it.getInt(Constants.ID_FILM)
         }
     }
 
@@ -52,15 +49,16 @@ class Gallery : Fragment() {
             .launchIn(viewLifecycleOwner.lifecycleScope)
         binding.iconBack.setOnClickListener {
             val bundle = Bundle().apply {
-                putInt(ID_FILM, id)
+                putInt(Constants.ID_FILM, id)
             }
             findNavController().navigate(R.id.filmPage, args = bundle)
         }
     }
+
     private fun onImageClick(item: Items) {
         val bundle = Bundle().apply {
-            putString(ITEM_IMAGE, item.imageUrl)
-            putInt(ID_FILM, id)
+            putString(Constants.ITEM_IMAGE, item.imageUrl)
+            putInt(Constants.ID_FILM, id)
         }
         findNavController().navigate(R.id.imagePage, args = bundle)
     }
