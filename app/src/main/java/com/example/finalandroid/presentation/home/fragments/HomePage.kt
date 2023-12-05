@@ -91,6 +91,8 @@ class HomePage : Fragment() {
                 findNavController().navigate(R.id.listFilms, args = bundle)
             }
         }
+
+
     }
 
     private fun onItemClick(item: Movie) {

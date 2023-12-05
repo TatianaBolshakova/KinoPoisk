@@ -137,8 +137,8 @@ interface MovieListApi {
 
 
     private companion object {
-       // private const val api_key = "51379e98-b7c3-4b66-be90-8da65604f1b7"
-        private const val api_key = "7d439c2f-5cb6-4448-96e1-1fc7ba004253" // key 2
+        private const val api_key = "51379e98-b7c3-4b66-be90-8da65604f1b7"
+            // private const val api_key = "7d439c2f-5cb6-4448-96e1-1fc7ba004253" // key 2
     }
 }
 

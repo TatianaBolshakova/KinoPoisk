@@ -2,6 +2,7 @@ package com.example.finalandroid.presentation.home.fragments
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -325,7 +326,14 @@ class FilmPage : Fragment() {
 
             }
             frameShare.setOnClickListener {
-                addInCollectionDialog()
+               // addInCollectionDialog()
+
+                    val intent= Intent()
+                    intent.action=Intent.ACTION_SEND
+                    intent.putExtra(Intent.EXTRA_TEXT,"Привет, посмотрите этот замечательный фильм:")
+                    intent.type="text/plain"
+                    startActivity(Intent.createChooser(intent,"Поделиться с:"))
+
             }
             frameOpenAdditionalMenu.setOnClickListener {
                 findNavController().navigate(R.id.addCollectionFragment)
