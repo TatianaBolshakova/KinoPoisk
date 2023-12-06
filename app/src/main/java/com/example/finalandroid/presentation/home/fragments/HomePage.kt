@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -37,7 +38,12 @@ class HomePage : Fragment() {
     private val randomTypeAdapter = MoviePagedListAdapter { movie -> onItemClick(movie) }
     private val topMovieAdapter = MoviePagedListAdapter { movie -> onItemTopClick(movie) }
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+       requireActivity().onBackPressedDispatcher.addCallback(this) {
+            onDestroyView()
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -104,5 +110,6 @@ class HomePage : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 
 }

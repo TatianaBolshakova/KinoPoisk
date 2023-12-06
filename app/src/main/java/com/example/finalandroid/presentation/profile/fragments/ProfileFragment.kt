@@ -31,9 +31,6 @@ import com.example.finalandroid.presentation.profile.viewmodel.AddWereWonderingV
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-
-
-
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
@@ -86,11 +83,11 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         pref = this.activity?.getSharedPreferences(
-            "COLLECTION",
+            Constants.NAME_PREF_COLLECTION,
             Context.MODE_PRIVATE
         )
 
-        val valueDefault = pref?.getBoolean("isDefault", false)!!
+        val valueDefault = pref?.getBoolean(Constants.KEY_IS_DEFAULT_COLLECTION, false)!!
         if (isDefault == valueDefault) {
             vmAddCollection.addCollection(
                 name = Constants.NAME_COLLECTION_LIKE,
@@ -131,7 +128,7 @@ class ProfileFragment : Fragment() {
 
     private fun saveData(result: Boolean) {
         val editor = pref?.edit()
-        editor?.putBoolean("isDefault", result)
+        editor?.putBoolean(Constants.KEY_IS_DEFAULT_COLLECTION, result)
         editor?.apply()
     }
 

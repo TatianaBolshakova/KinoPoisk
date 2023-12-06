@@ -31,7 +31,6 @@ import kotlinx.coroutines.flow.onEach
 class ListFilms : Fragment() {
     private var _binding: ListFilmsBinding? = null
     private val binding get() = _binding!!
-
     private val vmTop: TopMovieViewModel by viewModels()
     private val vmPremiers: PremiersViewModel by viewModels()
     private val vmTvSeries: RandomTypeViewModel by viewModels()
@@ -46,7 +45,7 @@ class ListFilms : Fragment() {
     private val workedOnTheFilmAdapter = WorkedOnTheFilmAdapter { actors -> onItemClick(actors) }
     private val similarsAdapter = SimilarsAdapter { movie -> onMovieClick(movie) }
     private var id = 0
-    var name: String = "Name"
+    var name: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {

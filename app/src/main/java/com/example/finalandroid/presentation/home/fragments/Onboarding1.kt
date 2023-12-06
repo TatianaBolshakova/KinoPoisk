@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.finalandroid.R
+import com.example.finalandroid.data.constsnts.Constants
 import com.example.finalandroid.databinding.FragmentOnboarding1Binding
 
 class Onboarding1 : Fragment() {
@@ -27,17 +28,15 @@ class Onboarding1 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pref = this.activity?.getSharedPreferences(
-            "START",
+            Constants.NAME_PREF_START,
             Context.MODE_PRIVATE
         )
-        val valueStart = pref?.getBoolean("Start", false)!!
+        val valueStart = pref?.getBoolean(Constants.KEY_START, false)!!
         if (isStart==valueStart){
             saveStart(true)
         } else{
             findNavController().navigate(R.id.homePage)
         }
-
-
 
         binding.textViewNext.setOnClickListener {
             findNavController().navigate(R.id.onboarding2)
@@ -53,7 +52,7 @@ class Onboarding1 : Fragment() {
     }
     private fun saveStart(result: Boolean) {
         val editor = pref?.edit()
-        editor?.putBoolean("Start", result)
+        editor?.putBoolean(Constants.KEY_START, result)
         editor?.apply()
     }
 }

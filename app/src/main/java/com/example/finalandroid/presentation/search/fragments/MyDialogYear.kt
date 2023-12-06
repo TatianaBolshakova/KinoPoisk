@@ -18,7 +18,6 @@ class MyDialogYear : Fragment() {
 
     private val yearAdapter = YearAdapter { year -> onItemClick1(year) }
     private val yearAdapter2 = YearAdapter { year -> onItemClick2(year) }
-
     private var _binding: FragmentMyDialogBinding? = null
     private val binding get() = _binding!!
     private var year1 = 0
@@ -50,14 +49,11 @@ class MyDialogYear : Fragment() {
             next2.setOnClickListener { yearTo.smoothScrollBy(450, 0) }
             back2.setOnClickListener { yearTo.smoothScrollBy(-450, 0) }
 
-
         }
-        prefYear =
-            this.activity?.getSharedPreferences(Constants.NAME_PREF_YEAR, Context.MODE_PRIVATE)
+        prefYear = this.activity?.getSharedPreferences(Constants.NAME_PREF_YEAR, Context.MODE_PRIVATE)
         year1 = prefYear?.getInt(Constants.KEY_YEAR_1, 1998)!!
         binding.textYearUp.text = year1.toString()
 
-        //year2Pref = this.activity?.getSharedPreferences("YEAR_2", Context.MODE_PRIVATE)
         year2 = prefYear?.getInt(Constants.KEY_YEAR_2, 2023)!!
         binding.textYearTo.text = year2.toString()
         binding.iconBack.setOnClickListener {

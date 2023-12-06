@@ -23,23 +23,21 @@ import kotlinx.coroutines.launch
 class FilterFragment : Fragment() {
     private var _binding: FragmentFilterBinding? = null
     private val binding get() = _binding!!
-    private var type = "ALL"
+    private var type = Constants.DEF_TYPE_ALL
     private var country = Constants.DEF_VALUE_COUNTRY
     private var countryId = 1
-    private var genre = "Комедия"
-    private var genreId =1
+    private var genre = Constants.DEF_VALUE_GENRE
+    private var genreId = 1
     private var year1 = 2003
     private var year2 = 2023
     private var rating1 = 0
     private var rating2 = 10
-    private var order = "RATING"
+    private var order = Constants.DEF_ORDER_RATING
     private var pref: SharedPreferences? = null
     private var prefInt: SharedPreferences? = null
     private var prefYear: SharedPreferences? = null
-    private var year1Pref: SharedPreferences? = null
-    private var year2Pref: SharedPreferences? = null
-    private var textDialogYear = "С ... до ... "
-    private var textDialogRating = "Любой"
+    private var textDialogYear = Constants.DEF_TEXT_YEAR
+    private var textDialogRating = Constants.DEF_TEXT_RATING
     private val vmIdCountry: IdCountryViewModel by viewModels()
     private val vmIdGenre: IdGenreViewModel by viewModels()
 
@@ -57,7 +55,8 @@ class FilterFragment : Fragment() {
 
 
         pref = this.activity?.getSharedPreferences(Constants.NAME_PREF_FILTER, Context.MODE_PRIVATE)
-        prefInt = this.activity?.getSharedPreferences(Constants.NAME_PREF_FILTER_1, Context.MODE_PRIVATE)
+        prefInt =
+            this.activity?.getSharedPreferences(Constants.NAME_PREF_FILTER_1, Context.MODE_PRIVATE)
 
 
         country = pref?.getString(Constants.KEY_COUNTRY, Constants.DEF_VALUE_COUNTRY)!!
@@ -70,14 +69,15 @@ class FilterFragment : Fragment() {
 
         genreId = prefInt?.getInt(Constants.KEY_GENRE_ID, 1)!!
 
-        prefYear = this.activity?.getSharedPreferences(Constants.NAME_PREF_YEAR, Context.MODE_PRIVATE)
+        prefYear =
+            this.activity?.getSharedPreferences(Constants.NAME_PREF_YEAR, Context.MODE_PRIVATE)
         year1 = prefYear?.getInt(Constants.KEY_YEAR_1, 1998)!!
         year2 = prefYear?.getInt(Constants.KEY_YEAR_2, 2023)!!
         if (year1 < year2) {
             textDialogYear = " С $year1 до $year2"
         } else {
             textDialogYear = " С $year1 до $year1"
-            year2=year1
+            year2 = year1
         }
         binding.textDialogYear.text = textDialogYear
 
@@ -92,7 +92,7 @@ class FilterFragment : Fragment() {
                 bnFilms.background.setTint(Color.WHITE)
                 bnTvSeries.setImageResource(R.drawable.ic_tv_series_disabled)
                 bnTvSeries.background.setTint(Color.WHITE)
-                type = "ALL"
+                type = Constants.DEF_TYPE_ALL
             }
             bnFilms.setOnClickListener {
                 bnAll.setImageResource(R.drawable.ic_all_disabled)
@@ -100,7 +100,7 @@ class FilterFragment : Fragment() {
                 bnFilms.background.setTint(Color.BLUE)
                 bnTvSeries.setImageResource(R.drawable.ic_tv_series_disabled)
                 bnTvSeries.background.setTint(Color.WHITE)
-                type = "FILM"
+                type = Constants.TYPE_FILM
             }
             bnTvSeries.setOnClickListener {
                 bnTvSeries.setImageResource(R.drawable.ic_tv_series)
@@ -108,7 +108,7 @@ class FilterFragment : Fragment() {
                 bnAll.setImageResource(R.drawable.ic_all_disabled)
                 bnFilms.setImageResource(R.drawable.ic_films_disabled)
                 bnFilms.background.setTint(Color.WHITE)
-                type = "TV_SERIES"
+                type = Constants.TYPE_TV_SERIES
             }
         }
         binding.dialogCountry.setOnClickListener { choiceCountryDialog() }
@@ -138,7 +138,7 @@ class FilterFragment : Fragment() {
                 bnPopulars.background.setTint(Color.WHITE)
                 bnRating.setImageResource(R.drawable.ic_rating_disabled)
                 bnRating.background.setTint(Color.WHITE)
-                order = "YEAR"
+                order = Constants.ORDER_YEAR
             }
             bnPopulars.setOnClickListener {
                 bnDate.setImageResource(R.drawable.ic_date_disabled)
@@ -146,7 +146,7 @@ class FilterFragment : Fragment() {
                 bnPopulars.background.setTint(Color.BLUE)
                 bnRating.setImageResource(R.drawable.ic_rating_disabled)
                 bnRating.background.setTint(Color.WHITE)
-                order = "NUM_VOTE"
+                order = Constants.ORDER_NUM_VOTE
             }
             bnRating.setOnClickListener {
                 bnRating.setImageResource(R.drawable.ic_rating)
@@ -154,7 +154,7 @@ class FilterFragment : Fragment() {
                 bnDate.setImageResource(R.drawable.ic_date_disabled)
                 bnPopulars.setImageResource(R.drawable.ic_populars_disabled)
                 bnPopulars.background.setTint(Color.WHITE)
-                order = "RATING"
+                order = Constants.DEF_ORDER_RATING
             }
         }
         binding.iconBack.setOnClickListener {
@@ -175,32 +175,28 @@ class FilterFragment : Fragment() {
                 args = bundle
             )
         }
-
         vmIdCountry.loadIdCountry()
         vmIdGenre.loadIdGenre()
-
-
-
-        }
+    }
 
     private fun choiceCountryDialog() {
-         var countryArray: Array<String> = arrayOf()
+        var countryArray: Array<String> = arrayOf()
         var countryIdArray: Array<Int> = arrayOf()
         lifecycleScope.launch {
             vmIdCountry.idCountry
                 .collect {
-                   it.forEach { country ->
-                       countryArray = countryArray.plus(country.country)
-                       countryIdArray = countryIdArray.plus(country.id)
-                   }
+                    it.forEach { country ->
+                        countryArray = countryArray.plus(country.country)
+                        countryIdArray = countryIdArray.plus(country.id)
+                    }
                 }
         }
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Выберите страну")
-            .setItems(countryArray) { _, wich ->
-                binding.textDialogCountry.text = countryArray[wich]
-                country = countryArray[wich]
-                countryId = countryIdArray[wich]
+        builder.setTitle(R.string.text_choose_the_country)
+            .setItems(countryArray) { _, which ->
+                binding.textDialogCountry.text = countryArray[which]
+                country = countryArray[which]
+                countryId = countryIdArray[which]
                 saveCountry(country)
                 saveCountryId(countryId)
             }
@@ -220,11 +216,11 @@ class FilterFragment : Fragment() {
                 }
         }
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Выберите жанр")
-            .setItems(genreArray) { _, wich ->
-                binding.textDialogGenre.text = genreArray[wich]
-                genre = genreArray[wich]
-                genreId = genreIdArray[wich]
+        builder.setTitle(R.string.text_choose_the_genre)
+            .setItems(genreArray) { _, which ->
+                binding.textDialogGenre.text = genreArray[which]
+                genre = genreArray[which]
+                genreId = genreIdArray[which]
                 saveGenre(genre)
                 saveGenreId(genreId)
             }
@@ -237,6 +233,7 @@ class FilterFragment : Fragment() {
 
         editor?.apply()
     }
+
     private fun saveCountryId(countryId: Int) {
         val editor = prefInt?.edit()
         editor?.putInt(Constants.KEY_COUNTRY_ID, countryId)
@@ -248,6 +245,7 @@ class FilterFragment : Fragment() {
         editor?.putString(Constants.KEY_GENRE, genre)
         editor?.apply()
     }
+
     private fun saveGenreId(genreId: Int) {
         val editor = prefInt?.edit()
         editor?.putInt(Constants.KEY_GENRE_ID, genreId)

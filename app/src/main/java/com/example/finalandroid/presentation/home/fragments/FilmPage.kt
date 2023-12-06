@@ -105,12 +105,13 @@ class FilmPage : Fragment() {
     private var isLike: Boolean = false
     private var isIWantToSee: Boolean = false
     private var isViewed: Boolean = false
+    private var isWondering = false
     private var pref: SharedPreferences? = null
     private var id = 0
     private var nameFilm = ""
     private var urlFilm = ""
     private var genre = ""
-    private var isWondering = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,7 +136,7 @@ class FilmPage : Fragment() {
             "COLLECTION",
             Context.MODE_PRIVATE
         )
-        val valueWondering = pref?.getBoolean("isWondering $id", false)!!
+        val valueWondering = pref?.getBoolean(Constants.KEY_WONDERING + id, false)!!
 
         vmFilm.loadInfo(id)
         if (isWondering == valueWondering) {
@@ -148,20 +149,19 @@ class FilmPage : Fragment() {
             saveWonderingBoolean(true)
         }
 
-        val valueLike = pref?.getBoolean("Like $id", false)!!
+        val valueLike = pref?.getBoolean(Constants.KEY_LIKE + id, false)!!
         if (isLike != valueLike) {
             binding.like.setImageResource(R.drawable.ic_like_enabled)
         } else {
             binding.like.setImageResource(R.drawable.ic_like_disabled)
         }
-
-        val valueIWantToSee = pref?.getBoolean("I want to see $id", false)!!
+        val valueIWantToSee = pref?.getBoolean(Constants.KEY_I_WANT_TO_SEE + id, false)!!
         if (isIWantToSee != valueIWantToSee) {
             binding.iWantToSee.setImageResource(R.drawable.ic_i_want_to_see_activ)
         } else {
             binding.iWantToSee.setImageResource(R.drawable.ic_i_want_to_see)
         }
-        val valueViewed = pref?.getBoolean("Viewed $id", false)!!
+        val valueViewed = pref?.getBoolean(Constants.KEY_VIEWED + id, false)!!
         if (isViewed != valueViewed) {
             binding.addAlreadyViewed.setImageResource(R.drawable.ic_viewed)
         } else {
@@ -245,7 +245,7 @@ class FilmPage : Fragment() {
                         val urlVideo = it[0].url
                         Toast.makeText(
                             requireContext(),
-                            "${urlVideo} -urlVideo ",
+                            "$urlVideo -urlVideo ",
                             Toast.LENGTH_SHORT
                         ).show()
                         //  retrofitX.videoPlay(x)
@@ -317,13 +317,11 @@ class FilmPage : Fragment() {
 
             }
             frameShare.setOnClickListener {
-                // addInCollectionDialog()
-
                 val intent = Intent()
                 intent.action = Intent.ACTION_SEND
-                intent.putExtra(Intent.EXTRA_TEXT, "Привет, посмотрите этот замечательный фильм:")
-                intent.type = "text/plain"
-                startActivity(Intent.createChooser(intent, "Поделиться с:"))
+                intent.putExtra(Intent.EXTRA_TEXT, getText(R.string.text_share))
+                intent.type = getString(R.string.type_share)
+                startActivity(Intent.createChooser(intent, getText(R.string.title_share)))
 
             }
             frameOpenAdditionalMenu.setOnClickListener {
@@ -349,25 +347,25 @@ class FilmPage : Fragment() {
 
     private fun saveLikeBoolean(result: Boolean) {
         val editor = pref?.edit()
-        editor?.putBoolean("Like $id", result)
+        editor?.putBoolean(Constants.KEY_LIKE + id, result)
         editor?.apply()
     }
 
     private fun saveWonderingBoolean(result: Boolean) {
         val editor = pref?.edit()
-        editor?.putBoolean("isWondering $id", result)
+        editor?.putBoolean(Constants.KEY_WONDERING + id, result)
         editor?.apply()
     }
 
     private fun saveIWantTiSeeBoolean(result: Boolean) {
         val editor = pref?.edit()
-        editor?.putBoolean("I want to see $id", result)
+        editor?.putBoolean(Constants.KEY_I_WANT_TO_SEE + id, result)
         editor?.apply()
     }
 
     private fun saveViewedBoolean(result: Boolean) {
         val editor = pref?.edit()
-        editor?.putBoolean("Viewed $id", result)
+        editor?.putBoolean(Constants.KEY_VIEWED + id, result)
         editor?.apply()
     }
 

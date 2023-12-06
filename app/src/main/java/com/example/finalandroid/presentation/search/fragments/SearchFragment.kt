@@ -26,7 +26,7 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     private val vmSearch: SearchViewModel by viewModels()
     private val searchKeyWordAdapter = SearchMovieAdapter { movie -> onItemClick(movie) }
-    private var type = "ALL"
+    private var type = Constants.DEF_TYPE_ALL
     private var countryId = 1
     private var countryIdArray = arrayOf(countryId)
     private var genreId = 1
@@ -35,7 +35,7 @@ class SearchFragment : Fragment() {
     private var year2 = 2023
     private var rating1 = 0
     private var rating2 = 10
-    private var order = "RATING"
+    private var order = Constants.DEF_ORDER_RATING
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

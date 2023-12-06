@@ -44,6 +44,23 @@ object Constants {
     const val KEY_RATING_2 ="RATING2"
     const val KEY_YEAR_1 ="YEAR1"
     const val KEY_YEAR_2 ="YEAR2"
+    const val DEF_TYPE_ALL = "ALL"
+    const val TYPE_FILM ="FILM"
+    const val TYPE_TV_SERIES ="TV_SERIES"
+    const val DEF_ORDER_RATING = "RATING"
+    const val ORDER_NUM_VOTE ="NUM_VOTE"
+    const val ORDER_YEAR = "YEAR"
+    const val DEF_TEXT_RATING= "Любой"
+    const val DEF_TEXT_YEAR= "С ... до ... "
+    const val KEY_WONDERING = "Wondering"
+    const val KEY_LIKE = "Like"
+    const val KEY_I_WANT_TO_SEE = "I want to see"
+    const val KEY_VIEWED = "Viewed"
+    const val NAME_PREF_START = "START"
+    const val KEY_START = "Start"
+    const val NAME_PREF_COLLECTION = "COLLECTION"
+    const val KEY_IS_DEFAULT_COLLECTION = "isDefault"
+
 
 
 }

@@ -77,7 +77,6 @@ class ListFilmsCollection : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.tv.text = name
-        //Toast.makeText(requireContext(), "${name} -nameCollection ", Toast.LENGTH_SHORT).show()
         binding.iconBack.setOnClickListener { findNavController().navigate(R.id.navigation_profile) }
 
 

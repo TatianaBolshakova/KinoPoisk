@@ -44,7 +44,12 @@
     <string name="text_year">Год</string>
     <string name="text_rating">Рейтинг</string>
     <string name="text_sort">Сортировать</string>
-    <string name="dialog_data">Select date of birth</string>
+    <string name="text_choose_the_country">Выберите страну</string>
+    <string name="text_choose_the_genre">Выберите жанр</string>
+    <string name="text_share">Привет, посмотрите этот замечательный фильм:</string>
+    <string name="type_share">text/plain</string>
+    <string name="title_share">Поделиться с:</string>
+
 
 
 
