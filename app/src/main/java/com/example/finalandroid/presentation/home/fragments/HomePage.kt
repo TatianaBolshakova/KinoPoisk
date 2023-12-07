@@ -38,12 +38,7 @@ class HomePage : Fragment() {
     private val randomTypeAdapter = MoviePagedListAdapter { movie -> onItemClick(movie) }
     private val topMovieAdapter = MoviePagedListAdapter { movie -> onItemTopClick(movie) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-       requireActivity().onBackPressedDispatcher.addCallback(this) {
-            onDestroyView()
-        }
-    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -88,6 +83,7 @@ class HomePage : Fragment() {
                 findNavController().navigate(R.id.listFilms, args = bundle)
             }
         }
+        binding.exit.setOnClickListener { activity?.finish() }
     }
 
     private fun onItemClick(item: Movie) {

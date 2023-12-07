@@ -90,6 +90,7 @@ class SearchFragment : Fragment() {
                     binding.imageButton.visibility = View.GONE
                 } else {
                     binding.imageButton.visibility = View.VISIBLE
+                    binding.recyclerSearchResult.visibility = View.GONE
                 }
                 vmSearch.loadMovie(
                     keyword.toString(),
